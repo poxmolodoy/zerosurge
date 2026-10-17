@@ -9,6 +9,15 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Zero Telemetry](https://img.shields.io/badge/Telemetry-Zero%20(Local%20Only)-success.svg)](#безопасность-и-приватность)
 
+<p align="left">
+  <a href="https://github.com/poxmolodoy/zerosurge/releases/download/v1.0.0/ZeroSurge-1.0-Portable.exe">
+    <img src="https://img.shields.io/badge/Скачать%20Portable%20v1.0-(97%20MB)-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Download Windows Portable" />
+  </a>
+  <a href="https://github.com/poxmolodoy/zerosurge/releases/tag/v1.0.0">
+    <img src="https://img.shields.io/badge/GitHub-Release%20v1.0.0-238636?style=for-the-badge&logo=github&logoColor=white" alt="Release Page" />
+  </a>
+</p>
+
 Автономный трекер и доказательный клинический ассистент для преодоления зависимости от энергетических напитков и высоких доз кофеина. Доступен как в веб-версии, так и в виде портативного Windows-приложения (`ZeroSurge-1.0-Portable.exe`).
 
 Никаких облаков, подписок, рекламы или сбора личных данных. Все вычисления, история чек-инов и таймеры работают исключительно на вашем устройстве.
@@ -97,7 +106,7 @@
 
 Вы можете использовать готовый скомпилированный бинарник без установки Node.js:
 
-1. Скачайте файл **`ZeroSurge-1.0-Portable.exe`** из раздела [Releases](../../releases) (размер ~97 МБ).
+1. Скачайте файл **[ZeroSurge-1.0-Portable.exe](https://github.com/poxmolodoy/zerosurge/releases/download/v1.0.0/ZeroSurge-1.0-Portable.exe)** из раздела [Releases](https://github.com/poxmolodoy/zerosurge/releases/tag/v1.0.0) (размер ~97 МБ).
 2. Запустите файл двойным кликом.
 3. Программа **не требует инсталляции**, не оставляет следов в системном реестре Windows и может запускаться прямо с USB-накопителя.
 4. Все сохраненные данные привязаны к локальному профилю пользователя.
