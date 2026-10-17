@@ -47,10 +47,10 @@ export const CAFFEINE_HARM_DATA: CaffeineHarmItem[] = [
       },
       {
         title:
-          'The effect of acute caffeine ingestion on blood pressure in hypertensive individuals: a systematic review and meta-analysis',
+          'The effect of coffee on blood pressure and cardiovascular disease in hypertensive individuals: a systematic review and meta-analysis',
         authors: 'Mesas AE, Leon-Muñoz LM, Rodriguez-Artalejo F, Lopez-Garcia E.',
         year: 2011,
-        url: 'https://doi.org/10.1038/ejcn.2011.89',
+        url: 'https://doi.org/10.3945/ajcn.111.016667',
       },
     ],
   },
@@ -81,7 +81,7 @@ export const CAFFEINE_HARM_DATA: CaffeineHarmItem[] = [
           'A critical review of caffeine withdrawal: empirical validation of symptoms and signs, incidence, severity, and associated features',
         authors: 'Juliano LM, Griffiths RR.',
         year: 2004,
-        url: 'https://doi.org/10.1007/s00213-004-1815-3',
+        url: 'https://doi.org/10.1007/s00213-004-2000-x',
       },
       {
         title:
