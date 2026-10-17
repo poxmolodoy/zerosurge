@@ -65,7 +65,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -81,7 +81,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-lg glass-card rounded-2xl p-6 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto"
+          className="relative w-full max-w-lg glass-card rounded-2xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[92vh] overflow-y-auto"
         >
           {/* Header */}
           <div className="flex items-center gap-3 mb-6">

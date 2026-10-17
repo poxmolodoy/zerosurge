@@ -12,6 +12,9 @@
 🌐 **[Русская версия (README.md)](README.md)**
 
 <p align="left">
+  <a href="https://poxmolodoy.github.io/zerosurge/">
+    <img src="https://img.shields.io/badge/Web%20App%20(PWA)-Launch%20Online-10B981?style=for-the-badge&logo=pwa&logoColor=white" alt="Open Web PWA" />
+  </a>
   <a href="https://github.com/poxmolodoy/zerosurge/releases/download/v1.0.0/ZeroSurge-1.0-Portable.exe">
     <img src="https://img.shields.io/badge/Download%20Portable%20v1.0-(97%20MB)-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Download Windows Portable" />
   </a>

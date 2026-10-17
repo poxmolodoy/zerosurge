@@ -24,6 +24,9 @@ const ALLOWED_URL_PREFIXES = [
   // React engine minified error decoder URL
   'https://reactjs.org/docs/error-decoder.html',
 
+  // Google Workbox offline service worker internal docs warning URL
+  'https://bit.ly/wb-precache',
+
   // Verified clinical & scientific evidence URLs (opened in external browser upon user click)
   'https://doi.org/',
   'https://pubmed.ncbi.nlm.nih.gov/',

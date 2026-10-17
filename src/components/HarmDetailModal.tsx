@@ -77,7 +77,7 @@ export const HarmDetailModal: React.FC<HarmDetailModalProps> = ({ item, onClose 
 
   return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
         {/* Backdrop: translucent frosted blur */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -96,7 +96,7 @@ export const HarmDetailModal: React.FC<HarmDetailModalProps> = ({ item, onClose 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-2xl glass-card rounded-3xl p-6 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[92vh] overflow-y-auto"
+          className="relative w-full max-w-2xl glass-card rounded-3xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[92vh] overflow-y-auto"
         >
           {/* Header */}
           <div className="flex items-start justify-between pb-4 mb-5 border-b border-white/10">
