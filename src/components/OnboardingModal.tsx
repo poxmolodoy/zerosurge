@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Zap, Coffee, ShieldCheck, Coins, Sparkles, Clock, X } from 'lucide-react';
 import { UserProfile } from '../types';
@@ -45,6 +45,20 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
   const [costPerPortion, setCostPerPortion] = useState<number>(
     initialProfile?.costPerPortion ?? 130
   );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 

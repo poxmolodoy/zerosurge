@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, AlertOctagon, CheckSquare, Square, Info, ShieldAlert, Sparkles } from 'lucide-react';
 import { getWithdrawalPhase } from '../data/withdrawalPhases';
@@ -21,6 +21,20 @@ const DEFAULT_SUBSTITUTIONS = [
 export const SosModal: React.FC<SosModalProps> = ({ isOpen, daysElapsed, onClose }) => {
   const [completedItems, setCompletedItems] = useState<string[]>([]);
   const phaseInfo = getWithdrawalPhase(daysElapsed);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 

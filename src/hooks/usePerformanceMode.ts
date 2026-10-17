@@ -11,7 +11,14 @@ export interface PerformanceModeHook {
 export function usePerformanceMode(): PerformanceModeHook {
   const [isPerformanceMode, setIsPerformanceMode] = useState<boolean>(() => {
     try {
-      return localStorage.getItem(STORAGE_KEY) === 'true';
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored !== null) {
+        return stored === 'true';
+      }
+      if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      }
+      return false;
     } catch {
       return false;
     }
