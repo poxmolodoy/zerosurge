@@ -187,7 +187,7 @@ npm run electron:start
 npm test
 ```
 
-Будут выполнены все 78 интеграционных и модульных тестов Vitest.
+Будут выполнены все 111 интеграционных и модульных тестов Vitest.
 
 ### 5. Сборка веб-бандла для продакшена
 
@@ -208,6 +208,26 @@ npm run electron:build:portable
 ```
 release/ZeroSurge-1.0-Portable.exe
 ```
+
+---
+
+## 🛡️ Проверка целостности и воспроизводимость (SHA-256)
+
+Официальный бинарник `ZeroSurge-1.0-Portable.exe` компилируется автоматически и прозрачно на виртуальной машине [GitHub Actions (Release Workflow)](https://github.com/poxmolodoy/zerosurge/actions/workflows/release.yml).
+
+К каждому релизу прикреплён файл `SHA256SUMS.txt`. Вы можете легко проверить скачанный файл перед запуском:
+
+**В PowerShell:**
+```powershell
+Get-FileHash .\ZeroSurge-1.0-Portable.exe -Algorithm SHA256
+```
+
+**В командной строке (CMD):**
+```cmd
+certutil -hashfile ZeroSurge-1.0-Portable.exe SHA256
+```
+
+Сравните полученный хэш со значением на странице [GitHub Release](https://github.com/poxmolodoy/zerosurge/releases/tag/v1.0.0). Совпадение хэшей гарантирует подлинность файла и отсутствие модификаций.
 
 ---
 
