@@ -1,13 +1,13 @@
-# ZeroSurge PRO ⚡
+# ZeroSurge ⚡
 
 [![React](https://img.shields.io/badge/React-18.3.1-blue.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF.svg?logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC.svg?logo=tailwind-css)](https://tailwindcss.com/)
 [![Electron](https://img.shields.io/badge/Electron-44.9-47848F.svg?logo=electron)](https://www.electronjs.org/)
-[![Vitest](https://img.shields.io/badge/Tests-78%20passed-brightgreen.svg?logo=vitest)](https://vitest.dev/)
+[![CI](https://github.com/poxmolodoy/zerosurge/actions/workflows/ci.yml/badge.svg)](https://github.com/poxmolodoy/zerosurge/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Zero Telemetry](https://img.shields.io/badge/Telemetry-Zero%20(Local%20Only)-success.svg)](#безопасность-и-приватность)
+[![Local-only](https://img.shields.io/badge/Architecture-Local--only-success.svg)](#безопасность-и-приватность)
 
 <p align="left">
   <a href="https://github.com/poxmolodoy/zerosurge/releases/download/v1.0.0/ZeroSurge-1.0-Portable.exe">
@@ -86,19 +86,19 @@
 
 ## 🛡️ Безопасность и приватность
 
-Приложение построено по архитектуре **Zero-Knowledge Client-Side Only**:
+Приложение построено по архитектуре **Local-only: данные не покидают устройство**:
 
 | Параметр | Реализация в ZeroSurge |
 |---|---|
-| **Сбор данных** | **0 байт.** Никакой телеметрии, Google Analytics или сторонних пикселей |
-| **Хранение данных** | Локально в браузере / Electron (`localStorage`) |
+| **Сбор данных** | **0 байт.** Никакой телеметрии, внешних трекеров или аналитики |
+| **Хранение данных** | Локально в браузере / Electron (`localStorage`). Доступен экспорт/импорт в JSON |
 | **Защита от инъекций** | Полное отсутствие `dangerouslySetInnerHTML`, `eval()` и динамического DOM-парсинга |
 | **Защита хранилища** | Модуль `securityValidator.ts`: очистка prototype pollution, валидация типов и жесткий bounds clamping диапазонов |
 | **Изоляция Electron** | `contextIsolation: true`, `nodeIntegration: false`, изоляция через `preload.cjs` |
 | **Внешние ссылки** | Перехват `setWindowOpenHandler`: внешние статьи открываются исключительно в системном браузере ОС |
-| **Runtime-уязвимости** | `npm audit --omit=dev` — **0 уязвимостей** |
+| **Runtime-уязвимости** | `0 уязвимостей` в production-зависимостях (проверяется в CI: `npm audit --omit=dev --audit-level=high`; dev-зависимости сборщика изолированы) |
 
-Подробный отчет доступен в файле [SECURITY.md](SECURITY.md).
+Подробная модель угроз доступна в [docs/threat-model.md](docs/threat-model.md), политика сообщения об уязвимостях — в [SECURITY.md](SECURITY.md).
 
 ---
 

@@ -23,7 +23,7 @@ function createWindow() {
     backgroundColor: '#0b0f17', // Match dark graphite to prevent white flashes on launch
     show: false, // Delay display until ready-to-show for clean presentation
     autoHideMenuBar: true,
-    title: 'ZeroSurge PRO',
+    title: 'ZeroSurge',
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
