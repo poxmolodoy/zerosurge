@@ -1,4 +1,4 @@
-import { Zap, ZapOff, AlertOctagon, Settings, AlertTriangle, Trophy, Calendar, BookOpen } from 'lucide-react';
+import { Zap, ZapOff, AlertOctagon, Settings, AlertTriangle, Trophy, Calendar, BookOpen, TrendingDown } from 'lucide-react';
 
 interface HeaderProps {
   onOpenSos: () => void;
@@ -7,6 +7,7 @@ interface HeaderProps {
   onOpenAchievements?: () => void;
   onOpenJournal?: () => void;
   onOpenHarmAtlas?: () => void;
+  onOpenTaper?: () => void;
   isPerformanceMode?: boolean;
   onTogglePerformanceMode?: () => void;
 }
@@ -18,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAchievements,
   onOpenJournal,
   onOpenHarmAtlas,
+  onOpenTaper,
   isPerformanceMode = false,
   onTogglePerformanceMode,
 }) => {
@@ -35,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({
                 Zero<span className="text-surge-emerald">Surge</span>
               </span>
               <span className="hidden sm:inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-surge-emerald/10 border border-surge-emerald/20 text-surge-emerald font-bold">
-                PRO 1.0
+                v1.0
               </span>
             </div>
             <p className="text-[11px] text-slate-400 hidden md:block">
@@ -59,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Actions */}
         <div className="flex items-center gap-1.5 sm:gap-2.5">
-          {/* 1. Daily Health Journal & Chart Button (Calendar) - leftmost */}
+          {/* 1. Daily Health Journal & Chart Button (Calendar) */}
           <div className="relative group/btn flex items-center justify-center">
             <button
               onClick={onOpenJournal}
@@ -71,6 +73,21 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900/95 border border-white/10 rounded-lg text-[11px] font-medium text-slate-200 whitespace-nowrap shadow-xl pointer-events-none opacity-0 group-hover/btn:opacity-100 transition-opacity duration-150 z-50 hidden sm:block">
               Дневник и график
+            </div>
+          </div>
+
+          {/* 2. Taper & Caffeine Intake Log (TrendingDown) */}
+          <div className="relative group/btn flex items-center justify-center">
+            <button
+              onClick={onOpenTaper}
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-emerald-400 hover:text-emerald-300 hover:border-emerald-400/30 transition-all shadow-sm active:scale-95 flex items-center justify-center"
+              title="Журнал кофеина и программа Tapering"
+              aria-label="Открыть журнал кофеина и программу постепенного снижения"
+            >
+              <TrendingDown className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+            </button>
+            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900/95 border border-white/10 rounded-lg text-[11px] font-medium text-slate-200 whitespace-nowrap shadow-xl pointer-events-none opacity-0 group-hover/btn:opacity-100 transition-opacity duration-150 z-50 hidden sm:block">
+              Tapering и кофеин
             </div>
           </div>
 

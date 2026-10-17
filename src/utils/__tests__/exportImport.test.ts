@@ -221,4 +221,60 @@ describe('Export and Import Data Security & Validation', () => {
       expect(result.error).toContain('data');
     }
   });
+
+  it('supports backward-compatible migration from schemaVersion 1 to schemaVersion 2', () => {
+    const v1Payload = {
+      schemaVersion: 1,
+      exportedAt: '2026-03-01T10:00:00.000Z',
+      data: {
+        profile: mockProfile,
+        checkIns: mockCheckIns,
+      },
+    };
+
+    const result = validateImportPayload(v1Payload);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.profile.cansPerDay).toBe(3);
+      expect(result.data.checkIns).toHaveLength(2);
+      expect(result.data.consumptionLog).toEqual([]);
+    }
+  });
+
+  it('supports round-trip export and import of taperPlan and consumptionLog in schemaVersion 2', () => {
+    const taperPlan = {
+      isActive: true,
+      startDate: '2026-03-01T00:00:00.000Z',
+      durationDays: 21,
+      startDailyMg: 350,
+      targetDailyMg: 0,
+    };
+
+    const consumptionLog = [
+      {
+        id: 'c1',
+        timestamp: Date.now(),
+        date: '2026-03-02',
+        type: 'energy' as const,
+        title: 'Red Bull 250ml',
+        volumeMl: 250,
+        caffeineMg: 80,
+      },
+    ];
+
+    const json = serializeExportData(mockProfile, mockCheckIns, taperPlan, consumptionLog);
+    const parsed = JSON.parse(json);
+    expect(parsed.schemaVersion).toBe(2);
+
+    const result = validateImportPayload(json);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.taperPlan?.isActive).toBe(true);
+      expect(result.data.taperPlan?.durationDays).toBe(21);
+      expect(result.data.consumptionLog).toHaveLength(1);
+      expect(result.data.consumptionLog?.[0].title).toBe('Red Bull 250ml');
+      expect(result.preview.hasTaperPlan).toBe(true);
+      expect(result.preview.consumptionEntriesCount).toBe(1);
+    }
+  });
 });

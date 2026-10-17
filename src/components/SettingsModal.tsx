@@ -17,23 +17,28 @@ import {
   serializeExportData,
   validateImportPayload,
   triggerFileDownload,
-  BackupDataV1,
+  BackupData,
 } from '../utils/securityValidator';
+import { TaperPlan, ConsumptionEntry } from '../utils/taper';
 
 interface SettingsModalProps {
   isOpen: boolean;
   profile: UserProfile | null;
   checkIns: DailyCheckIn[];
+  taperPlan?: TaperPlan;
+  consumptionLog?: ConsumptionEntry[];
   onClose: () => void;
   onEditProfile: () => void;
   onResetAllData: () => void;
-  onImportData: (data: BackupDataV1) => void;
+  onImportData: (data: BackupData) => void;
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
   isOpen,
   profile,
   checkIns,
+  taperPlan,
+  consumptionLog,
   onClose,
   onEditProfile,
   onResetAllData,
@@ -43,12 +48,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   const [importError, setImportError] = useState<string | null>(null);
   const [exportSuccess, setExportSuccess] = useState(false);
   const [importPreview, setImportPreview] = useState<{
-    data: BackupDataV1;
+    data: BackupData;
     preview: {
       checkInsCount: number;
       quitDate: string;
       cansPerDay: number;
       exportedAt: string;
+      hasTaperPlan?: boolean;
+      consumptionEntriesCount?: number;
     };
   } | null>(null);
 
@@ -66,7 +73,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     try {
       const today = new Date().toISOString().split('T')[0];
       const filename = `zerosurge-backup-${today}.json`;
-      const json = serializeExportData(profile, checkIns);
+      const json = serializeExportData(profile, checkIns, taperPlan, consumptionLog);
       triggerFileDownload(filename, json);
       setExportSuccess(true);
       setImportError(null);

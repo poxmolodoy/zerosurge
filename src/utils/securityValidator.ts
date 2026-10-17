@@ -1,27 +1,34 @@
 import { UserProfile, DailyCheckIn } from '../types';
+import { TaperPlan, ConsumptionEntry } from './taper';
 
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
-export interface BackupDataV1 {
+export interface BackupDataV2 {
   profile: UserProfile;
   checkIns: DailyCheckIn[];
+  taperPlan?: TaperPlan;
+  consumptionLog?: ConsumptionEntry[];
 }
 
-export interface BackupPayloadV1 {
+export type BackupData = BackupDataV2;
+
+export interface BackupPayloadV2 {
   schemaVersion: number;
   exportedAt: string;
-  data: BackupDataV1;
+  data: BackupDataV2;
 }
 
 export type ValidationResult =
   | {
       success: true;
-      data: BackupDataV1;
+      data: BackupDataV2;
       preview: {
         checkInsCount: number;
         quitDate: string;
         cansPerDay: number;
         exportedAt: string;
+        hasTaperPlan: boolean;
+        consumptionEntriesCount: number;
       };
     }
   | {
@@ -181,13 +188,97 @@ export function sanitizeCheckIns(data: unknown): DailyCheckIn[] {
 }
 
 /**
- * Serializes current user profile and check-ins into standard JSON backup format.
+ * Validates and sanitizes caffeine consumption log entries.
+ */
+export function sanitizeConsumptionLog(data: unknown): ConsumptionEntry[] {
+  if (!Array.isArray(data)) return [];
+  const sanitized: ConsumptionEntry[] = [];
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  const validTypes = ['energy', 'coffee', 'tea', 'other'];
+
+  for (const item of data) {
+    if (!item || typeof item !== 'object') continue;
+    const raw = item as Record<string, unknown>;
+
+    if (typeof raw.date !== 'string' || !dateRegex.test(raw.date)) continue;
+
+    const id =
+      typeof raw.id === 'string' && raw.id.trim()
+        ? raw.id.trim()
+        : Math.random().toString(36).slice(2);
+    const timestamp =
+      Number(raw.timestamp) && isFinite(Number(raw.timestamp)) ? Number(raw.timestamp) : Date.now();
+    const type =
+      typeof raw.type === 'string' && validTypes.includes(raw.type)
+        ? (raw.type as 'energy' | 'coffee' | 'tea' | 'other')
+        : 'other';
+    const title =
+      typeof raw.title === 'string' && raw.title.trim()
+        ? raw.title.trim().slice(0, 80)
+        : 'Напиток';
+    const volumeMl = Math.max(1, Math.min(5000, Math.round(Number(raw.volumeMl) || 250)));
+    const caffeineMg = Math.max(0, Math.min(2000, Math.round(Number(raw.caffeineMg) || 80)));
+
+    sanitized.push({
+      id,
+      timestamp,
+      date: raw.date,
+      type,
+      title,
+      volumeMl,
+      caffeineMg,
+    });
+  }
+  return sanitized;
+}
+
+/**
+ * Validates and sanitizes a tapering plan object.
+ */
+export function sanitizeTaperPlan(data: unknown): TaperPlan {
+  const fallback: TaperPlan = {
+    isActive: false,
+    startDate: new Date().toISOString(),
+    durationDays: 14,
+    startDailyMg: 300,
+    targetDailyMg: 0,
+  };
+
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return fallback;
+  const raw = data as Record<string, unknown>;
+
+  const isActive = Boolean(raw.isActive);
+  let startDate: string;
+  if (typeof raw.startDate === 'string') {
+    const parsed = new Date(raw.startDate).getTime();
+    startDate = isNaN(parsed) ? new Date().toISOString() : new Date(raw.startDate).toISOString();
+  } else {
+    startDate = new Date().toISOString();
+  }
+
+  const durationDays = Math.max(3, Math.min(90, Math.round(Number(raw.durationDays) || 14)));
+  const startDailyMg = Math.max(50, Math.min(2000, Math.round(Number(raw.startDailyMg) || 300)));
+  const targetDailyMg = Math.max(0, Math.min(startDailyMg, Math.round(Number(raw.targetDailyMg) || 0)));
+
+  return {
+    isActive,
+    startDate,
+    durationDays,
+    startDailyMg,
+    targetDailyMg,
+  };
+}
+
+/**
+ * Serializes current user profile, check-ins, taper plan, and consumption log into JSON backup.
  */
 export function serializeExportData(
   profile: UserProfile | null,
-  checkIns: DailyCheckIn[]
+  checkIns: DailyCheckIn[],
+  taperPlan?: TaperPlan,
+  consumptionLog?: ConsumptionEntry[]
 ): string {
-  const payload: BackupPayloadV1 = {
+  const payload: BackupPayloadV2 = {
     schemaVersion: CURRENT_SCHEMA_VERSION,
     exportedAt: new Date().toISOString(),
     data: {
@@ -200,6 +291,8 @@ export function serializeExportData(
         isOnboarded: false,
       },
       checkIns: checkIns || [],
+      taperPlan: taperPlan ? sanitizeTaperPlan(taperPlan) : undefined,
+      consumptionLog: consumptionLog ? sanitizeConsumptionLog(consumptionLog) : undefined,
     },
   };
 
@@ -209,6 +302,7 @@ export function serializeExportData(
 /**
  * Validates raw import input (JSON string or parsed object).
  * Sanitizes against prototype pollution and clamps all numeric values.
+ * Supports backward-compatible migration from schemaVersion 1 to 2.
  */
 export function validateImportPayload(rawInput: unknown): ValidationResult {
   let parsed: unknown;
@@ -281,6 +375,10 @@ export function validateImportPayload(rawInput: unknown): ValidationResult {
   // Sanitize check-ins
   const sanitizedCheckIns = sanitizeCheckIns(dataObj.checkIns);
 
+  // Sanitize taperPlan & consumptionLog (backward compatible migration for schemaVersion 1)
+  const sanitizedTaperPlan = dataObj.taperPlan ? sanitizeTaperPlan(dataObj.taperPlan) : undefined;
+  const sanitizedConsumptionLog = dataObj.consumptionLog ? sanitizeConsumptionLog(dataObj.consumptionLog) : [];
+
   const exportedAt =
     typeof root.exportedAt === 'string' && !isNaN(new Date(root.exportedAt).getTime())
       ? root.exportedAt
@@ -291,12 +389,16 @@ export function validateImportPayload(rawInput: unknown): ValidationResult {
     data: {
       profile: sanitizedProfile,
       checkIns: sanitizedCheckIns,
+      taperPlan: sanitizedTaperPlan,
+      consumptionLog: sanitizedConsumptionLog,
     },
     preview: {
       checkInsCount: sanitizedCheckIns.length,
       quitDate: sanitizedProfile.quitDate,
       cansPerDay: sanitizedProfile.cansPerDay,
       exportedAt,
+      hasTaperPlan: Boolean(sanitizedTaperPlan?.isActive),
+      consumptionEntriesCount: sanitizedConsumptionLog.length,
     },
   };
 }

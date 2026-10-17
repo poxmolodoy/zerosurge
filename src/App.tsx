@@ -15,6 +15,7 @@ import { RelapseModal } from './components/RelapseModal';
 import { AchievementsModal } from './components/AchievementsModal';
 import { HealthJournalModal } from './components/HealthJournalModal';
 import { CaffeineHarmAtlasModal } from './components/CaffeineHarmAtlasModal';
+import { TaperModal } from './components/TaperModal';
 import { NeuralBackground } from './components/NeuralBackground';
 
 export default function App() {
@@ -25,10 +26,15 @@ export default function App() {
     milestones,
     achievements,
     checkIns,
+    taperPlan,
+    consumptionLog,
     saveProfile,
     resetAllData,
     addCheckIn,
     recordRelapse,
+    saveTaperPlan,
+    addConsumption,
+    deleteConsumption,
     importData,
   } = useZeroSurge();
 
@@ -41,6 +47,7 @@ export default function App() {
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
   const [isJournalOpen, setIsJournalOpen] = useState(false);
   const [isHarmAtlasOpen, setIsHarmAtlasOpen] = useState(false);
+  const [isTaperOpen, setIsTaperOpen] = useState(false);
 
   // Default fallback profile for initial visual demo if onboarding modal is closed
   const activeProfile = profile || {
@@ -80,6 +87,7 @@ export default function App() {
         onOpenAchievements={() => setIsAchievementsOpen(true)}
         onOpenJournal={() => setIsJournalOpen(true)}
         onOpenHarmAtlas={() => setIsHarmAtlasOpen(true)}
+        onOpenTaper={() => setIsTaperOpen(true)}
         isPerformanceMode={isPerformanceMode}
         onTogglePerformanceMode={togglePerformanceMode}
       />
@@ -132,6 +140,8 @@ export default function App() {
         isOpen={isSettingsOpen}
         profile={profile}
         checkIns={checkIns}
+        taperPlan={taperPlan}
+        consumptionLog={consumptionLog}
         onClose={() => setIsSettingsOpen(false)}
         onEditProfile={() => setIsOnboardingOpen(true)}
         onResetAllData={handleResetAllData}
@@ -170,6 +180,16 @@ export default function App() {
       <CaffeineHarmAtlasModal
         isOpen={isHarmAtlasOpen}
         onClose={() => setIsHarmAtlasOpen(false)}
+      />
+
+      <TaperModal
+        isOpen={isTaperOpen}
+        onClose={() => setIsTaperOpen(false)}
+        taperPlan={taperPlan}
+        consumptionLog={consumptionLog}
+        onSaveTaperPlan={saveTaperPlan}
+        onAddConsumption={addConsumption}
+        onDeleteConsumption={deleteConsumption}
       />
     </div>
   );

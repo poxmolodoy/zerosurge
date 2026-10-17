@@ -8,10 +8,19 @@ import {
   calculateRelapsePenalty,
   RelapsePenaltyResult,
 } from '../utils/calculations';
-import { sanitizeUserProfile, sanitizeCheckIns } from '../utils/securityValidator';
+import {
+  sanitizeUserProfile,
+  sanitizeCheckIns,
+  sanitizeTaperPlan,
+  sanitizeConsumptionLog,
+  BackupDataV2,
+} from '../utils/securityValidator';
+import { TaperPlan, ConsumptionEntry } from '../utils/taper';
 
 const PROFILE_KEY = 'zerosurge_profile';
 const CHECKINS_KEY = 'zerosurge_checkins';
+const TAPER_PLAN_KEY = 'zerosurge_taper_plan';
+const CONSUMPTION_LOG_KEY = 'zerosurge_consumption_log';
 
 export function useZeroSurge() {
   const [profile, setProfile] = useState<UserProfile | null>(() => {
@@ -29,6 +38,40 @@ export function useZeroSurge() {
       const stored = localStorage.getItem(CHECKINS_KEY);
       if (!stored) return [];
       return sanitizeCheckIns(JSON.parse(stored));
+    } catch {
+      return [];
+    }
+  });
+
+  const [taperPlan, setTaperPlan] = useState<TaperPlan>(() => {
+    try {
+      const stored = localStorage.getItem(TAPER_PLAN_KEY);
+      if (!stored) {
+        return {
+          isActive: false,
+          startDate: new Date().toISOString(),
+          durationDays: 14,
+          startDailyMg: 300,
+          targetDailyMg: 0,
+        };
+      }
+      return sanitizeTaperPlan(JSON.parse(stored));
+    } catch {
+      return {
+        isActive: false,
+        startDate: new Date().toISOString(),
+        durationDays: 14,
+        startDailyMg: 300,
+        targetDailyMg: 0,
+      };
+    }
+  });
+
+  const [consumptionLog, setConsumptionLog] = useState<ConsumptionEntry[]>(() => {
+    try {
+      const stored = localStorage.getItem(CONSUMPTION_LOG_KEY);
+      if (!stored) return [];
+      return sanitizeConsumptionLog(JSON.parse(stored));
     } catch {
       return [];
     }
@@ -60,17 +103,91 @@ export function useZeroSurge() {
   const resetAllData = useCallback(() => {
     setProfile(null);
     setCheckIns([]);
+    setTaperPlan({
+      isActive: false,
+      startDate: new Date().toISOString(),
+      durationDays: 14,
+      startDailyMg: 300,
+      targetDailyMg: 0,
+    });
+    setConsumptionLog([]);
     try {
       localStorage.removeItem(PROFILE_KEY);
       localStorage.removeItem(CHECKINS_KEY);
+      localStorage.removeItem(TAPER_PLAN_KEY);
+      localStorage.removeItem(CONSUMPTION_LOG_KEY);
     } catch (e) {
       console.error('Failed to clear localStorage', e);
     }
   }, []);
 
-  const importData = useCallback((backup: { profile: UserProfile; checkIns: DailyCheckIn[] }) => {
+  const saveTaperPlan = useCallback((newPlan: TaperPlan) => {
+    const sanitized = sanitizeTaperPlan(newPlan);
+    setTaperPlan(sanitized);
+    try {
+      localStorage.setItem(TAPER_PLAN_KEY, JSON.stringify(sanitized));
+    } catch (e) {
+      console.error('Failed to save taper plan to localStorage', e);
+    }
+  }, []);
+
+  const addConsumption = useCallback(
+    (entry: {
+      type: 'energy' | 'coffee' | 'tea' | 'other';
+      title: string;
+      volumeMl: number;
+      caffeineMg: number;
+      date?: string;
+    }) => {
+      const today = new Date().toISOString().split('T')[0];
+      const newEntry: ConsumptionEntry = {
+        id: Math.random().toString(36).slice(2, 10),
+        timestamp: Date.now(),
+        date: entry.date || today,
+        type: entry.type,
+        title: entry.title,
+        volumeMl: entry.volumeMl,
+        caffeineMg: entry.caffeineMg,
+      };
+
+      setConsumptionLog((prev) => {
+        const updated = [newEntry, ...prev];
+        try {
+          localStorage.setItem(CONSUMPTION_LOG_KEY, JSON.stringify(updated));
+        } catch (e) {
+          console.error('Failed to save consumption log to localStorage', e);
+        }
+        return updated;
+      });
+    },
+    []
+  );
+
+  const deleteConsumption = useCallback((id: string) => {
+    setConsumptionLog((prev) => {
+      const updated = prev.filter((item) => item.id !== id);
+      try {
+        localStorage.setItem(CONSUMPTION_LOG_KEY, JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to update consumption log in localStorage', e);
+      }
+      return updated;
+    });
+  }, []);
+
+  const importData = useCallback((backup: BackupDataV2) => {
     const sanitizedProfile = sanitizeUserProfile(backup.profile);
     const sanitizedCheckIns = sanitizeCheckIns(backup.checkIns);
+    const sanitizedTaper = backup.taperPlan
+      ? sanitizeTaperPlan(backup.taperPlan)
+      : {
+          isActive: false,
+          startDate: new Date().toISOString(),
+          durationDays: 14,
+          startDailyMg: 300,
+          targetDailyMg: 0,
+        };
+    const sanitizedLog = backup.consumptionLog ? sanitizeConsumptionLog(backup.consumptionLog) : [];
 
     if (!sanitizedProfile) {
       throw new Error('Не удалось восстановить профиль: данные невалидны.');
@@ -78,10 +195,14 @@ export function useZeroSurge() {
 
     setProfile(sanitizedProfile);
     setCheckIns(sanitizedCheckIns);
+    setTaperPlan(sanitizedTaper);
+    setConsumptionLog(sanitizedLog);
 
     try {
       localStorage.setItem(PROFILE_KEY, JSON.stringify(sanitizedProfile));
       localStorage.setItem(CHECKINS_KEY, JSON.stringify(sanitizedCheckIns));
+      localStorage.setItem(TAPER_PLAN_KEY, JSON.stringify(sanitizedTaper));
+      localStorage.setItem(CONSUMPTION_LOG_KEY, JSON.stringify(sanitizedLog));
     } catch (e) {
       console.error('Failed to save imported data to localStorage', e);
       throw new Error('Ошибка записи в локальное хранилище браузера.');
@@ -187,10 +308,15 @@ export function useZeroSurge() {
     milestones,
     achievements,
     checkIns,
+    taperPlan,
+    consumptionLog,
     saveProfile,
     resetAllData,
     addCheckIn,
     recordRelapse,
+    saveTaperPlan,
+    addConsumption,
+    deleteConsumption,
     importData,
   };
 }
