@@ -137,7 +137,7 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
       </div>
 
       {/* SVG Canvas Area */}
-      <div className="relative w-full bg-slate-950/40 rounded-2xl p-2 sm:p-4 border border-white/5 overflow-hidden">
+      <div className="relative w-full bg-slate-950/40 rounded-2xl p-2 sm:p-4 border border-white/5">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="w-full h-auto overflow-visible select-none"
@@ -177,6 +177,19 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
             y2={height - paddingBottom}
             stroke="rgba(255, 255, 255, 0.15)"
           />
+
+          {/* Vertical guideline for currently hovered day */}
+          {hoveredPoint && (
+            <line
+              x1={hoveredPoint.x}
+              y1={paddingTop}
+              x2={hoveredPoint.x}
+              y2={height - paddingBottom}
+              stroke="rgba(255, 255, 255, 0.2)"
+              strokeDasharray="3 3"
+              pointerEvents="none"
+            />
+          )}
 
           {/* Lines */}
           {/* 1. Craving Line */}
@@ -316,23 +329,52 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
           })}
         </svg>
 
-        {/* Hover Tooltip Overlay */}
-        {hoveredPoint && (
-          <div
-            className="absolute z-20 pointer-events-none p-3 rounded-xl bg-slate-900 border border-white/20 text-xs shadow-2xl space-y-1 transform -translate-x-1/2 -translate-y-full"
-            style={{
-              left: `${(hoveredPoint.x / width) * 100}%`,
-              top: `${(hoveredPoint.y / height) * 100}%`,
-            }}
-          >
-            <div className="font-bold text-white border-b border-white/10 pb-1 mb-1">
-              {hoveredPoint.label}
-            </div>
-            <div className="text-surge-cyan font-mono">⚡ Энергия: {hoveredPoint.energy}</div>
-            <div className="text-surge-emerald font-mono">🌙 Сон: {hoveredPoint.sleep}</div>
-            <div className="text-surge-amber font-mono">🔥 Тяга: {hoveredPoint.craving}</div>
-          </div>
-        )}
+        {/* Hover Tooltip Overlay with boundary-safe directional alignment */}
+        {hoveredPoint &&
+          (() => {
+            const isLeft = hoveredPoint.x < width * 0.28;
+            const isRight = hoveredPoint.x > width * 0.72;
+            const isTop = hoveredPoint.y < 100;
+
+            const transformClass = isLeft
+              ? isTop
+                ? 'translate-x-2 translate-y-3'
+                : 'translate-x-2 -translate-y-full -translate-y-2'
+              : isRight
+                ? isTop
+                  ? '-translate-x-full -translate-x-2 translate-y-3'
+                  : '-translate-x-full -translate-x-2 -translate-y-full -translate-y-2'
+                : isTop
+                  ? '-translate-x-1/2 translate-y-3'
+                  : '-translate-x-1/2 -translate-y-full -translate-y-2';
+
+            return (
+              <div
+                className={`absolute z-30 pointer-events-none p-2.5 sm:p-3 rounded-xl bg-slate-900/95 backdrop-blur-md border border-white/20 text-xs shadow-2xl space-y-1 transform whitespace-nowrap min-w-[130px] ${transformClass}`}
+                style={{
+                  left: `${(hoveredPoint.x / width) * 100}%`,
+                  top: `${(hoveredPoint.y / height) * 100}%`,
+                }}
+              >
+                <div className="font-bold text-white border-b border-white/10 pb-1 mb-1 flex items-center justify-between gap-2">
+                  <span>{hoveredPoint.label}</span>
+                  <span className="text-[10px] font-mono text-slate-400">динамика</span>
+                </div>
+                <div className="text-surge-cyan font-mono flex items-center gap-1.5">
+                  <span>⚡ Энергия:</span>
+                  <span className="font-bold ml-auto">{hoveredPoint.energy}</span>
+                </div>
+                <div className="text-surge-emerald font-mono flex items-center gap-1.5">
+                  <span>🌙 Сон:</span>
+                  <span className="font-bold ml-auto">{hoveredPoint.sleep}</span>
+                </div>
+                <div className="text-surge-amber font-mono flex items-center gap-1.5">
+                  <span>🔥 Тяга:</span>
+                  <span className="font-bold ml-auto">{hoveredPoint.craving}</span>
+                </div>
+              </div>
+            );
+          })()}
       </div>
 
       {/* Crossover Insight */}

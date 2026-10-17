@@ -42,4 +42,29 @@ describe('FeelingChart Component (Systematic Debugging)', () => {
       expect(screen.queryByText(/Энергия:/i)).toBeNull(); // state cleanup
     }
   });
+
+  it('positions tooltip safely for edge coordinates to prevent clipping', () => {
+    const { container } = render(<FeelingChart checkIns={[]} />); // benchmark data: Day 1 is at left edge
+
+    const circles = container.querySelectorAll('circle');
+    expect(circles.length).toBeGreaterThan(0);
+
+    // Hover over the first circle (Day 1)
+    fireEvent.mouseEnter(circles[0]);
+
+    // Tooltip should be in document
+    const energyText = screen.getByText(/Энергия:/i);
+    expect(energyText).toBeInTheDocument();
+
+    // Tooltip container should have directional boundary-safe transform
+    const tooltip = energyText.closest('.absolute');
+    expect(tooltip).not.toBeNull();
+    const className = tooltip?.getAttribute('class') || '';
+    // Left edge must use positive translate-x (e.g. translate-x-2) to avoid left clipping
+    expect(className).toContain('translate-x-2');
+
+    // Guidelines line should be rendered in SVG
+    const dashedLines = container.querySelectorAll('line[stroke-dasharray="3 3"]');
+    expect(dashedLines.length).toBe(1);
+  });
 });

@@ -22,9 +22,10 @@ This allows us to review and address the issue privately without exposing detail
 
 ### 2. Alternative Contact
 
-If you cannot use GitHub's advisory system, you can contact the project maintainer:
+If you cannot use GitHub's private advisory system, you can contact the project maintainer directly via GitHub:
 
-- **Email:** `contact@zerosurge.local` (or submit via GitHub Issues/Discussions)
+- **GitHub Issues:** [Open an Issue](https://github.com/poxmolodoy/zerosurge/issues)
+- **GitHub Discussions:** [Start a Discussion](https://github.com/poxmolodoy/zerosurge/discussions)
 
 ### What to Include in Your Report
 

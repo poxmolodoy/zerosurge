@@ -35,42 +35,29 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full glass-card border-b border-white/10 px-4 sm:px-8 py-3.5 backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 relative">
-        {/* Brand Logo */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-surge-emerald via-emerald-400 to-surge-cyan flex items-center justify-center text-slate-950 shadow-glow-emerald">
-            <Zap className="w-6 h-6 fill-current stroke-current" />
+      <div className="max-w-7xl mx-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-2.5 gap-x-2 sm:gap-x-4">
+        {/* Brand Logo (order-1) */}
+        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-surge-emerald via-emerald-400 to-surge-cyan flex items-center justify-center text-slate-950 shadow-glow-emerald">
+            <Zap className="w-5 h-5 sm:w-6 sm:h-6 fill-current stroke-current" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-lg sm:text-xl tracking-tight text-white">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="font-extrabold text-base sm:text-xl tracking-tight text-white">
                 Zero<span className="text-surge-emerald">Surge</span>
               </span>
               <span className="hidden sm:inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-surge-emerald/10 border border-surge-emerald/20 text-surge-emerald font-bold">
                 v1.0
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 hidden md:block">
+            <p className="text-[11px] text-slate-400 hidden lg:block">
               Трекер свободы от энергетиков и кофеина
             </p>
           </div>
         </div>
 
-        {/* Center: Relapse Button (Dead Center) */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10 pointer-events-auto">
-          <button
-            onClick={onOpenRelapse}
-            className="group py-2 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 hover:text-rose-200 transition-all flex items-center gap-1.5 sm:gap-2 shadow-sm hover:shadow-glow-ruby active:scale-95"
-            aria-label="Зафиксировать срыв"
-          >
-            <AlertTriangle className="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline">Зафиксировать срыв</span>
-            <span className="sm:hidden">Срыв</span>
-          </button>
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5">
+        {/* Feature & Modal Buttons (order-3 full-width ribbon on mobile, order-2 inline flex on desktop) */}
+        <div className="order-3 sm:order-2 w-full sm:w-auto flex items-center justify-around sm:justify-start gap-1 sm:gap-1.5 pt-2 sm:pt-0 border-t border-white/10 sm:border-0">
           {/* 1. Daily Health Journal & Chart Button (Calendar) */}
           <div className="relative group/btn flex items-center justify-center">
             <button
@@ -101,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* 2. Clinical Harm Atlas Button (BookOpen) - between Calendar and Trophy */}
+          {/* 3. Clinical Harm Atlas Button (BookOpen) */}
           <div className="relative group/btn flex items-center justify-center">
             <button
               onClick={onOpenHarmAtlas}
@@ -116,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* 3. Achievements Button (Trophy) */}
+          {/* 4. Achievements Button (Trophy) */}
           <div className="relative group/btn flex items-center justify-center">
             <button
               onClick={onOpenAchievements}
@@ -130,15 +117,6 @@ export const Header: React.FC<HeaderProps> = ({
               Достижения
             </div>
           </div>
-
-          {/* 4. Prominent SOS Button */}
-          <button
-            onClick={onOpenSos}
-            className="py-2 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-amber-950 bg-gradient-to-r from-surge-amber to-amber-400 hover:from-amber-400 hover:to-amber-300 shadow-glow-amber transition-all transform active:scale-95 flex items-center gap-1.5 sm:gap-2 animate-pulse"
-          >
-            <AlertOctagon className="w-4 h-4 fill-current" />
-            <span className="hidden xs:inline">Хочу сорваться /</span> SOS
-          </button>
 
           {/* 5. Performance Mode / Eco Mode (⚡ Toggle heavy effects) */}
           <div className="relative group/btn flex items-center justify-center">
@@ -162,16 +140,39 @@ export const Header: React.FC<HeaderProps> = ({
               {isPerformanceMode ? 'Включить эффекты' : 'Отключить эффекты'}
             </div>
           </div>
+        </div>
 
-          {/* 6. Settings Button */}
+        {/* 3. Crisis & Settings Group (order-2 on mobile top-right, order-3 on desktop right) */}
+        <div className="order-2 sm:order-3 flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Relapse Button */}
+          <button
+            onClick={onOpenRelapse}
+            className="group py-1.5 px-2 sm:py-2 sm:px-3.5 rounded-xl text-xs sm:text-sm font-bold border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 hover:text-rose-200 transition-all flex items-center gap-1 sm:gap-1.5 shadow-sm hover:shadow-glow-ruby active:scale-95 shrink-0"
+            aria-label="Зафиксировать срыв"
+          >
+            <AlertTriangle className="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform shrink-0" />
+            <span className="hidden sm:inline">Зафиксировать срыв</span>
+            <span className="sm:hidden">Срыв</span>
+          </button>
+
+          {/* Prominent SOS Button */}
+          <button
+            onClick={onOpenSos}
+            className="py-1.5 px-2.5 sm:py-2 sm:px-3.5 rounded-xl text-xs sm:text-sm font-bold text-amber-950 bg-gradient-to-r from-surge-amber to-amber-400 hover:from-amber-400 hover:to-amber-300 shadow-glow-amber transition-all transform active:scale-95 flex items-center gap-1.5 shrink-0 animate-pulse"
+          >
+            <AlertOctagon className="w-4 h-4 fill-current shrink-0" />
+            <span className="hidden sm:inline">Хочу сорваться /</span> SOS
+          </button>
+
+          {/* Settings Button */}
           <div className="relative group/btn flex items-center justify-center">
             <button
               onClick={onOpenSettings}
-              className="p-2 sm:p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-white transition-colors"
+              className="p-1.5 sm:p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-white transition-colors flex items-center justify-center shrink-0"
               title="Настройки"
               aria-label="Настройки профиля"
             >
-              <Settings className="w-5 h-5" />
+              <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <div className="absolute top-full mt-2 right-0 px-2.5 py-1 bg-slate-900/95 border border-white/10 rounded-lg text-[11px] font-medium text-slate-200 whitespace-nowrap shadow-xl pointer-events-none opacity-0 group-hover/btn:opacity-100 transition-opacity duration-150 z-50 hidden sm:block">
               Настройки

@@ -85,4 +85,25 @@ describe('Header Component', () => {
     fireEvent.click(harmAtlasBtn);
     expect(onOpenHarmAtlas).toHaveBeenCalledTimes(1);
   });
+
+  it('renders Relapse button in document flow without collision-prone absolute positioning', () => {
+    const { container } = render(<Header {...defaultProps} />);
+
+    const relapseBtn = screen.getByLabelText('Зафиксировать срыв');
+    expect(relapseBtn).toBeInTheDocument();
+
+    // Verify neither the button nor its direct container uses absolute positioning
+    const buttonClass = relapseBtn.getAttribute('class') || '';
+    expect(buttonClass).not.toContain('absolute');
+
+    const parent = relapseBtn.parentElement;
+    const parentClass = parent?.getAttribute('class') || '';
+    expect(parentClass).not.toContain('absolute');
+
+    // Header wrapper must support responsive wrapping without overlapping
+    const headerWrapper = container.querySelector('.max-w-7xl');
+    expect(headerWrapper).not.toBeNull();
+    const wrapperClass = headerWrapper?.getAttribute('class') || '';
+    expect(wrapperClass).toContain('flex-wrap');
+  });
 });

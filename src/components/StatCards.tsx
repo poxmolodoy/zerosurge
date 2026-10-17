@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Coins, ZapOff, ShieldCheck, HeartPulse, Flame } from 'lucide-react';
+import { Coins, CupSoda, ShieldCheck, HeartPulse, Flame } from 'lucide-react';
 import { AppStats, UserProfile } from '../types';
 
 interface StatCardsProps {
@@ -57,7 +57,7 @@ export const StatCards: React.FC<StatCardsProps> = ({ stats, profile }) => {
             Не выпито порций
           </span>
           <div className="p-2 rounded-xl bg-surge-amber/10 text-surge-amber border border-surge-amber/20">
-            <ZapOff className="w-5 h-5" />
+            <CupSoda className="w-5 h-5" />
           </div>
         </div>
         <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
