@@ -106,10 +106,30 @@
 
 Вы можете использовать готовый скомпилированный бинарник без установки Node.js:
 
-1. Скачайте файл **[ZeroSurge-1.0-Portable.exe](https://github.com/poxmolodoy/zerosurge/releases/download/v1.0.0/ZeroSurge-1.0-Portable.exe)** из раздела [Releases](https://github.com/poxmolodoy/zerosurge/releases/tag/v1.0.0) (размер ~97 МБ).
+1. Скачайте файл **[ZeroSurge-1.0-Portable.exe](https://github.com/poxmolodoy/zerosurge/releases/download/v1.0.0/ZeroSurge-1.0-Portable.exe)** и файл контрольных сумм **`SHA256SUMS.txt`** из раздела [Releases](https://github.com/poxmolodoy/zerosurge/releases/tag/v1.0.0).
 2. Запустите файл двойным кликом.
 3. Программа **не требует инсталляции**, не оставляет следов в системном реестре Windows и может запускаться прямо с USB-накопителя.
 4. Все сохраненные данные привязаны к локальному профилю пользователя.
+
+### 🔒 Проверка целостности и Windows SmartScreen
+
+#### Проверка контрольной суммы SHA-256
+Каждый релиз собирается автоматически в изолированном окружении [GitHub Actions Workflow](.github/workflows/release.yml). Чтобы убедиться, что скачанный файл не был повреждён или подменён, рассчитайте его хэш-сумму:
+
+- **PowerShell (Windows):**
+  ```powershell
+  Get-FileHash .\ZeroSurge-1.0-Portable.exe -Algorithm SHA256
+  ```
+- **Linux / macOS / Git Bash:**
+  ```bash
+  sha256sum -c SHA256SUMS.txt
+  ```
+Сравните полученную строку со значением в файле `SHA256SUMS.txt` на странице релиза.
+
+#### Предупреждение Windows SmartScreen
+Исполняемый файл является бесплатным проектом с открытым исходным кодом и **не имеет коммерческого платного сертификата Authenticode**. Поэтому при первом запуске Windows Defender SmartScreen может показать окно «Система Windows защитила ваш компьютер».
+- Для продолжения нажмите **«Подробнее» (More info) → «Выполнить в любом случае» (Run anyway)**.
+- Вы можете полностью проинспектировать исходный код и процесс сборки в [.github/workflows/release.yml](.github/workflows/release.yml).
 
 ---
 
