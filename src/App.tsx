@@ -29,6 +29,7 @@ export default function App() {
     resetAllData,
     addCheckIn,
     recordRelapse,
+    importData,
   } = useZeroSurge();
 
   const { isPerformanceMode, togglePerformanceMode } = usePerformanceMode();
@@ -130,9 +131,11 @@ export default function App() {
       <SettingsModal
         isOpen={isSettingsOpen}
         profile={profile}
+        checkIns={checkIns}
         onClose={() => setIsSettingsOpen(false)}
         onEditProfile={() => setIsOnboardingOpen(true)}
         onResetAllData={handleResetAllData}
+        onImportData={importData}
       />
 
       <SosModal

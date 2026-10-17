@@ -68,6 +68,26 @@ export function useZeroSurge() {
     }
   }, []);
 
+  const importData = useCallback((backup: { profile: UserProfile; checkIns: DailyCheckIn[] }) => {
+    const sanitizedProfile = sanitizeUserProfile(backup.profile);
+    const sanitizedCheckIns = sanitizeCheckIns(backup.checkIns);
+
+    if (!sanitizedProfile) {
+      throw new Error('Не удалось восстановить профиль: данные невалидны.');
+    }
+
+    setProfile(sanitizedProfile);
+    setCheckIns(sanitizedCheckIns);
+
+    try {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(sanitizedProfile));
+      localStorage.setItem(CHECKINS_KEY, JSON.stringify(sanitizedCheckIns));
+    } catch (e) {
+      console.error('Failed to save imported data to localStorage', e);
+      throw new Error('Ошибка записи в локальное хранилище браузера.');
+    }
+  }, []);
+
   const addCheckIn = useCallback((energy: number, sleep: number, craving: number) => {
     const today = new Date().toISOString().split('T')[0];
     const newEntry: DailyCheckIn = {
@@ -171,5 +191,6 @@ export function useZeroSurge() {
     resetAllData,
     addCheckIn,
     recordRelapse,
+    importData,
   };
 }

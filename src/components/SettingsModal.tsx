@@ -1,24 +1,58 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Settings, RotateCcw, Edit3, ShieldAlert } from 'lucide-react';
-import { UserProfile } from '../types';
+import {
+  X,
+  Settings,
+  RotateCcw,
+  Edit3,
+  ShieldAlert,
+  Download,
+  Upload,
+  CheckCircle2,
+  AlertCircle,
+  FileText,
+} from 'lucide-react';
+import { UserProfile, DailyCheckIn } from '../types';
+import {
+  serializeExportData,
+  validateImportPayload,
+  triggerFileDownload,
+  BackupDataV1,
+} from '../utils/securityValidator';
 
 interface SettingsModalProps {
   isOpen: boolean;
   profile: UserProfile | null;
+  checkIns: DailyCheckIn[];
   onClose: () => void;
   onEditProfile: () => void;
   onResetAllData: () => void;
+  onImportData: (data: BackupDataV1) => void;
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
   isOpen,
   profile,
+  checkIns,
   onClose,
   onEditProfile,
   onResetAllData,
+  onImportData,
 }) => {
   const [showConfirmReset, setShowConfirmReset] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
+  const [exportSuccess, setExportSuccess] = useState(false);
+  const [importPreview, setImportPreview] = useState<{
+    data: BackupDataV1;
+    preview: {
+      checkInsCount: number;
+      quitDate: string;
+      cansPerDay: number;
+      exportedAt: string;
+    };
+  } | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;
 
@@ -26,6 +60,66 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     onResetAllData();
     setShowConfirmReset(false);
     onClose();
+  };
+
+  const handleExport = () => {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const filename = `zerosurge-backup-${today}.json`;
+      const json = serializeExportData(profile, checkIns);
+      triggerFileDownload(filename, json);
+      setExportSuccess(true);
+      setImportError(null);
+      setTimeout(() => setExportSuccess(false), 4000);
+    } catch {
+      setImportError('Не удалось выполнить экспорт данных.');
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImportError(null);
+    setExportSuccess(false);
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result;
+      if (typeof text !== 'string') {
+        setImportError('Не удалось прочитать содержимое файла.');
+        return;
+      }
+
+      const result = validateImportPayload(text);
+      if (!result.success) {
+        setImportError(result.error);
+        setImportPreview(null);
+      } else {
+        setImportPreview({
+          data: result.data,
+          preview: result.preview,
+        });
+      }
+    };
+    reader.onerror = () => {
+      setImportError('Ошибка при чтении файла с диска.');
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
+  const handleConfirmImport = () => {
+    if (!importPreview) return;
+    try {
+      onImportData(importPreview.data);
+      setImportPreview(null);
+      setImportError(null);
+      setExportSuccess(false);
+      onClose();
+    } catch (err: any) {
+      setImportError(err?.message || 'Не удалось применить импорт.');
+    }
   };
 
   const formatDate = (dateString?: string) => {
@@ -130,6 +224,97 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <Edit3 className="w-4 h-4 text-surge-cyan" />
               Изменить стартовые параметры
             </button>
+          </div>
+
+          {/* Backup & Restore Section */}
+          <div className="pt-4 border-t border-white/10 space-y-3 mb-6">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-slate-300">Резервная копия данных</span>
+              <span className="text-[10px] text-slate-500 font-mono">v1 JSON</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={handleExport}
+                className="py-2.5 px-3 rounded-xl border border-white/10 bg-slate-800/80 hover:bg-slate-700/80 text-xs font-semibold text-slate-200 hover:text-white flex items-center justify-center gap-2 transition-all"
+              >
+                <Download className="w-4 h-4 text-surge-emerald" />
+                Экспорт (JSON)
+              </button>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="py-2.5 px-3 rounded-xl border border-white/10 bg-slate-800/80 hover:bg-slate-700/80 text-xs font-semibold text-slate-200 hover:text-white flex items-center justify-center gap-2 transition-all"
+              >
+                <Upload className="w-4 h-4 text-surge-cyan" />
+                Импорт из файла
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept=".json,application/json"
+                className="hidden"
+                aria-label="Выбрать файл резервной копии"
+              />
+            </div>
+
+            {exportSuccess && (
+              <div className="p-3 bg-emerald-950/40 border border-emerald-500/30 rounded-xl text-xs text-emerald-300 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+                <span>Файл резервной копии успешно выгружен.</span>
+              </div>
+            )}
+
+            {importError && (
+              <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-xl text-xs text-red-300 flex items-start justify-between gap-2">
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-400 mt-0.5" />
+                  <span>{importError}</span>
+                </div>
+                <button
+                  onClick={() => setImportError(null)}
+                  className="text-red-400 hover:text-white"
+                  aria-label="Закрыть ошибку"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
+            {importPreview && (
+              <div className="p-4 bg-cyan-950/40 border border-cyan-500/40 rounded-xl text-xs text-cyan-100 space-y-3">
+                <div className="flex items-center gap-2 text-cyan-300 font-bold">
+                  <FileText className="w-4 h-4" />
+                  <span>Предпросмотр данных для импорта</span>
+                </div>
+                <div className="space-y-1.5 text-[11px] text-slate-300 bg-slate-950/50 p-2.5 rounded-lg border border-white/5 font-mono">
+                  <div>• Дата старта: {formatDate(importPreview.preview.quitDate)}</div>
+                  <div>• Чек-инов в архиве: {importPreview.preview.checkInsCount} шт.</div>
+                  <div>• Банок в день: {importPreview.preview.cansPerDay} шт.</div>
+                  <div>
+                    • Создан:{' '}
+                    {new Date(importPreview.preview.exportedAt).toLocaleDateString('ru-RU')}
+                  </div>
+                </div>
+                <p className="text-[11px] text-amber-300/90 font-sans">
+                  Внимание: текущие данные будут заменены данными из файла.
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setImportPreview(null)}
+                    className="flex-1 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-medium hover:bg-slate-700 transition-colors"
+                  >
+                    Отмена
+                  </button>
+                  <button
+                    onClick={handleConfirmImport}
+                    className="flex-1 py-1.5 rounded-lg bg-surge-cyan text-slate-950 text-xs font-bold hover:bg-cyan-400 transition-colors"
+                  >
+                    Подтвердить импорт
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Reset Progress Section */}
