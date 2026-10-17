@@ -1,0 +1,157 @@
+import { Zap, ZapOff, AlertOctagon, Settings, AlertTriangle, Trophy, Calendar, BookOpen } from 'lucide-react';
+
+interface HeaderProps {
+  onOpenSos: () => void;
+  onOpenSettings: () => void;
+  onOpenRelapse: () => void;
+  onOpenAchievements?: () => void;
+  onOpenJournal?: () => void;
+  onOpenHarmAtlas?: () => void;
+  isPerformanceMode?: boolean;
+  onTogglePerformanceMode?: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({
+  onOpenSos,
+  onOpenSettings,
+  onOpenRelapse,
+  onOpenAchievements,
+  onOpenJournal,
+  onOpenHarmAtlas,
+  isPerformanceMode = false,
+  onTogglePerformanceMode,
+}) => {
+  return (
+    <header className="sticky top-0 z-40 w-full glass-card border-b border-white/10 px-4 sm:px-8 py-3.5 backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 relative">
+        {/* Brand Logo */}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-surge-emerald via-emerald-400 to-surge-cyan flex items-center justify-center text-slate-950 shadow-glow-emerald">
+            <Zap className="w-6 h-6 fill-current stroke-current" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-extrabold text-lg sm:text-xl tracking-tight text-white">
+                Zero<span className="text-surge-emerald">Surge</span>
+              </span>
+              <span className="hidden sm:inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-surge-emerald/10 border border-surge-emerald/20 text-surge-emerald font-bold">
+                PRO 1.0
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 hidden md:block">
+              Трекер свободы от энергетиков и кофеина
+            </p>
+          </div>
+        </div>
+
+        {/* Center: Relapse Button (Dead Center) */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10 pointer-events-auto">
+          <button
+            onClick={onOpenRelapse}
+            className="group py-2 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 hover:text-rose-200 transition-all flex items-center gap-1.5 sm:gap-2 shadow-sm hover:shadow-glow-ruby active:scale-95"
+            aria-label="Зафиксировать срыв"
+          >
+            <AlertTriangle className="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform" />
+            <span className="hidden sm:inline">Зафиксировать срыв</span>
+            <span className="sm:hidden">Срыв</span>
+          </button>
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5">
+          {/* 1. Daily Health Journal & Chart Button (Calendar) - leftmost */}
+          <div className="relative group/btn flex items-center justify-center">
+            <button
+              onClick={onOpenJournal}
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-surge-cyan hover:text-cyan-300 hover:border-surge-cyan/30 transition-all shadow-sm active:scale-95 flex items-center justify-center"
+              title="Дневник и график самочувствия"
+              aria-label="Открыть дневник и график самочувствия"
+            >
+              <Calendar className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+            </button>
+            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900/95 border border-white/10 rounded-lg text-[11px] font-medium text-slate-200 whitespace-nowrap shadow-xl pointer-events-none opacity-0 group-hover/btn:opacity-100 transition-opacity duration-150 z-50 hidden sm:block">
+              Дневник и график
+            </div>
+          </div>
+
+          {/* 2. Clinical Harm Atlas Button (BookOpen) - between Calendar and Trophy */}
+          <div className="relative group/btn flex items-center justify-center">
+            <button
+              onClick={onOpenHarmAtlas}
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-rose-400 hover:text-rose-300 hover:border-rose-400/30 transition-all shadow-sm active:scale-95 flex items-center justify-center"
+              title="Книга знаний: Клинический атлас вреда"
+              aria-label="Открыть книгу знаний: клинический атлас вреда"
+            >
+              <BookOpen className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+            </button>
+            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900/95 border border-white/10 rounded-lg text-[11px] font-medium text-slate-200 whitespace-nowrap shadow-xl pointer-events-none opacity-0 group-hover/btn:opacity-100 transition-opacity duration-150 z-50 hidden sm:block">
+              Книга знаний: Атлас вреда
+            </div>
+          </div>
+
+          {/* 3. Achievements Button (Trophy) */}
+          <div className="relative group/btn flex items-center justify-center">
+            <button
+              onClick={onOpenAchievements}
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-surge-amber hover:text-amber-300 hover:border-surge-amber/30 transition-all shadow-sm active:scale-95 flex items-center justify-center"
+              title="Достижения"
+              aria-label="Открыть достижения"
+            >
+              <Trophy className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+            </button>
+            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900/95 border border-white/10 rounded-lg text-[11px] font-medium text-slate-200 whitespace-nowrap shadow-xl pointer-events-none opacity-0 group-hover/btn:opacity-100 transition-opacity duration-150 z-50 hidden sm:block">
+              Достижения
+            </div>
+          </div>
+
+          {/* 4. Prominent SOS Button */}
+          <button
+            onClick={onOpenSos}
+            className="py-2 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-amber-950 bg-gradient-to-r from-surge-amber to-amber-400 hover:from-amber-400 hover:to-amber-300 shadow-glow-amber transition-all transform active:scale-95 flex items-center gap-1.5 sm:gap-2 animate-pulse"
+          >
+            <AlertOctagon className="w-4 h-4 fill-current" />
+            <span className="hidden xs:inline">Хочу сорваться /</span> SOS
+          </button>
+
+          {/* 5. Performance Mode / Eco Mode (⚡ Toggle heavy effects) */}
+          <div className="relative group/btn flex items-center justify-center">
+            <button
+              onClick={onTogglePerformanceMode}
+              className={`p-2 sm:p-2.5 rounded-xl border transition-all active:scale-95 flex items-center justify-center ${
+                isPerformanceMode
+                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20'
+                  : 'bg-slate-900/80 hover:bg-slate-800 border-white/10 text-surge-emerald hover:text-emerald-300 hover:border-surge-emerald/30'
+              }`}
+              title={isPerformanceMode ? 'Включить эффекты' : 'Отключить эффекты'}
+              aria-label={isPerformanceMode ? 'Включить эффекты' : 'Отключить эффекты'}
+            >
+              {isPerformanceMode ? (
+                <ZapOff className="w-5 h-5" />
+              ) : (
+                <Zap className="w-5 h-5 fill-current" />
+              )}
+            </button>
+            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900/95 border border-white/10 rounded-lg text-[11px] font-medium text-slate-200 whitespace-nowrap shadow-xl pointer-events-none opacity-0 group-hover/btn:opacity-100 transition-opacity duration-150 z-50 hidden sm:block">
+              {isPerformanceMode ? 'Включить эффекты' : 'Отключить эффекты'}
+            </div>
+          </div>
+
+          {/* 6. Settings Button */}
+          <div className="relative group/btn flex items-center justify-center">
+            <button
+              onClick={onOpenSettings}
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-white transition-colors"
+              title="Настройки"
+              aria-label="Настройки профиля"
+            >
+              <Settings className="w-5 h-5" />
+            </button>
+            <div className="absolute top-full mt-2 right-0 px-2.5 py-1 bg-slate-900/95 border border-white/10 rounded-lg text-[11px] font-medium text-slate-200 whitespace-nowrap shadow-xl pointer-events-none opacity-0 group-hover/btn:opacity-100 transition-opacity duration-150 z-50 hidden sm:block">
+              Настройки
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
