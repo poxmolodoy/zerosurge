@@ -7,10 +7,12 @@
     <meta name="theme-color" content="#0B0F17" />
     <meta name="description" content="ZeroSurge — современный трекер отказа от энергетиков и кофеина. Отслеживание экономии, био-восстановления организма, преодоление тяги и достижения." />
     <title>ZeroSurge — Свобода от стимуляторов и энергетиков</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Strict Local Content Security Policy (No external telemetry or resources) -->
+    <!-- Note: 'unsafe-inline' in style-src is required by framer-motion for dynamic spring/keyframe animation transforms -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self';"
+    />
   </head>
   <body class="bg-dark-base text-slate-100 min-h-screen antialiased selection:bg-surge-emerald selection:text-black overflow-x-hidden">
     <div id="root"></div>

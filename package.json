@@ -11,6 +11,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "check:offline": "node scripts/check-offline.js",
     "electron:start": "electron electron/main.cjs",
     "electron:build:portable": "tsc && vite build && electron-builder --win portable"
   },
@@ -34,6 +35,8 @@
     }
   },
   "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
     "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
     "framer-motion": "^11.13.1",

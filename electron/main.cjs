@@ -1,4 +1,4 @@
-const { app, BrowserWindow, shell } = require('electron');
+const { app, BrowserWindow, shell, session } = require('electron');
 const path = require('path');
 
 // Single Instance Lock: Ensure only one instance of the app runs at a time
@@ -62,6 +62,19 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  // Enforce strict local Content-Security-Policy at the protocol level
+  // 'unsafe-inline' style-src is required for framer-motion runtime animations
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [
+          "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self';",
+        ],
+      },
+    });
+  });
+
   createWindow();
 
   app.on('activate', () => {
