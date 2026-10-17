@@ -9,6 +9,8 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Local-only](https://img.shields.io/badge/Architecture-Local--only-success.svg)](#безопасность-и-приватность)
 
+🌐 **[English Documentation (README.en.md)](README.en.md)**
+
 <p align="left">
   <a href="https://github.com/poxmolodoy/zerosurge/releases/download/v1.0.0/ZeroSurge-1.0-Portable.exe">
     <img src="https://img.shields.io/badge/Скачать%20Portable%20v1.0-(97%20MB)-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Download Windows Portable" />
@@ -184,36 +186,39 @@ release/ZeroSurge-1.0-Portable.exe
 
 ---
 
+## ⚠️ Ограничения проекта (Limitations)
+
+- **Платформы:** Windows (портативный бинарник `.exe`) и современные веб-браузеры (Chrome, Edge, Firefox, Safari).
+- **Локальное хранение:** данные сохраняются исключительно локально на вашем компьютере. Облачная синхронизация между разными устройствами отсутствует by design (для переноса используйте экспорт/импорт JSON в настройках).
+- **USB-переносимость:** в сборке Windows Portable данные профиля автоматически сохраняются в папку `ZeroSurgeData` рядом с исполняемым файлом. При запуске с флешки прогресс сохраняется прямо на накопителе.
+- **Подпись исполняемого файла:** бинарник распространяется с открытым исходным кодом без платной коммерческой подписи Authenticode, поэтому SmartScreen может показывать стандартное предупреждение неизвестного издателя.
+
+---
+
 ## 📂 Структура проекта
 
 ```text
-zero-surge/
+zerosurge/
+├── .github/                   # CI/CD автоматизация (GitHub Actions: тесты, CSP, релизы)
 ├── dist/                      # Скомпилированный статический веб-бандл
-├── docs/                      # Документация и скриншоты для GitHub
-│   └── images/                # Графика высокого разрешения
+├── docs/                      # Документация, скриншоты и научные реестры
+│   ├── CONTENT_REVIEW.md      # Клинический реестр исследований и источников
+│   ├── threat-model.md        # Модель угроз локального приложения
+│   ├── FONTS_LICENSE.md       # Лицензии встроенных шрифтов (OFL)
+│   └── images/                # Графика высокого разрешения для GitHub
 ├── electron/                  # Изолированный главный процесс Electron
-│   ├── main.cjs               # Настройки окна, IPC, защита ссылок, single instance
+│   ├── main.cjs               # Настройки окна, IPC, защита ссылок, single instance, portable data
 │   └── preload.cjs            # Безопасный изоляционный мост (contextBridge)
 ├── release/                   # Директория скомпилированного Portable .exe
-├── src/
+├── scripts/                   # Утилиты аудита (проверка офлайн-целостности check-offline.js)
+├── src/                       # Исходный код React / TypeScript
 │   ├── components/            # Модульные компоненты интерфейса
-│   │   ├── AchievementsModal.tsx     # Модальное окно ачивок
-│   │   ├── CaffeineHarmAtlasModal.tsx# Атлас вреда для органов
-│   │   ├── CaffeineHarmGrid.tsx      # Сетка карточек систем органов
-│   │   ├── EmergencyModal.tsx        # SOS: Box Breathing и Urge Surfing
-│   │   ├── FeelingChart.tsx          # График энергии, сна и тяги
-│   │   ├── HarmDetailModal.tsx       # Клиническое окно патологии органа
-│   │   ├── Header.tsx                # Навигация, порядок иконок, Eco toggle
-│   │   ├── HealthJournalModal.tsx    # Интерактивный календарь и дневник
-│   │   ├── MilestoneDetailModal.tsx  # Разбор фазы восстановления
-│   │   ├── NeuralBackground.tsx      # Canvas-фон нейросети 60 FPS
-│   │   ├── OnboardingModal.tsx       # Стартовая настройка привычки
-│   │   └── RelapseModal.tsx          # Диалог срыва со справедливым штрафом
-│   ├── data/                  # Клинические справочники и константы
+│   ├── data/                  # Клинические справочники и проверенные источники
 │   ├── hooks/                 # Пользовательские React-хуки (таймер, режим эко)
-│   └── utils/                 # Математические расчеты и валидатор безопасности
-├── SECURITY.md                # Полный аудит безопасности и Threat Model
-├── REPORT.md                  # Подробный технический отчет о разработке
+│   └── utils/                 # Математические расчеты, экспорт/импорт и валидатор
+├── SECURITY.md                # Политика сообщения об уязвимостях
+├── README.md                  # Документация на русском языке
+├── README.en.md               # Документация на английском языке
 ├── package.json
 ├── tailwind.config.js
 └── vite.config.ts

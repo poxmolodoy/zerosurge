@@ -1,6 +1,13 @@
 const { app, BrowserWindow, shell, session } = require('electron');
 const path = require('path');
 
+// P1-3: Portable Data Directory
+// When running as Windows Portable, store userData next to the executable (e.g. on USB flash drive)
+if (process.env.PORTABLE_EXECUTABLE_DIR) {
+  const portableUserData = path.join(process.env.PORTABLE_EXECUTABLE_DIR, 'ZeroSurgeData');
+  app.setPath('userData', portableUserData);
+}
+
 // Single Instance Lock: Ensure only one instance of the app runs at a time
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
@@ -28,9 +35,21 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
+      sandbox: true,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
       backgroundThrottling: false, // Prevent sobriety timer drift when minimized or backgrounded
       devTools: process.env.NODE_ENV === 'development',
     },
+  });
+
+  // Block any unintended in-app navigation
+  mainWindow.webContents.on('will-navigate', (event, navigationUrl) => {
+    const devUrl = process.env.ELECTRON_DEV_URL;
+    if (devUrl && navigationUrl.startsWith(devUrl)) {
+      return;
+    }
+    event.preventDefault();
   });
 
   // Load production bundle or development URL
@@ -62,6 +81,11 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  // P1-2 Hardening: Block all system permission requests (camera, mic, geolocation, notifications)
+  session.defaultSession.setPermissionRequestHandler((_webContents, _permission, callback) => {
+    callback(false);
+  });
+
   // Enforce strict local Content-Security-Policy at the protocol level
   // 'unsafe-inline' style-src is required for framer-motion runtime animations
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
