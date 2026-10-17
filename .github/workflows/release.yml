@@ -30,6 +30,7 @@ jobs:
         run: |
           npx tsc --noEmit
           npm test
+          npm run build
           npm run check:offline
 
       - name: Code Signing (Optional Authenticode)

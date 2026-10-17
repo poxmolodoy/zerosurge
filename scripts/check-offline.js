@@ -3,15 +3,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { execSync } from 'node:child_process';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distDir = path.resolve(__dirname, '../dist');
 
 if (!fs.existsSync(distDir)) {
-  console.error(
-    '[check:offline] Error: dist/ directory not found. Please run "npm run build" first.'
-  );
-  process.exit(1);
+  console.log('[check:offline] dist/ directory not found. Running "npm run build"...');
+  execSync('npm run build', { stdio: 'inherit', cwd: path.resolve(__dirname, '..') });
 }
 
 // Allowlist of legitimate static namespaces and peer-reviewed clinical literature links
