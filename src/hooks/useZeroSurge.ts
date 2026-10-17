@@ -303,10 +303,25 @@ export function useZeroSurge() {
     return calculateBioProgress(elapsedTime.totalSeconds);
   }, [elapsedTime.totalSeconds]);
 
+  const fallbackProfile: UserProfile = useMemo(
+    () => ({
+      quitDate: new Date().toISOString(),
+      cansPerDay: 2,
+      coffeePerDay: 1,
+      isSugarFree: false,
+      costPerPortion: 130,
+      isOnboarded: false,
+    }),
+    []
+  );
+
   const achievements: Achievement[] = useMemo(() => {
-    if (!profile) return [];
-    return evaluateAchievements(profile, stats, elapsedTime.totalSeconds);
-  }, [profile, stats, elapsedTime.totalSeconds]);
+    return evaluateAchievements(
+      profile || fallbackProfile,
+      stats,
+      profile ? elapsedTime.totalSeconds : 0
+    );
+  }, [profile, fallbackProfile, stats, elapsedTime.totalSeconds]);
 
   return {
     profile,

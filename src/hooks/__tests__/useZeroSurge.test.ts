@@ -23,6 +23,12 @@ describe('useZeroSurge hook (TDD)', () => {
     expect(result.current.profile).toBeNull();
   });
 
+  it('provides all 8 achievements even before profile onboarding is completed', () => {
+    const { result } = renderHook(() => useZeroSurge());
+    expect(result.current.achievements).toHaveLength(8);
+    expect(result.current.achievements.every((a) => a.id && a.title)).toBe(true);
+  });
+
   it('loads profile from localStorage and saves profile updates', () => {
     const { result } = renderHook(() => useZeroSurge());
 

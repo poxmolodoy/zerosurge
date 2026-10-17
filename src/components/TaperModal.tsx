@@ -138,29 +138,29 @@ export const TaperModal: React.FC<TaperModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-2xl glass-card rounded-2xl p-5 sm:p-7 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[90vh] overflow-y-auto"
+          className="relative w-full max-w-3xl glass-card rounded-3xl p-6 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[90vh] overflow-y-auto custom-scrollbar"
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-gradient-to-br from-amber-500/20 to-surge-cyan/20 text-surge-cyan border border-white/10">
-                <TrendingDown className="w-5 h-5 text-surge-cyan" />
+          <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+            <div className="flex items-center gap-3.5">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-500/20 to-surge-cyan/20 text-surge-cyan border border-white/10 shadow-md">
+                <TrendingDown className="w-6 h-6 text-surge-cyan" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
                   Журнал кофеина и Tapering
-                  <span className="text-[10px] font-normal uppercase tracking-wider bg-surge-cyan/20 text-surge-cyan px-2 py-0.5 rounded-full border border-surge-cyan/30">
+                  <span className="text-xs font-semibold uppercase tracking-wider bg-surge-cyan/20 text-surge-cyan px-2.5 py-1 rounded-full border border-surge-cyan/30">
                     Режим снижения
                   </span>
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-sm text-slate-300 mt-1">
                   Постепенное снижение суточной дозы вместо резкого стресса для нервной системы
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2.5 rounded-2xl text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-white/10 transition-colors shadow-md"
               aria-label="Закрыть"
             >
               <X className="w-5 h-5" />
@@ -168,17 +168,19 @@ export const TaperModal: React.FC<TaperModalProps> = ({
           </div>
 
           {/* Section 1: Taper Plan Overview / Setup */}
-          <div className="bg-slate-900/80 rounded-2xl p-4 sm:p-5 border border-white/10 mb-6 space-y-4">
-            <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="bg-slate-900/90 rounded-2xl p-5 sm:p-6 border border-white/10 mb-6 space-y-4 shadow-inner">
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <span className="text-xs text-slate-400">Статус программы снижения:</span>
-                <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-sm font-medium text-slate-400">
+                  Статус программы снижения:
+                </span>
+                <div className="flex items-center gap-2.5 mt-1">
                   <span
-                    className={`inline-block w-2.5 h-2.5 rounded-full ${
+                    className={`inline-block w-3 h-3 rounded-full ${
                       taperPlan.isActive ? 'bg-surge-emerald animate-pulse' : 'bg-slate-600'
                     }`}
                   />
-                  <span className="text-sm font-bold text-white">
+                  <span className="text-base sm:text-lg font-bold text-white">
                     {taperPlan.isActive
                       ? `День ${progress.dayNumber} из ${progress.totalDays} (Лимит: ${progress.dailyLimitMg} мг/день)`
                       : 'Режим постепенного снижения выключен'}
@@ -186,18 +188,18 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 {taperPlan.isActive && (
                   <button
                     onClick={() => setIsEditingPlan(!isEditingPlan)}
-                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-white/10 transition-all"
+                    className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold text-slate-200 border border-white/10 transition-all shadow-sm"
                   >
                     {isEditingPlan ? 'Скрыть параметры' : 'Настроить'}
                   </button>
                 )}
                 <button
                   onClick={handleToggleTaper}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-md ${
+                  className={`px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 ${
                     taperPlan.isActive
                       ? 'bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30'
                       : 'bg-surge-cyan text-slate-950 hover:bg-cyan-400'
@@ -213,11 +215,11 @@ export const TaperModal: React.FC<TaperModalProps> = ({
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
-                className="pt-3 border-t border-white/10 space-y-3"
+                className="pt-4 border-t border-white/10 space-y-4"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-[11px] text-slate-400 font-medium block mb-1">
+                    <label className="text-sm font-medium text-slate-200 block mb-1.5">
                       Стартовая доза (мг в день):
                     </label>
                     <input
@@ -226,20 +228,20 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                       max={1500}
                       value={startMg}
                       onChange={(e) => setStartMg(Number(e.target.value))}
-                      className="w-full bg-slate-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white font-mono focus:border-surge-cyan focus:outline-none"
+                      className="w-full bg-slate-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-base text-white font-mono focus:border-surge-cyan focus:outline-none"
                     />
-                    <span className="text-[10px] text-slate-500 mt-0.5 block">
+                    <span className="text-xs text-slate-400 mt-1 block">
                       EFSA рекомендует до 400 мг/сутки для взрослых
                     </span>
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-400 font-medium block mb-1">
+                    <label className="text-sm font-medium text-slate-200 block mb-1.5">
                       Длительность снижения (дней):
                     </label>
                     <select
                       value={durationDays}
                       onChange={(e) => setDurationDays(Number(e.target.value))}
-                      className="w-full bg-slate-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white focus:border-surge-cyan focus:outline-none"
+                      className="w-full bg-slate-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-base text-white focus:border-surge-cyan focus:outline-none"
                     >
                       <option value={14}>2 недели (14 дней) — умеренный темп</option>
                       <option value={21}>3 недели (21 день) — плавный темп</option>
@@ -250,7 +252,7 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                 </div>
                 <button
                   onClick={handleSavePlanParams}
-                  className="w-full py-2 bg-surge-emerald text-slate-950 text-xs font-bold rounded-xl hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-950/40"
+                  className="w-full py-2.5 bg-surge-emerald text-slate-950 text-sm font-bold rounded-xl hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-950/40"
                 >
                   Сохранить параметры программы
                 </button>
@@ -259,21 +261,23 @@ export const TaperModal: React.FC<TaperModalProps> = ({
 
             {/* Daily Taper Meter */}
             {taperPlan.isActive && (
-              <div className="pt-2 space-y-2">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-300">
+              <div className="pt-2 space-y-2.5">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-200">
                     Сегодня потреблено:{' '}
-                    <strong className="font-mono text-white">{progress.consumedMg} мг</strong>
+                    <strong className="font-mono text-white text-base">
+                      {progress.consumedMg} мг
+                    </strong>
                   </span>
-                  <span className="text-slate-300">
+                  <span className="text-slate-200">
                     Лимит дня:{' '}
-                    <strong className="font-mono text-surge-cyan">
+                    <strong className="font-mono text-surge-cyan text-base">
                       {progress.dailyLimitMg} мг
                     </strong>
                   </span>
                 </div>
 
-                <div className="w-full bg-slate-950 rounded-full h-3 p-0.5 border border-white/10 overflow-hidden">
+                <div className="w-full bg-slate-950 rounded-full h-3.5 p-0.5 border border-white/10 overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       progress.isExceeded
@@ -294,22 +298,22 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                 </div>
 
                 {progress.isExceeded ? (
-                  <div className="flex items-center gap-2 p-2 rounded-xl bg-red-950/50 border border-red-500/40 text-[11px] text-red-300">
-                    <AlertTriangle className="w-4 h-4 shrink-0 text-red-400" />
+                  <div className="flex items-center gap-2.5 p-3 rounded-xl bg-red-950/60 border border-red-500/40 text-xs sm:text-sm text-red-200">
+                    <AlertTriangle className="w-5 h-5 shrink-0 text-red-400" />
                     <span>
                       Лимит на сегодня превышен на {progress.consumedMg - progress.dailyLimitMg} мг.
                       Рекомендуется сделать паузу и перейти на воду или травяной чай.
                     </span>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between text-[11px] text-slate-400">
+                  <div className="flex items-center justify-between text-xs sm:text-sm text-slate-300">
                     <span>
                       Остаток на сегодня:{' '}
-                      <strong className="text-surge-emerald font-mono">
+                      <strong className="text-surge-emerald font-mono font-bold">
                         {progress.remainingMg} мг
                       </strong>
                     </span>
-                    <span>Цель: 0 мг к концу срока</span>
+                    <span className="text-slate-400">Цель: 0 мг к концу срока</span>
                   </div>
                 )}
               </div>
@@ -317,38 +321,38 @@ export const TaperModal: React.FC<TaperModalProps> = ({
           </div>
 
           {/* Section 2: Quick Add Beverage Presets */}
-          <div className="space-y-3 mb-6">
+          <div className="space-y-3.5 mb-6">
             <div className="flex items-center justify-between">
-              <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                <Plus className="w-3.5 h-3.5 text-surge-cyan" />
+              <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                <Plus className="w-4 h-4 text-surge-cyan" />
                 Добавить выпитую порцию
               </h4>
               <button
                 onClick={() => setShowCustomAdd(!showCustomAdd)}
-                className="text-xs text-surge-cyan hover:underline font-medium"
+                className="text-sm text-surge-cyan hover:underline font-semibold"
               >
                 {showCustomAdd ? 'Скрыть свою дозу' : '+ Ввести вручную'}
               </button>
             </div>
 
             {/* Presets Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {DEFAULT_CAFFEINE_PRESETS.map((preset) => (
                 <button
                   key={preset.id}
                   onClick={() => handleAddPreset(preset)}
-                  className="p-3 bg-slate-900/60 hover:bg-slate-800/80 border border-white/10 hover:border-surge-cyan/40 rounded-xl text-left transition-all group flex flex-col justify-between"
+                  className="p-4 bg-slate-900/70 hover:bg-slate-800/90 border border-white/10 hover:border-surge-cyan/50 rounded-2xl text-left transition-all group flex flex-col justify-between shadow-md active:scale-95"
                 >
                   <div>
-                    <div className="text-xs font-bold text-white group-hover:text-surge-cyan transition-colors">
+                    <div className="text-sm sm:text-base font-bold text-white group-hover:text-surge-cyan transition-colors leading-snug">
                       {preset.name}
                     </div>
-                    <div className="text-[10px] text-slate-400 mt-0.5">
+                    <div className="text-xs sm:text-sm font-medium text-slate-400 mt-1">
                       {preset.defaultVolumeMl} мл
                     </div>
                   </div>
-                  <div className="mt-2.5 flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold text-surge-emerald">
+                  <div className="mt-3 flex items-center justify-between">
+                    <span className="font-mono text-sm sm:text-base font-bold text-surge-emerald">
                       +{preset.defaultCaffeineMg} мг
                     </span>
                     <a
@@ -356,10 +360,10 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                       target="_blank"
                       rel="noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="text-[9px] text-slate-500 hover:text-slate-300 flex items-center gap-0.5"
+                      className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 transition-colors"
                       title={preset.source.title}
                     >
-                      EFSA 2015 <ExternalLink className="w-2.5 h-2.5" />
+                      EFSA 2015 <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
                 </button>
@@ -370,17 +374,17 @@ export const TaperModal: React.FC<TaperModalProps> = ({
             {showCustomAdd && (
               <form
                 onSubmit={handleAddCustom}
-                className="p-4 bg-slate-950/70 rounded-xl border border-surge-cyan/30 space-y-3"
+                className="p-4 sm:p-5 bg-slate-950/80 rounded-2xl border border-surge-cyan/40 space-y-3.5 shadow-lg"
               >
-                <div className="text-xs font-bold text-slate-200">Пользовательский напиток</div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="text-sm font-bold text-slate-100">Пользовательский напиток</div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   <input
                     type="text"
                     required
                     placeholder="Название (напр. Monster Zero)"
                     value={customTitle}
                     onChange={(e) => setCustomTitle(e.target.value)}
-                    className="bg-slate-900 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-surge-cyan"
+                    className="bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-surge-cyan"
                   />
                   <input
                     type="number"
@@ -389,7 +393,7 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                     placeholder="Объем (мл)"
                     value={customMl}
                     onChange={(e) => setCustomMl(Number(e.target.value))}
-                    className="bg-slate-900 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-surge-cyan"
+                    className="bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-surge-cyan"
                   />
                   <input
                     type="number"
@@ -398,12 +402,12 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                     placeholder="Кофеин (мг)"
                     value={customMg}
                     onChange={(e) => setCustomMg(Number(e.target.value))}
-                    className="bg-slate-900 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-surge-cyan"
+                    className="bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-surge-cyan"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-2 bg-surge-cyan text-slate-950 text-xs font-bold rounded-lg hover:bg-cyan-400 transition-colors"
+                  className="w-full py-2.5 bg-surge-cyan text-slate-950 text-sm font-bold rounded-xl hover:bg-cyan-400 transition-colors shadow-md"
                 >
                   Зафиксировать порцию
                 </button>
@@ -412,32 +416,34 @@ export const TaperModal: React.FC<TaperModalProps> = ({
           </div>
 
           {/* Section 3: Today's Consumption History */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-slate-400" />
+          <div className="space-y-3.5">
+            <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-slate-400" />
               Журнал за сегодня ({todayEntries.length} записей)
             </h4>
 
             {todayEntries.length === 0 ? (
-              <div className="text-center py-6 px-4 bg-slate-900/40 rounded-xl border border-white/5 space-y-1">
+              <div className="text-center py-7 px-4 bg-slate-900/50 rounded-2xl border border-white/5 space-y-1.5">
                 <div className="flex justify-center text-surge-emerald mb-1">
-                  <Sparkles className="w-5 h-5" />
+                  <Sparkles className="w-6 h-6" />
                 </div>
-                <div className="text-xs font-medium text-slate-300">За сегодня записей нет</div>
-                <div className="text-[11px] text-slate-500">
+                <div className="text-base font-semibold text-slate-200">За сегодня записей нет</div>
+                <div className="text-xs sm:text-sm text-slate-400">
                   Вы сохраняете чистоту рецепторов и нервной системы!
                 </div>
               </div>
             ) : (
-              <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+              <div className="space-y-2.5 max-h-52 overflow-y-auto pr-1 custom-scrollbar">
                 {todayEntries.map((entry) => (
                   <div
                     key={entry.id}
-                    className="flex items-center justify-between p-2.5 bg-slate-900/70 border border-white/5 rounded-xl text-xs"
+                    className="flex items-center justify-between p-3.5 bg-slate-900/80 border border-white/10 rounded-2xl text-sm hover:border-white/20 transition-all shadow-sm"
                   >
                     <div>
-                      <div className="font-semibold text-slate-200">{entry.title}</div>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="font-semibold text-slate-100 text-sm sm:text-base">
+                        {entry.title}
+                      </div>
+                      <div className="text-xs text-slate-400 mt-0.5">
                         {entry.volumeMl} мл •{' '}
                         {new Date(entry.timestamp).toLocaleTimeString('ru-RU', {
                           hour: '2-digit',
@@ -445,16 +451,16 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                         })}
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-mono font-bold text-surge-amber">
-                        {entry.caffeineMg} мг
+                    <div className="flex items-center gap-3.5">
+                      <span className="font-mono font-bold text-surge-amber text-sm sm:text-base">
+                        +{entry.caffeineMg} мг
                       </span>
                       <button
                         onClick={() => onDeleteConsumption(entry.id)}
-                        className="p-1 text-slate-500 hover:text-red-400 transition-colors"
+                        className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
                         aria-label="Удалить запись"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -464,9 +470,9 @@ export const TaperModal: React.FC<TaperModalProps> = ({
           </div>
 
           {/* Scientific Disclaimer Footer */}
-          <div className="mt-6 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-500">
-            <span className="flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-surge-emerald" />
+          <div className="mt-7 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-surge-emerald" />
               Все данные хранятся только локально
             </span>
             <span title="Европейское агентство по безопасности продуктов питания">
