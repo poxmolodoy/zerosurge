@@ -26,7 +26,7 @@ describe('Electron Hardening & Security Configuration (P1-2 & P1-3)', () => {
   });
 
   it('intercepts and blocks unauthorized navigations via will-navigate', () => {
-    expect(mainCjs).toContain("will-navigate");
+    expect(mainCjs).toContain('will-navigate');
     expect(mainCjs).toContain('event.preventDefault()');
   });
 

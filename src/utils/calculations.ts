@@ -207,7 +207,10 @@ export function calculateRelapsePenalty(
     };
   }
 
-  const currentTotalSeconds = Math.max(0, Math.floor((currentTimestamp - currentQuitTimestamp) / 1000));
+  const currentTotalSeconds = Math.max(
+    0,
+    Math.floor((currentTimestamp - currentQuitTimestamp) / 1000)
+  );
   const previousCansAvoided = (currentTotalSeconds / SECONDS_IN_DAY) * cansPerDay;
 
   let secondsPerUnit: number;
@@ -248,4 +251,3 @@ export function calculateRelapsePenalty(
     remainingCansAvoided,
   };
 }
-

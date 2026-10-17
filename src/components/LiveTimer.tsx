@@ -11,11 +11,35 @@ export const LiveTimer: React.FC<LiveTimerProps> = ({ elapsedTime }) => {
 
   // Dynamic status text based on elapsed days
   const getPhaseStatus = (days: number) => {
-    if (days < 1) return { label: 'Фаза 1: Выведение кофеина из крови', color: 'text-surge-amber', border: 'border-amber-500/30' };
-    if (days < 4) return { label: 'Фаза 2: Снятие спазма сосудов (Пик отмены)', color: 'text-amber-400', border: 'border-amber-500/40' };
-    if (days < 7) return { label: 'Фаза 3: Восстановление глубокого сна', color: 'text-surge-cyan', border: 'border-cyan-500/30' };
-    if (days < 14) return { label: 'Фаза 4: Перезагрузка аденозиновых рецепторов', color: 'text-surge-emerald', border: 'border-emerald-500/30' };
-    return { label: 'Фаза 5: Метаболическая автономия и чистая энергия', color: 'text-emerald-300', border: 'border-emerald-400/40' };
+    if (days < 1)
+      return {
+        label: 'Фаза 1: Выведение кофеина из крови',
+        color: 'text-surge-amber',
+        border: 'border-amber-500/30',
+      };
+    if (days < 4)
+      return {
+        label: 'Фаза 2: Снятие спазма сосудов (Пик отмены)',
+        color: 'text-amber-400',
+        border: 'border-amber-500/40',
+      };
+    if (days < 7)
+      return {
+        label: 'Фаза 3: Восстановление глубокого сна',
+        color: 'text-surge-cyan',
+        border: 'border-cyan-500/30',
+      };
+    if (days < 14)
+      return {
+        label: 'Фаза 4: Перезагрузка аденозиновых рецепторов',
+        color: 'text-surge-emerald',
+        border: 'border-emerald-500/30',
+      };
+    return {
+      label: 'Фаза 5: Метаболическая автономия и чистая энергия',
+      color: 'text-emerald-300',
+      border: 'border-emerald-400/40',
+    };
   };
 
   const phase = getPhaseStatus(elapsedTime.days);
@@ -38,7 +62,9 @@ export const LiveTimer: React.FC<LiveTimerProps> = ({ elapsedTime }) => {
           </span>
         </div>
 
-        <div className={`px-3 py-1 rounded-full text-xs font-medium border bg-slate-900/60 flex items-center gap-1.5 ${phase.border} ${phase.color}`}>
+        <div
+          className={`px-3 py-1 rounded-full text-xs font-medium border bg-slate-900/60 flex items-center gap-1.5 ${phase.border} ${phase.color}`}
+        >
           <Activity className="w-3.5 h-3.5" />
           {phase.label}
         </div>

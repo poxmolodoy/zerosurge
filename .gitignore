@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .wireit
 release
+ZeroSurgeData
 
 # Dependencies
 node_modules

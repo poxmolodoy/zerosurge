@@ -8,7 +8,9 @@ const __dirname = path.dirname(__filename);
 const distDir = path.resolve(__dirname, '../dist');
 
 if (!fs.existsSync(distDir)) {
-  console.error('[check:offline] Error: dist/ directory not found. Please run "npm run build" first.');
+  console.error(
+    '[check:offline] Error: dist/ directory not found. Please run "npm run build" first.'
+  );
   process.exit(1);
 }
 
@@ -64,10 +66,7 @@ function traverseDirectory(dir) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       allViolations = allViolations.concat(traverseDirectory(fullPath));
-    } else if (
-      entry.isFile() &&
-      /\.(html|js|css|json|svg)$/i.test(entry.name)
-    ) {
+    } else if (entry.isFile() && /\.(html|js|css|json|svg)$/i.test(entry.name)) {
       const violations = scanFile(fullPath);
       if (violations.length > 0) {
         allViolations.push({

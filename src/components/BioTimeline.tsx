@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Droplets, HeartPulse, Moon, Brain, Sparkles, ChevronRight, CheckCircle2 } from 'lucide-react';
+import {
+  Droplets,
+  HeartPulse,
+  Moon,
+  Brain,
+  Sparkles,
+  ChevronRight,
+  CheckCircle2,
+} from 'lucide-react';
 import { BioMilestone } from '../types';
 import { MilestoneModal } from './MilestoneModal';
 
@@ -112,8 +120,8 @@ export const BioTimeline: React.FC<BioTimelineProps> = ({ milestones }) => {
                     m.isCompleted
                       ? 'bg-gradient-to-r from-surge-emerald to-emerald-400 shadow-glow-emerald'
                       : m.progressPercent > 0
-                      ? 'bg-gradient-to-r from-surge-amber via-surge-cyan to-surge-emerald shadow-glow-cyan'
-                      : 'bg-slate-700'
+                        ? 'bg-gradient-to-r from-surge-amber via-surge-cyan to-surge-emerald shadow-glow-cyan'
+                        : 'bg-slate-700'
                   }`}
                 />
               </div>
@@ -123,10 +131,7 @@ export const BioTimeline: React.FC<BioTimelineProps> = ({ milestones }) => {
       </div>
 
       {/* Modal with detailed medical info */}
-      <MilestoneModal
-        milestone={selectedMilestone}
-        onClose={() => setSelectedMilestone(null)}
-      />
+      <MilestoneModal milestone={selectedMilestone} onClose={() => setSelectedMilestone(null)} />
     </div>
   );
 };

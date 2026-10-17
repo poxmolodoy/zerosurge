@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-  ShieldAlert,
-  ArrowRight,
-  Info,
-  Stethoscope,
-  Sparkles,
-} from 'lucide-react';
+import { ShieldAlert, ArrowRight, Info, Stethoscope, Sparkles } from 'lucide-react';
 import { CAFFEINE_HARM_DATA, CaffeineHarmItem } from '../data/caffeineHarmData';
 import { HarmDetailModal } from './HarmDetailModal';
 
 // Dedicated crisp SVG illustrations for each organ system
-const OrganSvgIllustration: React.FC<{ type: CaffeineHarmItem['iconType']; className?: string }> = ({
-  type,
-  className = 'w-10 h-10',
-}) => {
+const OrganSvgIllustration: React.FC<{
+  type: CaffeineHarmItem['iconType'];
+  className?: string;
+}> = ({ type, className = 'w-10 h-10' }) => {
   switch (type) {
     case 'heart':
       return (
@@ -26,12 +20,25 @@ const OrganSvgIllustration: React.FC<{ type: CaffeineHarmItem['iconType']; class
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="heartGrad" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="heartGrad"
+              x1="6"
+              y1="6"
+              x2="42"
+              y2="42"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop stopColor="#F43F5E" />
               <stop offset="1" stopColor="#BE123C" />
             </linearGradient>
             <filter id="heartGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#F43F5E" floodOpacity="0.4" />
+              <feDropShadow
+                dx="0"
+                dy="2"
+                stdDeviation="3"
+                floodColor="#F43F5E"
+                floodOpacity="0.4"
+              />
             </filter>
           </defs>
           {/* Heart silhouette */}
@@ -65,7 +72,14 @@ const OrganSvgIllustration: React.FC<{ type: CaffeineHarmItem['iconType']; class
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="brainGrad" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="brainGrad"
+              x1="6"
+              y1="6"
+              x2="42"
+              y2="42"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop stopColor="#06B6D4" />
               <stop offset="1" stopColor="#0284C7" />
             </linearGradient>
@@ -103,7 +117,14 @@ const OrganSvgIllustration: React.FC<{ type: CaffeineHarmItem['iconType']; class
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="flameGrad" x1="12" y1="8" x2="36" y2="40" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="flameGrad"
+              x1="12"
+              y1="8"
+              x2="36"
+              y2="40"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop stopColor="#F59E0B" />
               <stop offset="1" stopColor="#D97706" />
             </linearGradient>
@@ -141,7 +162,14 @@ const OrganSvgIllustration: React.FC<{ type: CaffeineHarmItem['iconType']; class
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="stomachGrad" x1="12" y1="8" x2="38" y2="40" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="stomachGrad"
+              x1="12"
+              y1="8"
+              x2="38"
+              y2="40"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop stopColor="#F43F5E" />
               <stop offset="1" stopColor="#E11D48" />
             </linearGradient>
@@ -185,7 +213,14 @@ const OrganSvgIllustration: React.FC<{ type: CaffeineHarmItem['iconType']; class
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="kidneyGrad" x1="10" y1="10" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="kidneyGrad"
+              x1="10"
+              y1="10"
+              x2="38"
+              y2="38"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop stopColor="#06B6D4" />
               <stop offset="1" stopColor="#0891B2" />
             </linearGradient>
@@ -222,7 +257,14 @@ const OrganSvgIllustration: React.FC<{ type: CaffeineHarmItem['iconType']; class
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="dentalGrad" x1="10" y1="8" x2="38" y2="40" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="dentalGrad"
+              x1="10"
+              y1="8"
+              x2="38"
+              y2="40"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop stopColor="#10B981" />
               <stop offset="1" stopColor="#059669" />
             </linearGradient>
@@ -302,7 +344,8 @@ export const CaffeineHarmGrid: React.FC = () => {
             </div>
           </div>
           <p className="text-xs sm:text-sm text-slate-400">
-            Медицинская карта патологического воздействия энергетиков и кофеина на ключевые системы органов
+            Медицинская карта патологического воздействия энергетиков и кофеина на ключевые системы
+            органов
           </p>
         </div>
 

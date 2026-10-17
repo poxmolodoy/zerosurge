@@ -18,7 +18,9 @@ describe('CaffeineHarmGrid Component (TDD)', () => {
   it('opens HarmDetailModal when clicking on a harm tile', () => {
     render(<CaffeineHarmGrid />);
 
-    const cardioTile = screen.getByText('Сердечно-сосудистая система').closest('div[role="button"]') || screen.getByText('Сердечно-сосудистая система');
+    const cardioTile =
+      screen.getByText('Сердечно-сосудистая система').closest('div[role="button"]') ||
+      screen.getByText('Сердечно-сосудистая система');
     fireEvent.click(cardioTile);
 
     // Modal should now be open

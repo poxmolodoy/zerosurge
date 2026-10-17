@@ -83,7 +83,7 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
       equivalentCansDeduction = count * (validCansPerDay / validCoffeePerDay);
     } else {
       // 120mg coffee vs 160mg can (0.75 ratio)
-      penaltyHours = (count * 120 / 160) * (24 / validCansPerDay);
+      penaltyHours = ((count * 120) / 160) * (24 / validCansPerDay);
       equivalentCansDeduction = count * (120 / 160);
     }
     caffeineDeductionMg = count * 120;
@@ -91,7 +91,9 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
   }
 
   const isTotalReset = equivalentCansDeduction >= currentCansAvoided;
-  const remainingCans = isTotalReset ? 0 : Math.max(0, currentCansAvoided - equivalentCansDeduction);
+  const remainingCans = isTotalReset
+    ? 0
+    : Math.max(0, currentCansAvoided - equivalentCansDeduction);
 
   const handleDecrement = () => {
     setCount((prev) => Math.max(1, prev - 1));
@@ -139,7 +141,10 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
                 <AlertTriangle className="w-6 h-6" />
               </div>
               <div>
-                <h2 id="relapse-modal-title" className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                <h2
+                  id="relapse-modal-title"
+                  className="text-xl sm:text-2xl font-bold text-white tracking-tight"
+                >
                   Фиксация срыва
                 </h2>
                 <p className="text-xs text-slate-400">
@@ -249,7 +254,14 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
                         : 'bg-slate-900/60 border-white/10 text-slate-300 hover:border-white/20'
                     }`}
                   >
-                    {preset} {itemType === 'energy' ? (preset === 1 ? 'банка' : 'банки') : (preset === 1 ? 'чашка' : 'чашки')}
+                    {preset}{' '}
+                    {itemType === 'energy'
+                      ? preset === 1
+                        ? 'банка'
+                        : 'банки'
+                      : preset === 1
+                        ? 'чашка'
+                        : 'чашки'}
                   </button>
                 ))}
               </div>
@@ -272,8 +284,16 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
                   </span>
                   <span className="text-xs text-slate-400">
                     {itemType === 'energy'
-                      ? (count === 1 ? 'банка' : count < 5 ? 'банки' : 'банок')
-                      : (count === 1 ? 'чашка' : count < 5 ? 'чашки' : 'чашек')}
+                      ? count === 1
+                        ? 'банка'
+                        : count < 5
+                          ? 'банки'
+                          : 'банок'
+                      : count === 1
+                        ? 'чашка'
+                        : count < 5
+                          ? 'чашки'
+                          : 'чашек'}
                   </span>
                 </div>
 
@@ -347,11 +367,18 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
 
               {/* Breakdown details */}
               <div className="pt-2 border-t border-white/5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400">
-                <span>Кофеин: <strong className="text-amber-300">+{caffeineDeductionMg} мг</strong></span>
+                <span>
+                  Кофеин: <strong className="text-amber-300">+{caffeineDeductionMg} мг</strong>
+                </span>
                 {itemType === 'energy' && (
-                  <span>Сахар: <strong className={sugarDeductionGrams > 0 ? 'text-rose-300' : 'text-emerald-300'}>
-                    {sugarDeductionGrams > 0 ? `+${sugarDeductionGrams} г` : '0 г (Zero)'}
-                  </strong></span>
+                  <span>
+                    Сахар:{' '}
+                    <strong
+                      className={sugarDeductionGrams > 0 ? 'text-rose-300' : 'text-emerald-300'}
+                    >
+                      {sugarDeductionGrams > 0 ? `+${sugarDeductionGrams} г` : '0 г (Zero)'}
+                    </strong>
+                  </span>
                 )}
               </div>
 
@@ -361,7 +388,8 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
                   <>
                     <RefreshCw className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
                     <span>
-                      Штраф превышает или равен накопленному результату. Таймер чистоты начнется заново с текущего момента.
+                      Штраф превышает или равен накопленному результату. Таймер чистоты начнется
+                      заново с текущего момента.
                     </span>
                   </>
                 ) : (
@@ -379,7 +407,8 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
             <div className="bg-surge-cyan/5 border border-surge-cyan/20 rounded-2xl p-3 flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
               <HeartHandshake className="w-4 h-4 text-surge-cyan shrink-0 mt-0.5" />
               <span>
-                <strong>Помните:</strong> Срыв — это обратная связь, а не конец пути. Каждый час трезвости восстанавливает рецепторы. Продолжайте путь!
+                <strong>Помните:</strong> Срыв — это обратная связь, а не конец пути. Каждый час
+                трезвости восстанавливает рецепторы. Продолжайте путь!
               </span>
             </div>
 

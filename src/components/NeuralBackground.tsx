@@ -21,7 +21,7 @@ interface SynapsePulse {
 
 const COLORS = [
   { base: '#10B981', glow: 'rgba(16, 185, 129, 0.45)' }, // Emerald
-  { base: '#06B6D4', glow: 'rgba(6, 182, 212, 0.45)' },   // Electric Cyan
+  { base: '#06B6D4', glow: 'rgba(6, 182, 212, 0.45)' }, // Electric Cyan
   { base: '#34D399', glow: 'rgba(52, 211, 153, 0.45)' }, // Bright Emerald
   { base: '#38BDF8', glow: 'rgba(56, 189, 248, 0.45)' }, // Sky Cyan
 ];

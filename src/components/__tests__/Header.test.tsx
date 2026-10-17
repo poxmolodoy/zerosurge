@@ -35,11 +35,7 @@ describe('Header Component', () => {
   it('renders lightning performance toggle button with tooltip "Включить эффекты" when mode is on', () => {
     const onToggle = vi.fn();
     render(
-      <Header
-        {...defaultProps}
-        isPerformanceMode={true}
-        onTogglePerformanceMode={onToggle}
-      />
+      <Header {...defaultProps} isPerformanceMode={true} onTogglePerformanceMode={onToggle} />
     );
 
     const toggleBtn = screen.getByTitle('Включить эффекты');
@@ -80,12 +76,13 @@ describe('Header Component', () => {
 
     const harmAtlasBtn = screen.getByTitle('Книга знаний: Клинический атлас вреда');
     expect(harmAtlasBtn).toBeInTheDocument();
-    expect(harmAtlasBtn).toHaveAttribute('aria-label', 'Открыть книгу знаний: клинический атлас вреда');
+    expect(harmAtlasBtn).toHaveAttribute(
+      'aria-label',
+      'Открыть книгу знаний: клинический атлас вреда'
+    );
     expect(screen.getByText('Книга знаний: Атлас вреда')).toBeInTheDocument();
 
     fireEvent.click(harmAtlasBtn);
     expect(onOpenHarmAtlas).toHaveBeenCalledTimes(1);
   });
 });
-
-

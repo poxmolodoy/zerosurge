@@ -135,10 +135,7 @@ export function calculateTaperDailyLimit(plan: TaperPlan, targetDateStr?: string
 /**
  * Calculates sum of caffeine (mg) consumed on a specific date (YYYY-MM-DD).
  */
-export function calculateDayTotalCaffeine(
-  entries: ConsumptionEntry[],
-  dateStr: string
-): number {
+export function calculateDayTotalCaffeine(entries: ConsumptionEntry[], dateStr: string): number {
   return entries
     .filter((entry) => entry.date === dateStr)
     .reduce((sum, item) => sum + (Number(item.caffeineMg) || 0), 0);

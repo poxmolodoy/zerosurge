@@ -100,7 +100,7 @@ describe('Domain Calculations (TDD)', () => {
     it('caps progress percentage at 100%', () => {
       const sixtyDaysSeconds = 60 * 86400;
       const milestones = calculateBioProgress(sixtyDaysSeconds);
-      milestones.forEach(m => {
+      milestones.forEach((m) => {
         expect(m.progressPercent).toBe(100);
         expect(m.isCompleted).toBe(true);
       });
@@ -115,10 +115,10 @@ describe('Domain Calculations (TDD)', () => {
       const achievements1d = evaluateAchievements(baseProfile, stats1d, oneDaySeconds);
 
       expect(achievements1d).toHaveLength(8);
-      const ach24h = achievements1d.find(a => a.id === 'ach-24h');
+      const ach24h = achievements1d.find((a) => a.id === 'ach-24h');
       expect(ach24h?.unlocked).toBe(true);
 
-      const ach30d = achievements1d.find(a => a.id === 'ach-30d');
+      const ach30d = achievements1d.find((a) => a.id === 'ach-30d');
       expect(ach30d?.unlocked).toBe(false);
     });
 
@@ -128,10 +128,10 @@ describe('Domain Calculations (TDD)', () => {
       const stats6d = calculateStats(baseProfile, sixDaysSeconds);
       const achievements = evaluateAchievements(baseProfile, stats6d, sixDaysSeconds);
 
-      const ach10cans = achievements.find(a => a.id === 'ach-10cans');
+      const ach10cans = achievements.find((a) => a.id === 'ach-10cans');
       expect(ach10cans?.unlocked).toBe(true);
 
-      const achMoney = achievements.find(a => a.id === 'ach-money1000');
+      const achMoney = achievements.find((a) => a.id === 'ach-money1000');
       expect(achMoney?.unlocked).toBe(true);
     });
   });

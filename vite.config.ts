@@ -13,7 +13,8 @@ export default defineConfig({
       manifest: {
         name: 'ZeroSurge — Трекер свободы от энергетиков и кофеина',
         short_name: 'ZeroSurge',
-        description: 'Локальный трекер отказа от энергетиков и кофеина с научно подтвержденными этапами восстановления и программой постепенного снижения.',
+        description:
+          'Локальный трекер отказа от энергетиков и кофеина с научно подтвержденными этапами восстановления и программой постепенного снижения.',
         theme_color: '#0B0F17',
         background_color: '#0B0F17',
         display: 'standalone',
@@ -39,4 +40,3 @@ export default defineConfig({
     setupFiles: './src/test/setup.ts',
   },
 });
-

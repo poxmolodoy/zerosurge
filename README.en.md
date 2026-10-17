@@ -33,7 +33,7 @@ Zero tracking, zero analytics, no telemetry, no subscriptions. All calculations,
 
 - ⏱ **Second-by-second Live Timer:** Anti-drift background timer designed for desktop without throttling when minimized.
 - 🔬 **Evidence-Based Pathophysiology Atlas:** Interactive overview of how high-dose caffeine, taurine, and sugar impact 6 body systems (cardiovascular, nervous, endocrine, GI, renal, enamel) with direct links to PubMed, DOI, and WHO studies.
-- 📉 **Fair Relapse Penalty Algorithm:** Relapses do not reset hard-earned physiological progress back to zero. A balanced mathematical penalty subtracts hours proportional to elapsed clean time, combating the *abstinence violation effect*.
+- 📉 **Fair Relapse Penalty Algorithm:** Relapses do not reset hard-earned physiological progress back to zero. A balanced mathematical penalty subtracts hours proportional to elapsed clean time, combating the _abstinence violation effect_.
 - 🚨 **Emergency SOS Tool:** Box Breathing (4-4-4-4) visual pacer and guided Urge Surfing protocol to overcome acute cravings.
 - 📊 **Health & Craving Journal:** Daily tracking of energy, sleep quality, and craving intensity mapped against clinical neuroadaptation curves.
 - 📦 **Secure Data Backup & Restore:** Complete export and import in JSON format with strict prototype pollution protection, date validation, and numeric clamping.
@@ -62,13 +62,17 @@ For details, refer to [docs/threat-model.md](docs/threat-model.md) and [SECURITY
 3. Portable mode automatically creates and preserves user data in `ZeroSurgeData/` next to the executable, making it ideal for running from USB flash drives.
 
 ### Verifying Checksum
+
 ```powershell
 Get-FileHash .\ZeroSurge-1.0-Portable.exe -Algorithm SHA256
 ```
+
 Compare the resulting hash with `SHA256SUMS.txt`.
 
 ### Windows SmartScreen Notice
+
 ZeroSurge is an open-source non-commercial application distributed without an expensive corporate Authenticode certificate. If Windows Defender SmartScreen shows a warning on first launch:
+
 - Click **"More info" (Подробнее) → "Run anyway" (Выполнить в любом случае)**.
 - Every release is built transparently via [.github/workflows/release.yml](.github/workflows/release.yml).
 
@@ -77,6 +81,7 @@ ZeroSurge is an open-source non-commercial application distributed without an ex
 ## 🛠️ Build from Source
 
 ### Prerequisites
+
 - Node.js 18.0+
 - npm 9.0+
 

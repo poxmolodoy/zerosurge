@@ -80,7 +80,12 @@ export const DailyCheckInCard: React.FC<DailyCheckInCardProps> = ({ checkIns, on
             </span>
             <span className="font-mono text-surge-cyan font-bold">{energy} из 5</span>
           </div>
-          {renderRatingButtons(energy, setEnergy, 'bg-surge-cyan/20 text-surge-cyan', 'border-surge-cyan')}
+          {renderRatingButtons(
+            energy,
+            setEnergy,
+            'bg-surge-cyan/20 text-surge-cyan',
+            'border-surge-cyan'
+          )}
         </div>
 
         {/* Metric 2: Sleep */}

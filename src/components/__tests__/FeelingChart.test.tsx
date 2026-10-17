@@ -39,7 +39,7 @@ describe('FeelingChart Component (Systematic Debugging)', () => {
       expect(screen.getByText(/Энергия:/i)).toBeInTheDocument();
 
       fireEvent.mouseLeave(firstCircle);
-      expect(screen.queryByText(/Энергия:/i)).not.toBeNull; // state cleanup
+      expect(screen.queryByText(/Энергия:/i)).toBeNull(); // state cleanup
     }
   });
 });

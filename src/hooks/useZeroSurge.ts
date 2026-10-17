@@ -1,5 +1,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { UserProfile, DailyCheckIn, ElapsedTime, AppStats, BioMilestone, Achievement } from '../types';
+import {
+  UserProfile,
+  DailyCheckIn,
+  ElapsedTime,
+  AppStats,
+  BioMilestone,
+  Achievement,
+} from '../types';
 import {
   calculateElapsedTime,
   calculateStats,
@@ -205,7 +212,7 @@ export function useZeroSurge() {
       localStorage.setItem(CONSUMPTION_LOG_KEY, JSON.stringify(sanitizedLog));
     } catch (e) {
       console.error('Failed to save imported data to localStorage', e);
-      throw new Error('Ошибка записи в локальное хранилище браузера.');
+      throw new Error('Ошибка записи в локальное хранилище браузера.', { cause: e });
     }
   }, []);
 

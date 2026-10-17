@@ -61,7 +61,8 @@ export const StatCards: React.FC<StatCardsProps> = ({ stats, profile }) => {
           </div>
         </div>
         <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-          {stats.cansAvoided.toFixed(1)} <span className="text-surge-amber text-lg font-bold">банок</span>
+          {stats.cansAvoided.toFixed(1)}{' '}
+          <span className="text-surge-amber text-lg font-bold">банок</span>
         </div>
         <p className="text-xs text-slate-400 mt-1">
           {profile.coffeePerDay > 0
@@ -87,9 +88,7 @@ export const StatCards: React.FC<StatCardsProps> = ({ stats, profile }) => {
         <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
           {caffeineData.main}
         </div>
-        <p className="text-xs text-slate-400 mt-1">
-          {caffeineData.sub} (норма 160 мг/банка)
-        </p>
+        <p className="text-xs text-slate-400 mt-1">{caffeineData.sub} (норма 160 мг/банка)</p>
       </motion.div>
 
       {/* 4. Sugar & Calories OR Dental/Vessel Protection */}
@@ -126,7 +125,8 @@ export const StatCards: React.FC<StatCardsProps> = ({ stats, profile }) => {
               </div>
             </div>
             <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              {Math.round(stats.sugarAvoidedGrams)} <span className="text-red-400 text-lg font-bold">г</span>
+              {Math.round(stats.sugarAvoidedGrams)}{' '}
+              <span className="text-red-400 text-lg font-bold">г</span>
             </div>
             <p className="text-xs text-slate-400 mt-1">
               Минус {Math.round(stats.caloriesAvoidedKcal)} пустых ккал (~55г в банке)

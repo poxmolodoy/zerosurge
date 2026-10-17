@@ -16,13 +16,15 @@ export const MEDICAL_MILESTONES_BASE: Omit<BioMilestone, 'progressPercent' | 'is
     category: 'detox',
     sources: [
       {
-        title: 'Pharmacology of Caffeine (Institute of Medicine Committee on Military Nutrition Research)',
+        title:
+          'Pharmacology of Caffeine (Institute of Medicine Committee on Military Nutrition Research)',
         authors: 'Institute of Medicine (US)',
         year: 2001,
         url: 'https://www.ncbi.nlm.nih.gov/books/NBK223808/',
       },
       {
-        title: 'A critical review of caffeine withdrawal: empirical validation of symptoms and signs, incidence, severity, and associated features',
+        title:
+          'A critical review of caffeine withdrawal: empirical validation of symptoms and signs, incidence, severity, and associated features',
         authors: 'Juliano LM, Griffiths RR.',
         year: 2004,
         url: 'https://doi.org/10.1007/s00213-004-1815-3',
@@ -44,13 +46,15 @@ export const MEDICAL_MILESTONES_BASE: Omit<BioMilestone, 'progressPercent' | 'is
     category: 'cardio',
     sources: [
       {
-        title: 'Dietary caffeine consumption and withdrawal: confounding variables in quantitative cerebral perfusion studies?',
+        title:
+          'Dietary caffeine consumption and withdrawal: confounding variables in quantitative cerebral perfusion studies?',
         authors: 'Field AS, Laurienti PJ, Yen YF, Burdette JH, Moody DM.',
         year: 2003,
         url: 'https://doi.org/10.1148/radiol.2271011986',
       },
       {
-        title: 'The effect of acute caffeine ingestion on blood pressure in hypertensive individuals: a systematic review and meta-analysis',
+        title:
+          'The effect of acute caffeine ingestion on blood pressure in hypertensive individuals: a systematic review and meta-analysis',
         authors: 'Mesas AE, Leon-Muñoz LM, Rodriguez-Artalejo F, Lopez-Garcia E.',
         year: 2011,
         url: 'https://doi.org/10.1038/ejcn.2011.89',
@@ -72,14 +76,16 @@ export const MEDICAL_MILESTONES_BASE: Omit<BioMilestone, 'progressPercent' | 'is
     category: 'sleep',
     sources: [
       {
-        title: 'Coffee, caffeine, and sleep: A systematic review of epidemiological studies and randomized controlled trials',
+        title:
+          'Coffee, caffeine, and sleep: A systematic review of epidemiological studies and randomized controlled trials',
         authors: 'Clark I, Landolt HP.',
         year: 2017,
         url: 'https://doi.org/10.1016/j.smrv.2016.01.006',
       },
       {
-        title: 'Caffeine stimulation of cortisol secretion across the waking hours in relation to caffeine intake levels',
-        authors: 'Lovallo WR, Whitsett TL, al\'Absi M, et al.',
+        title:
+          'Caffeine stimulation of cortisol secretion across the waking hours in relation to caffeine intake levels',
+        authors: "Lovallo WR, Whitsett TL, al'Absi M, et al.",
         year: 2005,
         url: 'https://doi.org/10.1097/01.psy.0000181270.20036.06',
       },
@@ -100,13 +106,15 @@ export const MEDICAL_MILESTONES_BASE: Omit<BioMilestone, 'progressPercent' | 'is
     category: 'neuro',
     sources: [
       {
-        title: 'Actions of caffeine in the brain with special reference to factors that contribute to its widespread use',
+        title:
+          'Actions of caffeine in the brain with special reference to factors that contribute to its widespread use',
         authors: 'Fredholm BB, Bättig K, Holmén J, Nehlig A, Zvartau EE.',
         year: 1999,
         url: 'https://pubmed.ncbi.nlm.nih.gov/10049999/',
       },
       {
-        title: 'A critical review of caffeine withdrawal: empirical validation of symptoms and signs, incidence, severity, and associated features',
+        title:
+          'A critical review of caffeine withdrawal: empirical validation of symptoms and signs, incidence, severity, and associated features',
         authors: 'Juliano LM, Griffiths RR.',
         year: 2004,
         url: 'https://doi.org/10.1007/s00213-004-1815-3',
@@ -118,7 +126,8 @@ export const MEDICAL_MILESTONES_BASE: Omit<BioMilestone, 'progressPercent' | 'is
     title: 'Метаболическая стабилизация и ферментный гомеостаз',
     durationHours: 672,
     durationLabel: '28 дней',
-    shortDescription: 'Снижение нагрузки на ферменты цитохрома P450 (CYP1A2) и гликемическая стабильность.',
+    shortDescription:
+      'Снижение нагрузки на ферменты цитохрома P450 (CYP1A2) и гликемическая стабильность.',
     fullMedicalDescription:
       'Ферментная система печени (CYP1A2) освобождается от постоянного метаболизма ксантинов и сопутствующих добавок. При исключении подслащенных энергетиков снижаются суточные колебания гликемии, улучшается чувствительность тканей к инсулину. Обратите внимание: сроки метаболической перестройки строго ориентировочные и варьируются у разных людей.',
     biochemicalEffect:

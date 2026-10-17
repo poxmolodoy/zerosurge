@@ -1,4 +1,14 @@
-import { Zap, ZapOff, AlertOctagon, Settings, AlertTriangle, Trophy, Calendar, BookOpen, TrendingDown } from 'lucide-react';
+import {
+  Zap,
+  ZapOff,
+  AlertOctagon,
+  Settings,
+  AlertTriangle,
+  Trophy,
+  Calendar,
+  BookOpen,
+  TrendingDown,
+} from 'lucide-react';
 
 interface HeaderProps {
   onOpenSos: () => void;

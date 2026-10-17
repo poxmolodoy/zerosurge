@@ -26,24 +26,12 @@ describe('AchievementsModal Component', () => {
   ];
 
   it('does not render when isOpen is false', () => {
-    render(
-      <AchievementsModal
-        isOpen={false}
-        onClose={vi.fn()}
-        achievements={mockAchievements}
-      />
-    );
+    render(<AchievementsModal isOpen={false} onClose={vi.fn()} achievements={mockAchievements} />);
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('renders modal with achievements when isOpen is true', () => {
-    render(
-      <AchievementsModal
-        isOpen={true}
-        onClose={vi.fn()}
-        achievements={mockAchievements}
-      />
-    );
+    render(<AchievementsModal isOpen={true} onClose={vi.fn()} achievements={mockAchievements} />);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Первые 24 часа')).toBeInTheDocument();
@@ -53,13 +41,7 @@ describe('AchievementsModal Component', () => {
 
   it('calls onClose when close button or backdrop is clicked or Escape is pressed', () => {
     const onClose = vi.fn();
-    render(
-      <AchievementsModal
-        isOpen={true}
-        onClose={onClose}
-        achievements={mockAchievements}
-      />
-    );
+    render(<AchievementsModal isOpen={true} onClose={onClose} achievements={mockAchievements} />);
 
     // 1. Close button
     const closeBtn = screen.getByLabelText('Закрыть достижения');

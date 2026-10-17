@@ -20,6 +20,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "check:offline": "node scripts/check-offline.js",
     "electron:start": "electron electron/main.cjs",
     "electron:build:portable": "tsc && vite build && electron-builder --win portable"
@@ -55,6 +58,7 @@
     "tailwind-merge": "^2.5.5"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@types/canvas-confetti": "^1.9.0",
@@ -64,10 +68,13 @@
     "autoprefixer": "^10.4.20",
     "electron": "^44.9.0",
     "electron-builder": "^26.15.3",
+    "eslint": "^10.13.0",
     "jsdom": "^25.0.1",
     "postcss": "^8.4.49",
+    "prettier": "^3.9.10",
     "tailwindcss": "^3.4.16",
     "typescript": "^5.6.3",
+    "typescript-eslint": "^8.71.2",
     "vite": "^5.4.11",
     "vite-plugin-pwa": "^2.0.0",
     "vitest": "^2.1.8"

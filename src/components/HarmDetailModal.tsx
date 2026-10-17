@@ -117,7 +117,10 @@ export const HarmDetailModal: React.FC<HarmDetailModalProps> = ({ item, onClose 
                     {item.badgeLabel}
                   </span>
                 </div>
-                <h2 id="harm-modal-title" className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                <h2
+                  id="harm-modal-title"
+                  className="text-xl sm:text-2xl font-bold text-white tracking-tight"
+                >
                   {item.title}
                 </h2>
               </div>

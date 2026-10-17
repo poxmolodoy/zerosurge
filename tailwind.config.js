@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -23,10 +20,18 @@ export default {
           amber: '#F59E0B',
           amberGlow: '#D97706',
           ruby: '#EF4444',
-        }
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: [
+          'Inter',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'sans-serif',
+        ],
         mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
       },
       boxShadow: {
@@ -34,12 +39,12 @@ export default {
         'glow-cyan': '0 0 25px -5px rgba(6, 182, 212, 0.3)',
         'glow-amber': '0 0 25px -5px rgba(245, 158, 11, 0.3)',
         'glow-ruby': '0 0 25px -5px rgba(239, 68, 68, 0.3)',
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        glass: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
       },
       backdropBlur: {
         xs: '2px',
-      }
+      },
     },
   },
   plugins: [],
-}
+};

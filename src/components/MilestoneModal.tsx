@@ -1,6 +1,15 @@
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, Activity, Dna, Stethoscope, Sparkles, BookOpen, ExternalLink } from 'lucide-react';
+import {
+  X,
+  CheckCircle2,
+  Activity,
+  Dna,
+  Stethoscope,
+  Sparkles,
+  BookOpen,
+  ExternalLink,
+} from 'lucide-react';
 import { BioMilestone } from '../types';
 
 interface MilestoneModalProps {
@@ -76,7 +85,8 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({ milestone, onClo
                   milestone.isCompleted ? 'text-surge-emerald' : 'text-surge-cyan'
                 }`}
               >
-                {milestone.progressPercent}% {milestone.isCompleted ? '• Завершено' : '• В процессе'}
+                {milestone.progressPercent}%{' '}
+                {milestone.isCompleted ? '• Завершено' : '• В процессе'}
               </span>
             </div>
             <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
@@ -123,9 +133,7 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({ milestone, onClo
                 <Sparkles className="w-4 h-4 text-surge-amber" />
                 Что вы можете чувствовать
               </div>
-              <p className="text-slate-300 leading-relaxed text-xs">
-                {milestone.currentSymptoms}
-              </p>
+              <p className="text-slate-300 leading-relaxed text-xs">{milestone.currentSymptoms}</p>
             </div>
 
             {/* 4. Scientific Sources */}

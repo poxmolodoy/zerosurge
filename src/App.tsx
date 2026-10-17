@@ -157,7 +157,9 @@ export default function App() {
       <RelapseModal
         isOpen={isRelapseOpen}
         onClose={() => setIsRelapseOpen(false)}
-        onConfirmRelapse={(count, itemType, isSugarFree) => recordRelapse(count, itemType, isSugarFree)}
+        onConfirmRelapse={(count, itemType, isSugarFree) =>
+          recordRelapse(count, itemType, isSugarFree)
+        }
         currentCansAvoided={stats.cansAvoided}
         cansPerDay={activeProfile.cansPerDay}
         coffeePerDay={activeProfile.coffeePerDay}
@@ -177,10 +179,7 @@ export default function App() {
         onAddCheckIn={addCheckIn}
       />
 
-      <CaffeineHarmAtlasModal
-        isOpen={isHarmAtlasOpen}
-        onClose={() => setIsHarmAtlasOpen(false)}
-      />
+      <CaffeineHarmAtlasModal isOpen={isHarmAtlasOpen} onClose={() => setIsHarmAtlasOpen(false)} />
 
       <TaperModal
         isOpen={isTaperOpen}

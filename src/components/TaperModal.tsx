@@ -253,7 +253,9 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                   </span>
                   <span className="text-slate-300">
                     Лимит дня:{' '}
-                    <strong className="font-mono text-surge-cyan">{progress.dailyLimitMg} мг</strong>
+                    <strong className="font-mono text-surge-cyan">
+                      {progress.dailyLimitMg} мг
+                    </strong>
                   </span>
                 </div>
 
@@ -270,8 +272,8 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                         progress.dailyLimitMg > 0
                           ? (progress.consumedMg / progress.dailyLimitMg) * 100
                           : progress.consumedMg > 0
-                          ? 100
-                          : 0
+                            ? 100
+                            : 0
                       )}%`,
                     }}
                   />
@@ -407,9 +409,7 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                 <div className="flex justify-center text-surge-emerald mb-1">
                   <Sparkles className="w-5 h-5" />
                 </div>
-                <div className="text-xs font-medium text-slate-300">
-                  За сегодня записей нет
-                </div>
+                <div className="text-xs font-medium text-slate-300">За сегодня записей нет</div>
                 <div className="text-[11px] text-slate-500">
                   Вы сохраняете чистоту рецепторов и нервной системы!
                 </div>

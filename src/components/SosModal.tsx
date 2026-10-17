@@ -128,7 +128,9 @@ export const SosModal: React.FC<SosModalProps> = ({ isOpen, daysElapsed, onClose
                       ) : (
                         <Square className="w-5 h-5 text-slate-500 shrink-0" />
                       )}
-                      <span className={`text-xs sm:text-sm ${isChecked ? 'line-through opacity-80' : ''}`}>
+                      <span
+                        className={`text-xs sm:text-sm ${isChecked ? 'line-through opacity-80' : ''}`}
+                      >
                         {item.text}
                       </span>
                     </button>

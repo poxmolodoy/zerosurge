@@ -9,11 +9,19 @@ describe('Clinical Sources & Medical Evidence Integrity (P0-1)', () => {
 
       CAFFEINE_HARM_DATA.forEach((item) => {
         expect(item.sources, `Item ${item.id} must have a sources array`).toBeDefined();
-        expect(item.sources.length, `Item ${item.id} must have at least one source`).toBeGreaterThanOrEqual(1);
+        expect(
+          item.sources.length,
+          `Item ${item.id} must have at least one source`
+        ).toBeGreaterThanOrEqual(1);
 
         item.sources.forEach((source, idx) => {
-          expect(source.title.trim().length, `Source #${idx} in ${item.id} must have title`).toBeGreaterThan(5);
-          expect(source.url, `Source #${idx} in ${item.id} must use secure HTTPS`).toMatch(/^https:\/\//);
+          expect(
+            source.title.trim().length,
+            `Source #${idx} in ${item.id} must have title`
+          ).toBeGreaterThan(5);
+          expect(source.url, `Source #${idx} in ${item.id} must use secure HTTPS`).toMatch(
+            /^https:\/\//
+          );
         });
       });
     });
@@ -40,15 +48,23 @@ describe('Clinical Sources & Medical Evidence Integrity (P0-1)', () => {
       expect(MEDICAL_MILESTONES_BASE.length).toBeGreaterThan(0);
 
       MEDICAL_MILESTONES_BASE.forEach((milestone) => {
-        expect(milestone.sources, `Milestone ${milestone.id} must have sources array`).toBeDefined();
+        expect(
+          milestone.sources,
+          `Milestone ${milestone.id} must have sources array`
+        ).toBeDefined();
         expect(
           milestone.sources.length,
           `Milestone ${milestone.id} must have at least one source`
         ).toBeGreaterThanOrEqual(1);
 
         milestone.sources.forEach((source, idx) => {
-          expect(source.title.trim().length, `Source #${idx} in ${milestone.id} must have title`).toBeGreaterThan(5);
-          expect(source.url, `Source #${idx} in ${milestone.id} must use secure HTTPS`).toMatch(/^https:\/\//);
+          expect(
+            source.title.trim().length,
+            `Source #${idx} in ${milestone.id} must have title`
+          ).toBeGreaterThan(5);
+          expect(source.url, `Source #${idx} in ${milestone.id} must use secure HTTPS`).toMatch(
+            /^https:\/\//
+          );
         });
       });
     });

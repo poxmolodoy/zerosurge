@@ -42,7 +42,9 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
   const [cansPerDay, setCansPerDay] = useState<number>(initialProfile?.cansPerDay ?? 2);
   const [coffeePerDay, setCoffeePerDay] = useState<number>(initialProfile?.coffeePerDay ?? 1);
   const [isSugarFree, setIsSugarFree] = useState<boolean>(initialProfile?.isSugarFree ?? false);
-  const [costPerPortion, setCostPerPortion] = useState<number>(initialProfile?.costPerPortion ?? 130);
+  const [costPerPortion, setCostPerPortion] = useState<number>(
+    initialProfile?.costPerPortion ?? 130
+  );
 
   if (!isOpen) return null;
 
@@ -253,9 +255,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                   required
                   className="w-full pl-4 pr-10 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white font-mono text-sm focus:border-surge-emerald focus:ring-1 focus:ring-surge-emerald transition-all"
                 />
-                <span className="absolute right-4 top-2.5 text-slate-400 font-mono text-sm">
-                  ₽
-                </span>
+                <span className="absolute right-4 top-2.5 text-slate-400 font-mono text-sm">₽</span>
               </div>
             </div>
 

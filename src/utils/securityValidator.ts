@@ -213,9 +213,7 @@ export function sanitizeConsumptionLog(data: unknown): ConsumptionEntry[] {
         ? (raw.type as 'energy' | 'coffee' | 'tea' | 'other')
         : 'other';
     const title =
-      typeof raw.title === 'string' && raw.title.trim()
-        ? raw.title.trim().slice(0, 80)
-        : 'Напиток';
+      typeof raw.title === 'string' && raw.title.trim() ? raw.title.trim().slice(0, 80) : 'Напиток';
     const volumeMl = Math.max(1, Math.min(5000, Math.round(Number(raw.volumeMl) || 250)));
     const caffeineMg = Math.max(0, Math.min(2000, Math.round(Number(raw.caffeineMg) || 80)));
 
@@ -258,7 +256,10 @@ export function sanitizeTaperPlan(data: unknown): TaperPlan {
 
   const durationDays = Math.max(3, Math.min(90, Math.round(Number(raw.durationDays) || 14)));
   const startDailyMg = Math.max(50, Math.min(2000, Math.round(Number(raw.startDailyMg) || 300)));
-  const targetDailyMg = Math.max(0, Math.min(startDailyMg, Math.round(Number(raw.targetDailyMg) || 0)));
+  const targetDailyMg = Math.max(
+    0,
+    Math.min(startDailyMg, Math.round(Number(raw.targetDailyMg) || 0))
+  );
 
   return {
     isActive,
@@ -331,7 +332,8 @@ export function validateImportPayload(rawInput: unknown): ValidationResult {
   if (hasPrototypePollution(parsed)) {
     return {
       success: false,
-      error: 'Обнаружена попытка внедрения недопустимых системных свойств (Prototype Pollution). Импорт отклонён в целях безопасности.',
+      error:
+        'Обнаружена попытка внедрения недопустимых системных свойств (Prototype Pollution). Импорт отклонён в целях безопасности.',
     };
   }
 
@@ -339,7 +341,12 @@ export function validateImportPayload(rawInput: unknown): ValidationResult {
 
   // Check schemaVersion
   const schemaVersion = Number(root.schemaVersion);
-  if (!root.schemaVersion || isNaN(schemaVersion) || !isFinite(schemaVersion) || schemaVersion <= 0) {
+  if (
+    !root.schemaVersion ||
+    isNaN(schemaVersion) ||
+    !isFinite(schemaVersion) ||
+    schemaVersion <= 0
+  ) {
     return {
       success: false,
       error: 'Отсутствует или повреждена версия схемы (schemaVersion).',
@@ -377,7 +384,9 @@ export function validateImportPayload(rawInput: unknown): ValidationResult {
 
   // Sanitize taperPlan & consumptionLog (backward compatible migration for schemaVersion 1)
   const sanitizedTaperPlan = dataObj.taperPlan ? sanitizeTaperPlan(dataObj.taperPlan) : undefined;
-  const sanitizedConsumptionLog = dataObj.consumptionLog ? sanitizeConsumptionLog(dataObj.consumptionLog) : [];
+  const sanitizedConsumptionLog = dataObj.consumptionLog
+    ? sanitizeConsumptionLog(dataObj.consumptionLog)
+    : [];
 
   const exportedAt =
     typeof root.exportedAt === 'string' && !isNaN(new Date(root.exportedAt).getTime())

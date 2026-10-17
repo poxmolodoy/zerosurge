@@ -1,0 +1,7 @@
+node_modules
+dist
+release
+ZeroSurgeData
+package-lock.json
+AGENT_TASKS.md
+*.log

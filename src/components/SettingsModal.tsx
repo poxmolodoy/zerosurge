@@ -124,8 +124,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       setImportError(null);
       setExportSuccess(false);
       onClose();
-    } catch (err: any) {
-      setImportError(err?.message || 'Не удалось применить импорт.');
+    } catch (err) {
+      setImportError(err instanceof Error ? err.message : 'Не удалось применить импорт.');
     }
   };
 

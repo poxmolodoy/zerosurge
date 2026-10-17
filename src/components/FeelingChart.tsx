@@ -30,14 +30,15 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
   } | null>(null);
 
   // Determine which data to plot
-  const data = useBenchmark || checkIns.length === 0
-    ? BENCHMARK_DATA
-    : checkIns.map((c, i) => ({
-        day: `День ${i + 1}`,
-        energy: c.energy,
-        sleep: c.sleep,
-        craving: c.craving,
-      }));
+  const data =
+    useBenchmark || checkIns.length === 0
+      ? BENCHMARK_DATA
+      : checkIns.map((c, i) => ({
+          day: `День ${i + 1}`,
+          energy: c.energy,
+          sleep: c.sleep,
+          craving: c.craving,
+        }));
 
   // SVG dimensions & margins
   const width = 600;
@@ -239,7 +240,11 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
                   cy={yEnergy}
                   r={hoveredPoint?.label === item.day && hoveredPoint.y === yEnergy ? 5.5 : 4}
                   fill="#06B6D4"
-                  stroke={hoveredPoint?.label === item.day && hoveredPoint.y === yEnergy ? '#FFFFFF' : 'none'}
+                  stroke={
+                    hoveredPoint?.label === item.day && hoveredPoint.y === yEnergy
+                      ? '#FFFFFF'
+                      : 'none'
+                  }
                   strokeWidth="1.5"
                   className="cursor-pointer transition-all duration-150"
                   onMouseEnter={() =>
@@ -261,7 +266,11 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
                   cy={ySleep}
                   r={hoveredPoint?.label === item.day && hoveredPoint.y === ySleep ? 5.5 : 3.5}
                   fill="#10B981"
-                  stroke={hoveredPoint?.label === item.day && hoveredPoint.y === ySleep ? '#FFFFFF' : 'none'}
+                  stroke={
+                    hoveredPoint?.label === item.day && hoveredPoint.y === ySleep
+                      ? '#FFFFFF'
+                      : 'none'
+                  }
                   strokeWidth="1.5"
                   className="cursor-pointer transition-all duration-150"
                   onMouseEnter={() =>
@@ -283,7 +292,11 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
                   cy={yCraving}
                   r={hoveredPoint?.label === item.day && hoveredPoint.y === yCraving ? 5.5 : 3.5}
                   fill="#F59E0B"
-                  stroke={hoveredPoint?.label === item.day && hoveredPoint.y === yCraving ? '#FFFFFF' : 'none'}
+                  stroke={
+                    hoveredPoint?.label === item.day && hoveredPoint.y === yCraving
+                      ? '#FFFFFF'
+                      : 'none'
+                  }
                   strokeWidth="1.5"
                   className="cursor-pointer transition-all duration-150"
                   onMouseEnter={() =>
@@ -307,7 +320,10 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
         {hoveredPoint && (
           <div
             className="absolute z-20 pointer-events-none p-3 rounded-xl bg-slate-900 border border-white/20 text-xs shadow-2xl space-y-1 transform -translate-x-1/2 -translate-y-full"
-            style={{ left: `${(hoveredPoint.x / width) * 100}%`, top: `${(hoveredPoint.y / height) * 100}%` }}
+            style={{
+              left: `${(hoveredPoint.x / width) * 100}%`,
+              top: `${(hoveredPoint.y / height) * 100}%`,
+            }}
           >
             <div className="font-bold text-white border-b border-white/10 pb-1 mb-1">
               {hoveredPoint.label}

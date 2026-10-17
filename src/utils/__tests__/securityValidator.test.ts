@@ -83,7 +83,7 @@ describe('Security Validator (TDD)', () => {
       // Clamped ratings for second valid date
       expect(result[1].date).toBe('2026-10-17');
       expect(result[1].energy).toBe(5); // Clamped from 99 to 5
-      expect(result[1].sleep).toBe(1);  // Clamped from -1 to 1
+      expect(result[1].sleep).toBe(1); // Clamped from -1 to 1
       expect(result[1].craving).toBe(1); // Clamped from 0 to 1
     });
   });

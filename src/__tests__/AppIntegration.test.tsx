@@ -257,7 +257,9 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     expect(screen.getByRole('dialog', { name: /Вазоконстрикция/i })).toBeInTheDocument();
     expect(screen.getByText(/Биохимический механизм поражения/i)).toBeInTheDocument();
     expect(screen.getByText(/Клинические симптомы хронической интоксикации/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Вазоконстрикция и перегрузка миокарда/i).length).toBeGreaterThanOrEqual(2);
+    expect(
+      screen.getAllByText(/Вазоконстрикция и перегрузка миокарда/i).length
+    ).toBeGreaterThanOrEqual(2);
 
     // 4. Close the detail modal
     const closeBtn = screen.getByRole('button', { name: /понятно, закрыть справку/i });
@@ -267,14 +269,18 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
 
     // 5. Detail modal dismissed
     expect(screen.queryByRole('dialog', { name: /Вазоконстрикция/i })).not.toBeInTheDocument();
-    expect(screen.getByRole('dialog', { name: /Клинический атлас: Вред стимуляторов/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('dialog', { name: /Клинический атлас: Вред стимуляторов/i })
+    ).toBeInTheDocument();
 
     // 6. Close Atlas modal
     const closeAtlasBtn = screen.getByLabelText('Закрыть клинический атлас');
     await act(async () => {
       fireEvent.click(closeAtlasBtn);
     });
-    expect(screen.queryByRole('dialog', { name: /Клинический атлас: Вред стимуляторов/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('dialog', { name: /Клинический атлас: Вред стимуляторов/i })
+    ).not.toBeInTheDocument();
   });
 
   it('toggles performance mode via header lightning button and manages effects/classes', async () => {
@@ -373,7 +379,9 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     });
 
     // Modal dialog should be open with journal and chart
-    expect(screen.getByRole('dialog', { name: /Дневник самочувствия и динамика/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('dialog', { name: /Дневник самочувствия и динамика/i })
+    ).toBeInTheDocument();
     expect(screen.getByText(/Как вы чувствуете себя сегодня?/i)).toBeInTheDocument();
     expect(screen.getByText(/График самочувствия и динамики восстановления/i)).toBeInTheDocument();
 
@@ -383,8 +391,8 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
       fireEvent.click(closeBtn);
     });
 
-    expect(screen.queryByRole('dialog', { name: /Дневник самочувствия и динамика/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('dialog', { name: /Дневник самочувствия и динамика/i })
+    ).not.toBeInTheDocument();
   });
 });
-
-
