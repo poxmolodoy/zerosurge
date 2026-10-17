@@ -11,16 +11,10 @@
 - **Безопасный экспорт и импорт данных (v2)**: Экспорт в JSON с валидацией схемы, защитой от Prototype Pollution (`__proto__`, `constructor`, `prototype`), строгим приведением типов, безопасным предварительным просмотром и обратной совместимостью со схемой v1.
 - **Локальные шрифты без внешних запросов**: Удалены зависимости от Google Fonts CDN; гарнитуры `@fontsource/inter` и `@fontsource/jetbrains-mono` поставляются локально в бинарнике/бандле.
 - **Автоматическая проверка офлайн-целостности**: Скрипт `scripts/check-offline.js` (`npm run check:offline`) гарантирует отсутствие неразрешенных сетевых запросов и телеметрии в `dist/`.
-- **Харденинг среды Electron**:
-  - Включен `sandbox: true` в webPreferences;
-  - Блокировка несанкционированной навигации через `webContents.on('will-navigate')`;
-  - Полный запрет запросов разрешений (камера, микрофон, геолокация) через `session.defaultSession.setPermissionRequestHandler`;
-  - `allowRunningInsecureContent: false` и строгая Content Security Policy.
-- **Портативный режим для USB (Portable)**: Перенаправление директории `userData` в `ZeroSurgeData/` рядом с `ZeroSurge-1.0-Portable.exe` при обнаружении `PORTABLE_EXECUTABLE_DIR`.
 - **Программа постепенного снижения (Tapering)**: Калькулятор суточного лимита кофеина на 14–42 дня для мягкого снижения дозы без абстинентного криза.
 - **Журнал потребления кофеина**: Быстрый ввод порций популярных напитков с эталонным содержанием кофеина по данным EFSA (2015) и ручной ввод пользовательских напитков.
-- **Поддержка Progressive Web App (PWA)**: Service Worker для полноценной офлайн-работы веб-версии, Web App Manifest и автоматический деплой на GitHub Pages.
-- **Автоматизированный CI/CD**: Сборка и проверка кода в GitHub Actions (`ci.yml`, `release.yml`, `deploy-pages.yml`) с генерацией контрольных сумм `SHA256SUMS.txt`.
+- **Поддержка Progressive Web App (PWA)**: Встроенный Service Worker для полноценной офлайн-работы, Web App Manifest и автоматический деплой на GitHub Pages.
+- **Автоматизированный CI/CD**: Проверка кода, линтинг, форматирование, тесты и офлайн-аудит в GitHub Actions (`ci.yml`, `deploy-pages.yml`).
 - **Англоязычная документация**: Добавлен файл `README.en.md`.
 
 ### Изменено

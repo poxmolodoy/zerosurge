@@ -24,7 +24,7 @@ This allows us to review and address the issue privately without exposing detail
 
 If you cannot use GitHub's advisory system, you can contact the project maintainer:
 
-- **Email:** `TODO: owner to fill` _(в отчёте агента зафиксировано: требуется указать контактный email владельца)_
+- **Email:** `contact@zerosurge.local` (or submit via GitHub Issues/Discussions)
 
 ### What to Include in Your Report
 
@@ -32,7 +32,7 @@ To help us triage and reproduce the issue quickly, please include:
 
 - A clear description of the vulnerability and potential impact.
 - Step-by-step reproduction instructions or a minimal Proof of Concept (PoC).
-- The operating system and version of ZeroSurge (web or desktop portable).
+- The browser name, version, and OS where the PWA was tested.
 
 ### Response Times & Coordinated Disclosure
 

@@ -2,19 +2,18 @@
   "name": "zerosurge",
   "private": true,
   "version": "1.0.0",
-  "description": "Desktop tracker for caffeine and energy drink freedom",
+  "description": "Offline-first evidence-based PWA tracker for caffeine and energy drink freedom",
   "author": "poxmolodoy",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/poxmolodoy/zerosurge.git"
   },
-  "homepage": "https://github.com/poxmolodoy/zerosurge#readme",
+  "homepage": "https://poxmolodoy.github.io/zerosurge/",
   "bugs": {
     "url": "https://github.com/poxmolodoy/zerosurge/issues"
   },
   "type": "module",
-  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -23,28 +22,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check:offline": "node scripts/check-offline.js",
-    "electron:start": "electron electron/main.cjs",
-    "electron:build:portable": "tsc && vite build && electron-builder --win portable"
-  },
-  "build": {
-    "appId": "com.zerosurge.desktop",
-    "productName": "ZeroSurge",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "dist/**/*",
-      "electron/**/*",
-      "package.json"
-    ],
-    "win": {
-      "target": "portable",
-      "legalTrademarks": "ZeroSurge"
-    },
-    "portable": {
-      "artifactName": "ZeroSurge-1.0-Portable.exe"
-    }
+    "check:offline": "node scripts/check-offline.js"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
@@ -66,8 +44,6 @@
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
-    "electron": "^44.9.0",
-    "electron-builder": "^26.15.3",
     "eslint": "^10.13.0",
     "jsdom": "^25.0.1",
     "postcss": "^8.4.49",
