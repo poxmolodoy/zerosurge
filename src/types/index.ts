@@ -24,6 +24,13 @@ export interface AppStats {
   caloriesAvoidedKcal: number;
 }
 
+export interface ClinicalSource {
+  title: string;
+  url: string;
+  year?: number;
+  authors?: string;
+}
+
 export interface BioMilestone {
   id: string;
   title: string;
@@ -36,6 +43,7 @@ export interface BioMilestone {
   biochemicalEffect: string;
   currentSymptoms: string;
   category: 'detox' | 'cardio' | 'sleep' | 'neuro' | 'metabolic';
+  sources: ClinicalSource[];
 }
 
 export interface DailyCheckIn {

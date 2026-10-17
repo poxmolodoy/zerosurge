@@ -323,9 +323,9 @@ export const FeelingChart: React.FC<FeelingChartProps> = ({ checkIns }) => {
       <div className="p-3.5 rounded-xl bg-slate-900/60 border border-white/5 flex items-start gap-2.5 text-xs text-slate-300">
         <HelpCircle className="w-4 h-4 text-surge-cyan shrink-0 mt-0.5" />
         <span>
-          <strong>Клинический перелом (День 3–4):</strong> После 72–96 часов кривая тяги
-          стремительно падает, в то время как естественная бодрость и глубина сна совершают резкий
-          восходящий скачок.
+          <strong>Динамика синдрома отмены (Juliano & Griffiths, 2004):</strong> Пик симптомов
+          абстиненции (головная боль, упадок сил, тяга) приходится на 20–51 час (1–2 сутки), а к 3–4
+          дню острые проявления стихают, уступая место росту естественной энергии и глубины сна.
         </span>
       </div>
     </div>

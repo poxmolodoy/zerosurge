@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   BookOpen,
+  ExternalLink,
 } from 'lucide-react';
 import { CaffeineHarmItem } from '../data/caffeineHarmData';
 
@@ -173,13 +174,46 @@ export const HarmDetailModal: React.FC<HarmDetailModalProps> = ({ item, onClose 
               </p>
             </div>
 
-            {/* 4. Medical Citation */}
-            <div className="pt-2 border-t border-white/5 flex items-center gap-2 text-[11px] text-slate-400">
-              <BookOpen className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-              <span>
-                <strong>Клинический источник:</strong> {item.medicalCitation}
-              </span>
-            </div>
+            {/* 4. Scientific Sources */}
+            {item.sources && item.sources.length > 0 && (
+              <div className="pt-3 border-t border-white/10 space-y-2">
+                <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  <BookOpen className="w-4 h-4 text-surge-cyan" />
+                  Научные источники и доказательная база
+                </div>
+                <div className="space-y-2">
+                  {item.sources.map((src, idx) => (
+                    <a
+                      key={idx}
+                      href={src.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-900 border border-white/5 hover:border-surge-cyan/40 text-xs text-slate-300 transition-colors group"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="font-medium text-white group-hover:text-cyan-200 transition-colors">
+                          {src.title} {src.year ? `(${src.year})` : ''}
+                        </span>
+                        <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-surge-cyan shrink-0 mt-0.5" />
+                      </div>
+                      {src.authors && (
+                        <div className="text-[11px] text-slate-400 mt-0.5">{src.authors}</div>
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Medical Citation summary */}
+            {item.medicalCitation && (
+              <div className="pt-2 flex items-center gap-2 text-[11px] text-slate-400">
+                <BookOpen className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <span>
+                  <strong>Клинический источник:</strong> {item.medicalCitation}
+                </span>
+              </div>
+            )}
 
             {/* Action Close */}
             <div className="pt-2">

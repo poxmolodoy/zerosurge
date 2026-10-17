@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, Activity, Dna, Stethoscope, Sparkles } from 'lucide-react';
+import { X, CheckCircle2, Activity, Dna, Stethoscope, Sparkles, BookOpen, ExternalLink } from 'lucide-react';
 import { BioMilestone } from '../types';
 
 interface MilestoneModalProps {
@@ -127,6 +127,37 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({ milestone, onClo
                 {milestone.currentSymptoms}
               </p>
             </div>
+
+            {/* 4. Scientific Sources */}
+            {milestone.sources && milestone.sources.length > 0 && (
+              <div className="space-y-2 pt-2 border-t border-white/10">
+                <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  <BookOpen className="w-3.5 h-3.5 text-surge-cyan" />
+                  Научные источники
+                </div>
+                <div className="space-y-1.5">
+                  {milestone.sources.map((src, idx) => (
+                    <a
+                      key={idx}
+                      href={src.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-900 border border-white/5 hover:border-surge-cyan/40 text-xs text-slate-300 transition-colors group"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="font-medium text-white group-hover:text-cyan-200 transition-colors">
+                          {src.title} {src.year ? `(${src.year})` : ''}
+                        </span>
+                        <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-surge-cyan shrink-0 mt-0.5" />
+                      </div>
+                      {src.authors && (
+                        <div className="text-[11px] text-slate-400 mt-0.5">{src.authors}</div>
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Close CTA */}
