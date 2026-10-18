@@ -97,6 +97,14 @@ npm run check:offline
 
 ---
 
+## 📬 Author & Contact
+
+- **Project Maintainer:** [@poxmolodoy](https://github.com/poxmolodoy)
+- **Email:** [dima.dima.shift3@gmail.com](mailto:dima.dima.shift3@gmail.com)
+- **Bug Tracker & Feature Requests:** [GitHub Issues](https://github.com/poxmolodoy/zerosurge/issues)
+
+---
+
 ## 📄 License & Medical Disclaimer
 
 - Released under the open-source **MIT License**. See [LICENSE](LICENSE) for terms.

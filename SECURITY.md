@@ -22,8 +22,9 @@ This allows us to review and address the issue privately without exposing detail
 
 ### 2. Alternative Contact
 
-If you cannot use GitHub's private advisory system, you can contact the project maintainer directly via GitHub:
+If you cannot use GitHub's private advisory system, you can contact the project maintainer directly:
 
+- **Security Email:** [dima.dima.shift3@gmail.com](mailto:dima.dima.shift3@gmail.com)
 - **GitHub Issues:** [Open an Issue](https://github.com/poxmolodoy/zerosurge/issues)
 - **GitHub Discussions:** [Start a Discussion](https://github.com/poxmolodoy/zerosurge/discussions)
 

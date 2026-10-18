@@ -34,11 +34,11 @@ npm ci
 npm run dev
 ```
 
-### Запуск Electron-приложения локально
+### Предварительный просмотр продакшен-сборки (PWA)
 
 ```bash
 npm run build
-npm run electron:start
+npm run preview
 ```
 
 ---
@@ -79,6 +79,7 @@ npm run check:offline
 
 ---
 
-## 📬 Сообщение об уязвимостях
+## 📬 Связь с автором и уязвимости
 
-Если вы обнаружили потенциальную проблему безопасности, пожалуйста, **не создавайте публичный Issue**. Следуйте инструкции в файле [SECURITY.md](SECURITY.md) через GitHub Private Vulnerability Reporting.
+- По вопросам участия, идеям и сотрудничеству: [dima.dima.shift3@gmail.com](mailto:dima.dima.shift3@gmail.com)
+- Если вы обнаружили потенциальную проблему безопасности, пожалуйста, **не создавайте публичный Issue**. Следуйте инструкции в файле [SECURITY.md](SECURITY.md) через GitHub Private Vulnerability Reporting или отправьте письмо на [dima.dima.shift3@gmail.com](mailto:dima.dima.shift3@gmail.com).

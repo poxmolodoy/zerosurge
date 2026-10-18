@@ -3,7 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "description": "Offline-first evidence-based PWA tracker for caffeine and energy drink freedom",
-  "author": "poxmolodoy",
+  "author": {
+    "name": "poxmolodoy",
+    "email": "dima.dima.shift3@gmail.com",
+    "url": "https://github.com/poxmolodoy"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

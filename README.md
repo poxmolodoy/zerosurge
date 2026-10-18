@@ -175,6 +175,14 @@ zerosurge/
 
 ---
 
+## 📬 Автор и контакты
+
+- **Автор проекта:** [@poxmolodoy](https://github.com/poxmolodoy)
+- **Email для связи и предложений:** [dima.dima.shift3@gmail.com](mailto:dima.dima.shift3@gmail.com)
+- **Баг-трекер и фич-реквесты:** [GitHub Issues](https://github.com/poxmolodoy/zerosurge/issues)
+
+---
+
 ## 📄 Лицензия и отказ от ответственности
 
 - Проект распространяется под открытой лицензией **MIT**. Подробности в файле [LICENSE](LICENSE).
