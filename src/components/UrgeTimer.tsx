@@ -29,31 +29,34 @@ export const UrgeTimer: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-900/80 rounded-2xl p-5 border border-white/10 space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="bg-slate-900/80 rounded-2xl p-4 sm:p-5 border border-white/10 space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-xs font-semibold text-slate-300 uppercase tracking-wider">
-          <Clock className="w-4 h-4 text-surge-amber" />
-          Таймер откладывания тяги (10 минут)
+          <Clock className="w-4 h-4 text-surge-amber shrink-0" />
+          <span>Таймер откладывания тяги</span>
         </div>
-        <span className="text-[11px] font-mono text-surge-amber bg-surge-amber/10 border border-surge-amber/20 px-2 py-0.5 rounded-full">
+        <span className="text-[11px] font-mono text-surge-amber bg-surge-amber/10 border border-surge-amber/20 px-2.5 py-0.5 rounded-full whitespace-nowrap shrink-0 text-center">
           Техника Urge Surfing
         </span>
       </div>
 
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <div className="font-mono text-3xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
-            {formatTime}
+      <div className="flex items-center justify-between gap-3 sm:gap-4">
+        <div className="min-w-0">
+          <div className="flex items-baseline gap-2">
+            <span className="font-mono text-3xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
+              {formatTime}
+            </span>
+            <span className="text-xs font-medium text-slate-400">(10 минут)</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1 max-w-xs">
+          <p className="text-xs text-slate-400 mt-1 max-w-xs leading-normal">
             Пик нейронного импульса тяги длится всего 7-10 минут. Переждите эту волну.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setIsRunning(!isRunning)}
-            className={`py-2 px-4 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all ${
+            className={`py-2 px-3.5 sm:px-4 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all ${
               isRunning
                 ? 'bg-amber-500/20 text-surge-amber border border-surge-amber'
                 : 'bg-surge-amber hover:bg-amber-400 text-slate-950 shadow-glow-amber'

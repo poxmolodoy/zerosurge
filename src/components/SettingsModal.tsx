@@ -78,9 +78,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   if (!isOpen) return null;
 
   const handleConfirmReset = () => {
-    onResetAllData();
     setShowConfirmReset(false);
     onClose();
+    onResetAllData();
   };
 
   const handleExport = () => {
@@ -236,11 +236,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
             {/* Edit Button */}
             <button
-              onClick={() => {
-                onClose();
-                onEditProfile();
-              }}
-              className="w-full py-2.5 px-4 rounded-xl border border-white/15 bg-slate-800/60 hover:bg-slate-800 text-sm font-semibold text-slate-200 hover:text-white flex items-center justify-center gap-2 transition-all"
+              type="button"
+              onClick={onEditProfile}
+              className="w-full py-2.5 px-4 rounded-xl border border-white/15 bg-slate-800/60 hover:bg-slate-800 active:scale-95 text-sm font-semibold text-slate-200 hover:text-white flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <Edit3 className="w-4 h-4 text-surge-cyan" />
               Изменить стартовые параметры
@@ -379,3 +377,5 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     </AnimatePresence>
   );
 };
+
+export default SettingsModal;

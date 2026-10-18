@@ -1,12 +1,44 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Activity } from 'lucide-react';
 import { ElapsedTime } from '../types';
+import { calculateElapsedTime } from '../utils/calculations';
 
 interface LiveTimerProps {
-  elapsedTime: ElapsedTime;
+  elapsedTime?: ElapsedTime;
+  quitDate?: string;
 }
 
-export const LiveTimer: React.FC<LiveTimerProps> = ({ elapsedTime }) => {
+export const LiveTimer: React.FC<LiveTimerProps> = ({ elapsedTime: propElapsedTime, quitDate }) => {
+  // Isolate 1-second live ticker strictly inside LiveTimer
+  const [now, setNow] = useState<number>(() => Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const elapsedTime: ElapsedTime = (() => {
+    if (quitDate) {
+      const quitTimestamp = new Date(quitDate).getTime();
+      if (!isNaN(quitTimestamp)) {
+        return calculateElapsedTime(quitTimestamp, now);
+      }
+    }
+    return (
+      propElapsedTime || {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        totalSeconds: 0,
+      }
+    );
+  })();
+
   const format2Digits = (num: number) => num.toString().padStart(2, '0');
 
   // Dynamic status text based on elapsed days
@@ -45,25 +77,21 @@ export const LiveTimer: React.FC<LiveTimerProps> = ({ elapsedTime }) => {
   const phase = getPhaseStatus(elapsedTime.days);
 
   return (
-    <div className="relative glass-card rounded-3xl p-6 sm:p-8 border border-white/10 overflow-hidden shadow-2xl">
-      {/* Background ambient radial gradients */}
-      <div className="absolute -top-24 -left-24 w-72 h-72 bg-surge-emerald/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-surge-cyan/10 rounded-full blur-3xl pointer-events-none" />
-
+    <div className="relative glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-white/10 overflow-hidden shadow-2xl bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.07),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.07),transparent_50%)]">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6 relative z-10">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3 mb-5 sm:mb-6 relative z-10 w-full">
         <div className="flex items-center gap-2">
-          <span className="relative flex h-3 w-3">
+          <span className="relative flex h-2.5 w-2.5 shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-surge-emerald opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-surge-emerald"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-surge-emerald"></span>
           </span>
-          <span className="text-xs font-semibold text-slate-300 uppercase tracking-widest">
+          <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider sm:tracking-widest">
             Таймер свободы в реальном времени
           </span>
         </div>
 
         <div
-          className={`px-3 py-1 rounded-full text-xs font-medium border bg-slate-900/60 flex items-center gap-1.5 ${phase.border} ${phase.color}`}
+          className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium border bg-slate-900/60 flex items-center gap-1.5 shrink-0 ${phase.border} ${phase.color}`}
         >
           <Activity className="w-3.5 h-3.5" />
           {phase.label}
@@ -71,49 +99,49 @@ export const LiveTimer: React.FC<LiveTimerProps> = ({ elapsedTime }) => {
       </div>
 
       {/* Main Counter Grid */}
-      <div className="grid grid-cols-4 gap-2 sm:gap-4 text-center relative z-10">
+      <div className="grid grid-cols-4 gap-1.5 sm:gap-4 text-center relative z-10 w-full">
         {/* Days */}
-        <div className="bg-slate-900/70 border border-white/10 rounded-2xl p-3 sm:p-5 flex flex-col items-center justify-center shadow-inner">
-          <div className="font-mono text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight tabular-nums drop-shadow-md">
+        <div className="bg-slate-900/70 border border-white/10 rounded-xl sm:rounded-2xl p-2 py-2.5 sm:p-5 flex flex-col items-center justify-center shadow-inner min-w-0">
+          <div className="font-mono text-2xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight tabular-nums drop-shadow-md">
             {elapsedTime.days}
           </div>
-          <div className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1 sm:mt-2">
+          <div className="text-[9px] sm:text-xs font-semibold text-slate-400 uppercase tracking-normal sm:tracking-wider mt-1 sm:mt-2 truncate w-full">
             Дней
           </div>
         </div>
 
         {/* Hours */}
-        <div className="bg-slate-900/70 border border-white/10 rounded-2xl p-3 sm:p-5 flex flex-col items-center justify-center shadow-inner">
-          <div className="font-mono text-3xl sm:text-5xl md:text-6xl font-extrabold text-surge-cyan tracking-tight tabular-nums drop-shadow-md">
+        <div className="bg-slate-900/70 border border-white/10 rounded-xl sm:rounded-2xl p-2 py-2.5 sm:p-5 flex flex-col items-center justify-center shadow-inner min-w-0">
+          <div className="font-mono text-2xl sm:text-5xl md:text-6xl font-extrabold text-surge-cyan tracking-tight tabular-nums drop-shadow-md">
             {format2Digits(elapsedTime.hours)}
           </div>
-          <div className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1 sm:mt-2">
+          <div className="text-[9px] sm:text-xs font-semibold text-slate-400 uppercase tracking-normal sm:tracking-wider mt-1 sm:mt-2 truncate w-full">
             Часов
           </div>
         </div>
 
         {/* Minutes */}
-        <div className="bg-slate-900/70 border border-white/10 rounded-2xl p-3 sm:p-5 flex flex-col items-center justify-center shadow-inner">
-          <div className="font-mono text-3xl sm:text-5xl md:text-6xl font-extrabold text-surge-emerald tracking-tight tabular-nums drop-shadow-md">
+        <div className="bg-slate-900/70 border border-white/10 rounded-xl sm:rounded-2xl p-2 py-2.5 sm:p-5 flex flex-col items-center justify-center shadow-inner min-w-0">
+          <div className="font-mono text-2xl sm:text-5xl md:text-6xl font-extrabold text-surge-emerald tracking-tight tabular-nums drop-shadow-md">
             {format2Digits(elapsedTime.minutes)}
           </div>
-          <div className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1 sm:mt-2">
+          <div className="text-[9px] sm:text-xs font-semibold text-slate-400 uppercase tracking-normal sm:tracking-wider mt-1 sm:mt-2 truncate w-full">
             Минут
           </div>
         </div>
 
         {/* Seconds */}
-        <div className="bg-slate-900/70 border border-surge-emerald/20 rounded-2xl p-3 sm:p-5 flex flex-col items-center justify-center shadow-glow-emerald">
+        <div className="bg-slate-900/70 border border-surge-emerald/30 rounded-xl sm:rounded-2xl p-2 py-2.5 sm:p-5 flex flex-col items-center justify-center shadow-glow-emerald min-w-0">
           <motion.div
             key={elapsedTime.seconds}
             initial={{ opacity: 0.8, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.15 }}
-            className="font-mono text-3xl sm:text-5xl md:text-6xl font-extrabold text-surge-emerald tracking-tight tabular-nums"
+            className="font-mono text-2xl sm:text-5xl md:text-6xl font-extrabold text-surge-emerald tracking-tight tabular-nums"
           >
             {format2Digits(elapsedTime.seconds)}
           </motion.div>
-          <div className="text-[10px] sm:text-xs font-semibold text-surge-emerald uppercase tracking-wider mt-1 sm:mt-2">
+          <div className="text-[9px] sm:text-xs font-semibold text-surge-emerald uppercase tracking-normal sm:tracking-wider mt-1 sm:mt-2 truncate w-full">
             Секунд
           </div>
         </div>

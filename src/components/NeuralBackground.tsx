@@ -41,6 +41,12 @@ export const NeuralBackground: React.FC = () => {
     let height = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
+    // Accessibility: check reduced motion preference
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
@@ -54,21 +60,20 @@ export const NeuralBackground: React.FC = () => {
     resize();
     window.addEventListener('resize', resize);
 
-    // Mouse coordinates for interactive repellent and electric beam
+    // Dynamic particle count scaled for 60fps performance without mobile GPU exhaustion
+    const isMobile = width < 768;
+    const count = isMobile ? 25 : Math.min(80, Math.max(35, Math.floor((width * height) / 16000)));
+
+    // Mouse coordinates for interactive repellent and electric beam (desktop fine pointer only)
     const mouse = {
       x: -1000,
       y: -1000,
       radius: 160,
     };
 
-    const handlePointerMove = (e: MouseEvent | TouchEvent) => {
-      if ('touches' in e && e.touches.length > 0) {
-        mouse.x = e.touches[0].clientX;
-        mouse.y = e.touches[0].clientY;
-      } else if ('clientX' in e) {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      }
+    const handlePointerMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     };
 
     const handlePointerLeave = () => {
@@ -76,13 +81,16 @@ export const NeuralBackground: React.FC = () => {
       mouse.y = -1000;
     };
 
-    window.addEventListener('mousemove', handlePointerMove, { passive: true });
-    window.addEventListener('touchstart', handlePointerMove, { passive: true });
-    window.addEventListener('touchmove', handlePointerMove, { passive: true });
-    window.addEventListener('mouseleave', handlePointerLeave, { passive: true });
+    // Only attach interactive mouse repelling on desktop to keep mobile scrolling buttery smooth
+    const hasFinePointer =
+      !isMobile && typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        ? window.matchMedia('(pointer: fine)').matches
+        : !isMobile;
 
-    // Dynamic particle count scaled for 60fps performance
-    const count = Math.min(95, Math.max(40, Math.floor((width * height) / 15000)));
+    if (hasFinePointer && typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handlePointerMove, { passive: true });
+      window.addEventListener('mouseleave', handlePointerLeave, { passive: true });
+    }
 
     const particles: Particle[] = [];
     for (let i = 0; i < count; i++) {
@@ -102,22 +110,10 @@ export const NeuralBackground: React.FC = () => {
 
     const pulses: SynapsePulse[] = [];
     const MAX_DIST = 145;
-
-    // Visibility management
-    let isVisible = !document.hidden;
-    const handleVisibility = () => {
-      isVisible = !document.hidden;
-      if (isVisible) {
-        lastTime = performance.now();
-        animationFrameId = requestAnimationFrame(loop);
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibility);
-
     let lastTime = performance.now();
 
     const loop = (time: number) => {
-      if (!isVisible) return;
+      if (document.hidden) return;
 
       const dt = Math.min((time - lastTime) / 16.667, 2);
       lastTime = time;
@@ -202,10 +198,14 @@ export const NeuralBackground: React.FC = () => {
         ctx.beginPath();
         ctx.arc(sparkX, sparkY, 2.8, 0, Math.PI * 2);
         ctx.fillStyle = '#FFFFFF';
-        ctx.shadowColor = '#06B6D4';
-        ctx.shadowBlur = 10;
+        if (!isMobile) {
+          ctx.shadowColor = '#06B6D4';
+          ctx.shadowBlur = 10;
+        }
         ctx.fill();
-        ctx.shadowBlur = 0;
+        if (!isMobile) {
+          ctx.shadowBlur = 0;
+        }
       }
 
       // Update & Draw Nodes
@@ -248,17 +248,32 @@ export const NeuralBackground: React.FC = () => {
         ctx.fill();
       }
 
-      animationFrameId = requestAnimationFrame(loop);
+      if (!prefersReducedMotion && !document.hidden) {
+        animationFrameId = requestAnimationFrame(loop);
+      }
     };
 
-    animationFrameId = requestAnimationFrame(loop);
+    if (prefersReducedMotion) {
+      loop(performance.now());
+    } else {
+      animationFrameId = requestAnimationFrame(loop);
+    }
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+      } else if (!prefersReducedMotion) {
+        lastTime = performance.now();
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(loop);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handlePointerMove);
-      window.removeEventListener('touchstart', handlePointerMove);
-      window.removeEventListener('touchmove', handlePointerMove);
       window.removeEventListener('mouseleave', handlePointerLeave);
       document.removeEventListener('visibilitychange', handleVisibility);
     };

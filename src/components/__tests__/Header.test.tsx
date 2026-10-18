@@ -21,26 +21,24 @@ describe('Header Component', () => {
     expect(screen.getByLabelText('Зафиксировать срыв')).toBeInTheDocument();
   });
 
-  it('renders lightning performance toggle button between SOS and Settings with tooltip "Отключить эффекты" when mode is off', () => {
+  it('renders lightning performance toggle button between SOS and Settings with aria-label "Отключить эффекты" when mode is off', () => {
     render(<Header {...defaultProps} isPerformanceMode={false} />);
 
-    const toggleBtn = screen.getByTitle('Отключить эффекты');
+    const toggleBtn = screen.getByLabelText('Отключить эффекты');
     expect(toggleBtn).toBeInTheDocument();
-    expect(toggleBtn).toHaveAttribute('aria-label', 'Отключить эффекты');
 
     fireEvent.click(toggleBtn);
     expect(defaultProps.onTogglePerformanceMode).toHaveBeenCalledTimes(1);
   });
 
-  it('renders lightning performance toggle button with tooltip "Включить эффекты" when mode is on', () => {
+  it('renders lightning performance toggle button with aria-label "Включить эффекты" when mode is on', () => {
     const onToggle = vi.fn();
     render(
       <Header {...defaultProps} isPerformanceMode={true} onTogglePerformanceMode={onToggle} />
     );
 
-    const toggleBtn = screen.getByTitle('Включить эффекты');
+    const toggleBtn = screen.getByLabelText('Включить эффекты');
     expect(toggleBtn).toBeInTheDocument();
-    expect(toggleBtn).toHaveAttribute('aria-label', 'Включить эффекты');
 
     fireEvent.click(toggleBtn);
     expect(onToggle).toHaveBeenCalledTimes(1);
@@ -50,9 +48,8 @@ describe('Header Component', () => {
     const onOpenAchievements = vi.fn();
     render(<Header {...defaultProps} onOpenAchievements={onOpenAchievements} />);
 
-    const trophyBtn = screen.getByTitle('Достижения');
+    const trophyBtn = screen.getByLabelText('Открыть достижения');
     expect(trophyBtn).toBeInTheDocument();
-    expect(trophyBtn).toHaveAttribute('aria-label', 'Открыть достижения');
 
     fireEvent.click(trophyBtn);
     expect(onOpenAchievements).toHaveBeenCalledTimes(1);
@@ -62,24 +59,19 @@ describe('Header Component', () => {
     const onOpenJournal = vi.fn();
     render(<Header {...defaultProps} onOpenJournal={onOpenJournal} />);
 
-    const journalBtn = screen.getByTitle('Дневник и график самочувствия');
+    const journalBtn = screen.getByLabelText('Открыть дневник и график самочувствия');
     expect(journalBtn).toBeInTheDocument();
-    expect(journalBtn).toHaveAttribute('aria-label', 'Открыть дневник и график самочувствия');
 
     fireEvent.click(journalBtn);
     expect(onOpenJournal).toHaveBeenCalledTimes(1);
   });
 
-  it('renders BookOpen button between Calendar and Trophy with "Книга знаний: Клинический атлас вреда" tooltip and calls onOpenHarmAtlas on click', () => {
+  it('renders BookOpen button between Calendar and Trophy with "Книга знаний: Атлас вреда" tooltip and calls onOpenHarmAtlas on click', () => {
     const onOpenHarmAtlas = vi.fn();
     render(<Header {...defaultProps} onOpenHarmAtlas={onOpenHarmAtlas} />);
 
-    const harmAtlasBtn = screen.getByTitle('Книга знаний: Клинический атлас вреда');
+    const harmAtlasBtn = screen.getByLabelText('Открыть книгу знаний: клинический атлас вреда');
     expect(harmAtlasBtn).toBeInTheDocument();
-    expect(harmAtlasBtn).toHaveAttribute(
-      'aria-label',
-      'Открыть книгу знаний: клинический атлас вреда'
-    );
     expect(screen.getByText('Книга знаний: Атлас вреда')).toBeInTheDocument();
 
     fireEvent.click(harmAtlasBtn);

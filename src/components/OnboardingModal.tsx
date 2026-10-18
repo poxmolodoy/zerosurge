@@ -47,6 +47,24 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
   );
 
   useEffect(() => {
+    if (isOpen && initialProfile) {
+      if (initialProfile.quitDate) {
+        try {
+          const d = new Date(initialProfile.quitDate);
+          d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+          setQuitDate(d.toISOString().slice(0, 16));
+        } catch {
+          setQuitDate(getNowLocalDateTime());
+        }
+      }
+      setCansPerDay(initialProfile.cansPerDay ?? 2);
+      setCoffeePerDay(initialProfile.coffeePerDay ?? 1);
+      setIsSugarFree(initialProfile.isSugarFree ?? false);
+      setCostPerPortion(initialProfile.costPerPortion ?? 130);
+    }
+  }, [isOpen, initialProfile]);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && onClose) {
         onClose();
@@ -81,7 +99,10 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overflow-x-hidden touch-pan-y"
+        style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+      >
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -97,7 +118,8 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-lg glass-card rounded-2xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[92vh] overflow-y-auto"
+          style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+          className="relative w-full max-w-lg glass-card rounded-2xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[92vh] overflow-y-auto overflow-x-hidden touch-pan-y"
         >
           {/* Header */}
           <div className="flex items-center gap-3 mb-6">
@@ -156,13 +178,13 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                   <Zap className="w-4 h-4 text-surge-amber" />
                   Банок энергетика в день
                 </label>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2 w-full">
                   {[1, 2, 3, 4].map((num) => (
                     <button
                       key={num}
                       type="button"
                       onClick={() => setCansPerDay(num)}
-                      className={`flex-1 py-2 rounded-xl text-sm font-semibold transition-all border ${
+                      className={`flex-1 min-w-0 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all border ${
                         cansPerDay === num
                           ? 'bg-surge-amber/20 border-surge-amber text-surge-amber shadow-glow-amber'
                           : 'bg-slate-900/60 border-white/10 text-slate-400 hover:border-white/20'
@@ -177,7 +199,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                     max="20"
                     value={cansPerDay}
                     onChange={(e) => setCansPerDay(Number(e.target.value))}
-                    className="w-14 py-2 px-2 text-center rounded-xl bg-slate-900/80 border border-white/10 text-white font-mono text-sm focus:border-surge-amber"
+                    className="w-12 sm:w-14 shrink-0 py-2 px-1 text-center rounded-xl bg-slate-900/80 border border-white/10 text-white font-mono text-xs sm:text-sm focus:border-surge-amber"
                     title="Своё количество"
                   />
                 </div>
@@ -189,13 +211,13 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                   <Coffee className="w-4 h-4 text-surge-cyan" />
                   Чашек кофе в день
                 </label>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2 w-full">
                   {[0, 1, 2, 3].map((num) => (
                     <button
                       key={num}
                       type="button"
                       onClick={() => setCoffeePerDay(num)}
-                      className={`flex-1 py-2 rounded-xl text-sm font-semibold transition-all border ${
+                      className={`flex-1 min-w-0 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all border ${
                         coffeePerDay === num
                           ? 'bg-surge-cyan/20 border-surge-cyan text-surge-cyan shadow-glow-cyan'
                           : 'bg-slate-900/60 border-white/10 text-slate-400 hover:border-white/20'

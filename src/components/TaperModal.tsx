@@ -138,29 +138,31 @@ export const TaperModal: React.FC<TaperModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-3xl glass-card rounded-3xl p-6 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[90vh] overflow-y-auto custom-scrollbar"
+          className="relative w-full max-w-3xl glass-card rounded-3xl p-4 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[90vh] overflow-y-auto custom-scrollbar"
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
-            <div className="flex items-center gap-3.5">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-500/20 to-surge-cyan/20 text-surge-cyan border border-white/10 shadow-md">
-                <TrendingDown className="w-6 h-6 text-surge-cyan" />
+          <div className="flex items-start justify-between pb-4 border-b border-white/10 mb-6 gap-3">
+            <div className="flex items-start gap-3 sm:gap-3.5 min-w-0 flex-1">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-gradient-to-br from-amber-500/20 to-surge-cyan/20 text-surge-cyan border border-white/10 shadow-md shrink-0 mt-0.5">
+                <TrendingDown className="w-5 h-5 sm:w-6 sm:h-6 text-surge-cyan" />
               </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
-                  Журнал кофеина и Tapering
-                  <span className="text-xs font-semibold uppercase tracking-wider bg-surge-cyan/20 text-surge-cyan px-2.5 py-1 rounded-full border border-surge-cyan/30">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-lg sm:text-2xl font-bold text-white tracking-tight leading-tight">
+                    Журнал кофеина и Tapering
+                  </h3>
+                  <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider bg-surge-cyan/20 text-surge-cyan px-2.5 py-0.5 rounded-full border border-surge-cyan/30 shrink-0">
                     Режим снижения
                   </span>
-                </h3>
-                <p className="text-sm text-slate-300 mt-1">
+                </div>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-snug">
                   Постепенное снижение суточной дозы вместо резкого стресса для нервной системы
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2.5 rounded-2xl text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-white/10 transition-colors shadow-md"
+              className="p-2 sm:p-2.5 rounded-2xl text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-white/10 transition-colors shadow-md shrink-0 active:scale-95"
               aria-label="Закрыть"
             >
               <X className="w-5 h-5" />
@@ -168,7 +170,7 @@ export const TaperModal: React.FC<TaperModalProps> = ({
           </div>
 
           {/* Section 1: Taper Plan Overview / Setup */}
-          <div className="bg-slate-900/90 rounded-2xl p-5 sm:p-6 border border-white/10 mb-6 space-y-4 shadow-inner">
+          <div className="bg-slate-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 mb-6 space-y-4 shadow-inner">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <span className="text-sm font-medium text-slate-400">
@@ -180,10 +182,19 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                       taperPlan.isActive ? 'bg-surge-emerald animate-pulse' : 'bg-slate-600'
                     }`}
                   />
-                  <span className="text-base sm:text-lg font-bold text-white">
-                    {taperPlan.isActive
-                      ? `День ${progress.dayNumber} из ${progress.totalDays} (Лимит: ${progress.dailyLimitMg} мг/день)`
-                      : 'Режим постепенного снижения выключен'}
+                  <span className="text-base sm:text-lg font-bold text-white flex flex-wrap items-center gap-x-1.5 leading-snug">
+                    {taperPlan.isActive ? (
+                      <>
+                        <span>
+                          День {progress.dayNumber} из {progress.totalDays}
+                        </span>
+                        <span className="text-xs sm:text-sm font-semibold text-slate-300 whitespace-nowrap">
+                          (Лимит: {progress.dailyLimitMg}&nbsp;мг/день)
+                        </span>
+                      </>
+                    ) : (
+                      'Режим постепенного снижения выключен'
+                    )}
                   </span>
                 </div>
               </div>
@@ -262,17 +273,17 @@ export const TaperModal: React.FC<TaperModalProps> = ({
             {/* Daily Taper Meter */}
             {taperPlan.isActive && (
               <div className="pt-2 space-y-2.5">
-                <div className="flex justify-between items-center text-sm">
+                <div className="flex justify-between items-center text-xs sm:text-sm gap-2">
                   <span className="text-slate-200">
                     Сегодня потреблено:{' '}
-                    <strong className="font-mono text-white text-base">
-                      {progress.consumedMg} мг
+                    <strong className="font-mono text-white text-xs sm:text-base whitespace-nowrap">
+                      {progress.consumedMg}&nbsp;мг
                     </strong>
                   </span>
-                  <span className="text-slate-200">
+                  <span className="text-slate-200 text-right">
                     Лимит дня:{' '}
-                    <strong className="font-mono text-surge-cyan text-base">
-                      {progress.dailyLimitMg} мг
+                    <strong className="font-mono text-surge-cyan text-xs sm:text-base whitespace-nowrap">
+                      {progress.dailyLimitMg}&nbsp;мг
                     </strong>
                   </span>
                 </div>
@@ -301,19 +312,24 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                   <div className="flex items-center gap-2.5 p-3 rounded-xl bg-red-950/60 border border-red-500/40 text-xs sm:text-sm text-red-200">
                     <AlertTriangle className="w-5 h-5 shrink-0 text-red-400" />
                     <span>
-                      Лимит на сегодня превышен на {progress.consumedMg - progress.dailyLimitMg} мг.
-                      Рекомендуется сделать паузу и перейти на воду или травяной чай.
+                      Лимит на сегодня превышен на{' '}
+                      <span className="font-bold whitespace-nowrap">
+                        {progress.consumedMg - progress.dailyLimitMg}&nbsp;мг
+                      </span>
+                      . Рекомендуется сделать паузу и перейти на воду или травяной чай.
                     </span>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between text-xs sm:text-sm text-slate-300">
-                    <span>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs sm:text-sm text-slate-300 gap-1 sm:gap-2">
+                    <span className="whitespace-nowrap">
                       Остаток на сегодня:{' '}
-                      <strong className="text-surge-emerald font-mono font-bold">
-                        {progress.remainingMg} мг
+                      <strong className="text-surge-emerald font-mono font-bold whitespace-nowrap">
+                        {progress.remainingMg}&nbsp;мг
                       </strong>
                     </span>
-                    <span className="text-slate-400">Цель: 0 мг к концу срока</span>
+                    <span className="text-slate-400 whitespace-nowrap">
+                      Цель: 0&nbsp;мг к концу срока
+                    </span>
                   </div>
                 )}
               </div>
@@ -341,29 +357,29 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                 <button
                   key={preset.id}
                   onClick={() => handleAddPreset(preset)}
-                  className="p-4 bg-slate-900/70 hover:bg-slate-800/90 border border-white/10 hover:border-surge-cyan/50 rounded-2xl text-left transition-all group flex flex-col justify-between shadow-md active:scale-95"
+                  className="p-3.5 sm:p-4 bg-slate-900/70 hover:bg-slate-800/90 border border-white/10 hover:border-surge-cyan/50 rounded-2xl text-left transition-all group flex flex-col justify-between shadow-md active:scale-95"
                 >
                   <div>
-                    <div className="text-sm sm:text-base font-bold text-white group-hover:text-surge-cyan transition-colors leading-snug">
+                    <div className="text-xs sm:text-base font-bold text-white group-hover:text-surge-cyan transition-colors leading-snug">
                       {preset.name}
                     </div>
-                    <div className="text-xs sm:text-sm font-medium text-slate-400 mt-1">
+                    <div className="text-[11px] sm:text-sm font-medium text-slate-400 mt-1">
                       {preset.defaultVolumeMl} мл
                     </div>
                   </div>
-                  <div className="mt-3 flex items-center justify-between">
-                    <span className="font-mono text-sm sm:text-base font-bold text-surge-emerald">
-                      +{preset.defaultCaffeineMg} мг
+                  <div className="mt-3 flex items-center justify-between gap-2">
+                    <span className="font-mono text-xs sm:text-base font-bold text-surge-emerald whitespace-nowrap shrink-0">
+                      +{preset.defaultCaffeineMg}&nbsp;мг
                     </span>
                     <a
                       href={preset.source.url}
                       target="_blank"
                       rel="noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 transition-colors"
+                      className="text-[10px] sm:text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 transition-colors whitespace-nowrap shrink-0 ml-auto"
                       title={preset.source.title}
                     >
-                      EFSA 2015 <ExternalLink className="w-3 h-3" />
+                      EFSA <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" />
                     </a>
                   </div>
                 </button>
@@ -452,8 +468,8 @@ export const TaperModal: React.FC<TaperModalProps> = ({
                       </div>
                     </div>
                     <div className="flex items-center gap-3.5">
-                      <span className="font-mono font-bold text-surge-amber text-sm sm:text-base">
-                        +{entry.caffeineMg} мг
+                      <span className="font-mono font-bold text-surge-amber text-sm sm:text-base whitespace-nowrap">
+                        +{entry.caffeineMg}&nbsp;мг
                       </span>
                       <button
                         onClick={() => onDeleteConsumption(entry.id)}
@@ -484,3 +500,5 @@ export const TaperModal: React.FC<TaperModalProps> = ({
     </AnimatePresence>
   );
 };
+
+export default TaperModal;

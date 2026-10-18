@@ -129,11 +129,8 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-xl glass-card rounded-3xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-amber-500/30 my-auto max-h-[92vh] overflow-y-auto"
+          className="relative w-full max-w-xl glass-card rounded-3xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-amber-500/30 my-auto max-h-[92vh] overflow-y-auto bg-[radial-gradient(ellipse_at_top_left,rgba(244,63,94,0.08),transparent_50%)]"
         >
-          {/* Ambient Header Glow */}
-          <div className="absolute -top-20 -left-20 w-44 h-44 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
-
           {/* Header */}
           <div className="flex items-center justify-between pb-4 mb-5 border-b border-white/10 relative z-10">
             <div className="flex items-center gap-3">
@@ -437,3 +434,5 @@ export const RelapseModal: React.FC<RelapseModalProps> = ({
     </AnimatePresence>
   );
 };
+
+export default RelapseModal;

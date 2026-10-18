@@ -67,3 +67,5 @@ export const CaffeineHarmAtlasModal: React.FC<CaffeineHarmAtlasModalProps> = ({
     document.body
   );
 };
+
+export default CaffeineHarmAtlasModal;

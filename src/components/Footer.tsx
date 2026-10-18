@@ -2,7 +2,7 @@ import { ShieldCheck, Heart } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full border-t border-white/5 py-8 px-4 text-center text-xs text-slate-500 space-y-3 mt-12">
+    <footer className="w-full border-t border-white/5 pt-6 pb-28 md:pb-8 px-4 text-center text-xs text-slate-500 space-y-3 mt-8">
       <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-slate-400">
           <ShieldCheck className="w-4 h-4 text-surge-emerald" />

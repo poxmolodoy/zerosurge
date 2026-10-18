@@ -90,3 +90,5 @@ export const HealthJournalModal: React.FC<HealthJournalModalProps> = ({
     document.body
   );
 };
+
+export default HealthJournalModal;

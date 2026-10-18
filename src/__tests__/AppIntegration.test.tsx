@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import App from '../App';
 
 describe('ZeroSurge App End-to-End Integration Tests', () => {
@@ -27,9 +27,11 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     expect(screen.getByText(/Не выпито порций/i)).toBeInTheDocument();
     expect(screen.getByText(/Избежано кофеина/i)).toBeInTheDocument();
     expect(screen.getByText(/Био-прогресс восстановления организма/i)).toBeInTheDocument();
-    expect(screen.getByTitle('Дневник и график самочувствия')).toBeInTheDocument();
-    expect(screen.getByTitle('Книга знаний: Клинический атлас вреда')).toBeInTheDocument();
-    expect(screen.getByTitle('Достижения')).toBeInTheDocument();
+    expect(screen.getByLabelText('Открыть дневник и график самочувствия')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Открыть книгу знаний: клинический атлас вреда')
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText('Открыть достижения')).toBeInTheDocument();
   });
 
   it('opens and closes the medical milestone modal on card click', async () => {
@@ -127,15 +129,15 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
 
     // Open journal modal via header button
     await act(async () => {
-      fireEvent.click(screen.getByTitle('Дневник и график самочувствия'));
+      fireEvent.click(screen.getByLabelText('Открыть дневник и график самочувствия'));
     });
 
-    const checkInSubmit = screen.getByText('Зафиксировать за сегодня');
+    const checkInSubmit = await screen.findByText('Зафиксировать за сегодня');
     await act(async () => {
       fireEvent.click(checkInSubmit);
     });
 
-    expect(screen.getByText(/Зафиксировано за сегодня/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Зафиксировано за сегодня/i)).toBeInTheDocument();
     const stored = JSON.parse(localStorage.getItem('zerosurge_checkins') || '[]');
     expect(stored.length).toBe(1);
   });
@@ -160,8 +162,8 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
       fireEvent.click(settingsBtn);
     });
 
-    expect(screen.getByText('Параметры и профиль')).toBeInTheDocument();
-    expect(screen.getByText(/Сбросить весь прогресс/i)).toBeInTheDocument();
+    expect(await screen.findByText('Параметры и профиль')).toBeInTheDocument();
+    expect(await screen.findByText(/Сбросить весь прогресс/i)).toBeInTheDocument();
 
     // Click Reset
     const resetBtn = screen.getByText(/Сбросить весь прогресс/i);
@@ -170,7 +172,7 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     });
 
     // Confirmation dialog appears
-    expect(screen.getByText('Вы уверены?')).toBeInTheDocument();
+    expect(await screen.findByText('Вы уверены?')).toBeInTheDocument();
     const confirmBtn = screen.getByText('Да, сбросить всё');
     await act(async () => {
       fireEvent.click(confirmBtn);
@@ -178,7 +180,7 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
 
     // Storage is cleared and Onboarding modal re-appears
     expect(localStorage.getItem('zerosurge_profile')).toBeNull();
-    expect(screen.getByText('Добро пожаловать в ZeroSurge')).toBeInTheDocument();
+    expect(await screen.findByText('Добро пожаловать в ZeroSurge')).toBeInTheDocument();
   });
 
   it('opens Relapse Modal from top header and applies penalty upon confirmation', async () => {
@@ -207,8 +209,8 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     });
 
     // 2. Relapse modal should be visible
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('Фиксация срыва')).toBeInTheDocument();
+    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    expect(await screen.findByText('Фиксация срыва')).toBeInTheDocument();
 
     // 3. Confirm 1 can relapse
     const confirmBtn = screen.getByRole('button', { name: /подтвердить срыв/i });
@@ -217,7 +219,9 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     });
 
     // 4. Modal closes and clean progress is reduced
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
     const stored = JSON.parse(localStorage.getItem('zerosurge_profile') || '{}');
     // Original was 36h ago, 1 can penalty (12h) moves it to ~24h ago
     const newElapsedHours = (Date.now() - new Date(stored.quitDate).getTime()) / 3600000;
@@ -240,25 +244,27 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     render(<App />);
 
     // 1. Open Harm Atlas modal from header BookOpen button
-    const bookBtn = screen.getByTitle('Книга знаний: Клинический атлас вреда');
+    const bookBtn = screen.getByLabelText('Открыть книгу знаний: клинический атлас вреда');
     await act(async () => {
       fireEvent.click(bookBtn);
     });
 
-    expect(screen.getByText('Клинический атлас: Вред стимуляторов')).toBeInTheDocument();
+    expect(await screen.findByText('Клинический атлас: Вред стимуляторов')).toBeInTheDocument();
 
     // 2. Click on cardiovascular system card
-    const cardioCard = screen.getByText('Сердечно-сосудистая система');
+    const cardioCard = await screen.findByText('Сердечно-сосудистая система');
     await act(async () => {
       fireEvent.click(cardioCard);
     });
 
     // 3. Detail modal should appear with clinical mechanism & symptoms
-    expect(screen.getByRole('dialog', { name: /Вазоконстрикция/i })).toBeInTheDocument();
-    expect(screen.getByText(/Биохимический механизм поражения/i)).toBeInTheDocument();
-    expect(screen.getByText(/Клинические симптомы хронической интоксикации/i)).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /Вазоконстрикция/i })).toBeInTheDocument();
+    expect(await screen.findByText(/Биохимический механизм поражения/i)).toBeInTheDocument();
     expect(
-      screen.getAllByText(/Вазоконстрикция и перегрузка миокарда/i).length
+      await screen.findByText(/Клинические симптомы хронической интоксикации/i)
+    ).toBeInTheDocument();
+    expect(
+      (await screen.findAllByText(/Вазоконстрикция и перегрузка миокарда/i)).length
     ).toBeGreaterThanOrEqual(2);
 
     // 4. Close the detail modal
@@ -268,7 +274,9 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     });
 
     // 5. Detail modal dismissed
-    expect(screen.queryByRole('dialog', { name: /Вазоконстрикция/i })).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: /Вазоконстрикция/i })).not.toBeInTheDocument();
+    });
     expect(
       screen.getByRole('dialog', { name: /Клинический атлас: Вред стимуляторов/i })
     ).toBeInTheDocument();
@@ -278,9 +286,11 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     await act(async () => {
       fireEvent.click(closeAtlasBtn);
     });
-    expect(
-      screen.queryByRole('dialog', { name: /Клинический атлас: Вред стимуляторов/i })
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('dialog', { name: /Клинический атлас: Вред стимуляторов/i })
+      ).not.toBeInTheDocument();
+    });
   });
 
   it('toggles performance mode via header lightning button and manages effects/classes', async () => {
@@ -299,7 +309,7 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     render(<App />);
 
     // Initially performance mode is off
-    const toggleBtn = screen.getByTitle('Отключить эффекты');
+    const toggleBtn = screen.getByLabelText('Отключить эффекты');
     expect(toggleBtn).toBeInTheDocument();
     expect(document.documentElement.classList.contains('performance-mode')).toBe(false);
 
@@ -308,17 +318,17 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
       fireEvent.click(toggleBtn);
     });
 
-    expect(screen.getByTitle('Включить эффекты')).toBeInTheDocument();
+    expect(screen.getByLabelText('Включить эффекты')).toBeInTheDocument();
     expect(document.documentElement.classList.contains('performance-mode')).toBe(true);
     expect(localStorage.getItem('zero_surge_disable_effects')).toBe('true');
 
     // Toggle back off
-    const activeToggleBtn = screen.getByTitle('Включить эффекты');
+    const activeToggleBtn = screen.getByLabelText('Включить эффекты');
     await act(async () => {
       fireEvent.click(activeToggleBtn);
     });
 
-    expect(screen.getByTitle('Отключить эффекты')).toBeInTheDocument();
+    expect(screen.getByLabelText('Отключить эффекты')).toBeInTheDocument();
     expect(document.documentElement.classList.contains('performance-mode')).toBe(false);
     expect(localStorage.getItem('zero_surge_disable_effects')).toBe('false');
   });
@@ -339,14 +349,14 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     render(<App />);
 
     // Click Trophy button in header
-    const trophyBtn = screen.getByTitle('Достижения');
+    const trophyBtn = screen.getByLabelText('Открыть достижения');
     await act(async () => {
       fireEvent.click(trophyBtn);
     });
 
     // Modal dialog should be open with achievements
-    expect(screen.getByRole('dialog', { name: /Система достижений/i })).toBeInTheDocument();
-    expect(screen.getByText(/разблокировано/i)).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /Система достижений/i })).toBeInTheDocument();
+    expect(await screen.findByText(/разблокировано/i)).toBeInTheDocument();
 
     // Close modal
     const closeBtn = screen.getByLabelText('Закрыть достижения');
@@ -354,7 +364,9 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
       fireEvent.click(closeBtn);
     });
 
-    expect(screen.queryByRole('dialog', { name: /Система достижений/i })).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: /Система достижений/i })).not.toBeInTheDocument();
+    });
   });
 
   it('opens and closes Health Journal modal from Header Calendar button', async () => {
@@ -373,17 +385,19 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
     render(<App />);
 
     // Click Calendar button in header
-    const calendarBtn = screen.getByTitle('Дневник и график самочувствия');
+    const calendarBtn = screen.getByLabelText('Открыть дневник и график самочувствия');
     await act(async () => {
       fireEvent.click(calendarBtn);
     });
 
     // Modal dialog should be open with journal and chart
     expect(
-      screen.getByRole('dialog', { name: /Дневник самочувствия и динамика/i })
+      await screen.findByRole('dialog', { name: /Дневник самочувствия и динамика/i })
     ).toBeInTheDocument();
-    expect(screen.getByText(/Как вы чувствуете себя сегодня?/i)).toBeInTheDocument();
-    expect(screen.getByText(/График самочувствия и динамики восстановления/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Как вы чувствуете себя сегодня?/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/График самочувствия и динамики восстановления/i)
+    ).toBeInTheDocument();
 
     // Close modal
     const closeBtn = screen.getByLabelText('Закрыть дневник');
@@ -391,8 +405,54 @@ describe('ZeroSurge App End-to-End Integration Tests', () => {
       fireEvent.click(closeBtn);
     });
 
-    expect(
-      screen.queryByRole('dialog', { name: /Дневник самочувствия и динамика/i })
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('dialog', { name: /Дневник самочувствия и динамика/i })
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it('opens edit profile modal from settings and successfully updates profile parameters', async () => {
+    localStorage.setItem(
+      'zerosurge_profile',
+      JSON.stringify({
+        quitDate: new Date().toISOString(),
+        cansPerDay: 2,
+        coffeePerDay: 1,
+        isSugarFree: false,
+        costPerPortion: 130,
+        isOnboarded: true,
+      })
+    );
+
+    render(<App />);
+
+    // 1. Open Settings modal
+    const settingsBtn = screen.getByLabelText('Настройки профиля');
+    await act(async () => {
+      fireEvent.click(settingsBtn);
+    });
+
+    // 2. Click "Изменить стартовые параметры"
+    const editBtn = await screen.findByText('Изменить стартовые параметры');
+    await act(async () => {
+      fireEvent.click(editBtn);
+    });
+
+    // 3. Onboarding modal opens in edit mode
+    expect(await screen.findByText('Редактирование профиля')).toBeInTheDocument();
+    expect(await screen.findByText('Сохранить изменения')).toBeInTheDocument();
+
+    // 4. Submit updated changes
+    const saveBtn = screen.getByText('Сохранить изменения');
+    await act(async () => {
+      fireEvent.click(saveBtn);
+    });
+
+    // 5. Returns cleanly to dashboard
+    await waitFor(() => {
+      expect(screen.queryByText('Редактирование профиля')).not.toBeInTheDocument();
+    });
+    expect(screen.getByText(/Таймер свободы в реальном времени/i)).toBeInTheDocument();
   });
 });

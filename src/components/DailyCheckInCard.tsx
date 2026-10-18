@@ -72,14 +72,19 @@ export const DailyCheckInCard: React.FC<DailyCheckInCardProps> = ({ checkIns, on
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Metric 1: Energy */}
-        <div className="space-y-2">
-          <div className="flex justify-between items-center text-xs font-semibold">
-            <span className="text-slate-200 flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-surge-cyan" />
-              Уровень энергии (1 = упадок сил, 5 = естественный драйв)
+        <div className="space-y-1.5">
+          <div className="flex justify-between items-center text-xs font-semibold gap-2">
+            <span className="text-slate-200 flex items-center gap-1.5 font-semibold">
+              <Zap className="w-4 h-4 text-surge-cyan shrink-0" />
+              <span>Уровень энергии</span>
             </span>
-            <span className="font-mono text-surge-cyan font-bold">{energy} из 5</span>
+            <span className="shrink-0 whitespace-nowrap font-mono font-bold text-xs px-2.5 py-0.5 rounded-lg bg-surge-cyan/15 border border-surge-cyan/30 text-surge-cyan">
+              {energy} из 5
+            </span>
           </div>
+          <p className="text-[11px] sm:text-xs text-slate-400 font-normal pl-[22px] leading-snug">
+            (1 = упадок сил, 5 = естественный драйв)
+          </p>
           {renderRatingButtons(
             energy,
             setEnergy,
@@ -89,14 +94,19 @@ export const DailyCheckInCard: React.FC<DailyCheckInCardProps> = ({ checkIns, on
         </div>
 
         {/* Metric 2: Sleep */}
-        <div className="space-y-2">
-          <div className="flex justify-between items-center text-xs font-semibold">
-            <span className="text-slate-200 flex items-center gap-1.5">
-              <Moon className="w-4 h-4 text-surge-emerald" />
-              Качество сна (1 = бессонница/кошмары, 5 = глубокий непрерывный сон)
+        <div className="space-y-1.5">
+          <div className="flex justify-between items-center text-xs font-semibold gap-2">
+            <span className="text-slate-200 flex items-center gap-1.5 font-semibold">
+              <Moon className="w-4 h-4 text-surge-emerald shrink-0" />
+              <span>Качество сна</span>
             </span>
-            <span className="font-mono text-surge-emerald font-bold">{sleep} из 5</span>
+            <span className="shrink-0 whitespace-nowrap font-mono font-bold text-xs px-2.5 py-0.5 rounded-lg bg-surge-emerald/15 border border-surge-emerald/30 text-surge-emerald">
+              {sleep} из 5
+            </span>
           </div>
+          <p className="text-[11px] sm:text-xs text-slate-400 font-normal pl-[22px] leading-snug">
+            (1 = бессонница/кошмары, 5 = глубокий непрерывный сон)
+          </p>
           {renderRatingButtons(
             sleep,
             setSleep,
@@ -106,14 +116,19 @@ export const DailyCheckInCard: React.FC<DailyCheckInCardProps> = ({ checkIns, on
         </div>
 
         {/* Metric 3: Craving */}
-        <div className="space-y-2">
-          <div className="flex justify-between items-center text-xs font-semibold">
-            <span className="text-slate-200 flex items-center gap-1.5">
-              <Flame className="w-4 h-4 text-surge-amber" />
-              Тяга к энергетику / кофеину (1 = нет тяги, 5 = очень сильная)
+        <div className="space-y-1.5">
+          <div className="flex justify-between items-center text-xs font-semibold gap-2">
+            <span className="text-slate-200 flex items-center gap-1.5 font-semibold">
+              <Flame className="w-4 h-4 text-surge-amber shrink-0" />
+              <span>Тяга к энергетику / кофеину</span>
             </span>
-            <span className="font-mono text-surge-amber font-bold">{craving} из 5</span>
+            <span className="shrink-0 whitespace-nowrap font-mono font-bold text-xs px-2.5 py-0.5 rounded-lg bg-surge-amber/15 border border-surge-amber/30 text-surge-amber">
+              {craving} из 5
+            </span>
           </div>
+          <p className="text-[11px] sm:text-xs text-slate-400 font-normal pl-[22px] leading-snug">
+            (1 = нет тяги, 5 = очень сильная)
+          </p>
           {renderRatingButtons(
             craving,
             setCraving,

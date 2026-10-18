@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -18,19 +19,36 @@ interface MilestoneModalProps {
 }
 
 export const MilestoneModal: React.FC<MilestoneModalProps> = ({ milestone, onClose }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (milestone) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [milestone, onClose]);
+
   if (!milestone) return null;
 
   if (typeof document === 'undefined') return null;
 
   return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overflow-x-hidden touch-pan-y"
+        style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+      >
         {/* Backdrop: translucent frosted blur */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-slate-950/20 backdrop-blur-xl"
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-xl"
           onClick={onClose}
         />
 
@@ -40,7 +58,8 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({ milestone, onClo
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-lg glass-card rounded-2xl p-6 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto"
+          style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+          className="relative w-full max-w-lg glass-card rounded-2xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[92vh] overflow-y-auto overflow-x-hidden"
         >
           {/* Header */}
           <div className="flex items-start justify-between gap-4 mb-5 pb-4 border-b border-white/10">
@@ -183,3 +202,5 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({ milestone, onClo
     document.body
   );
 };
+
+export default MilestoneModal;

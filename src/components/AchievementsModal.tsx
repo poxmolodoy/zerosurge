@@ -70,3 +70,5 @@ export const AchievementsModal: React.FC<AchievementsModalProps> = ({
     document.body
   );
 };
+
+export default AchievementsModal;

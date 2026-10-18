@@ -77,13 +77,16 @@ export const HarmDetailModal: React.FC<HarmDetailModalProps> = ({ item, onClose 
 
   return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overflow-x-hidden touch-pan-y"
+        style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+      >
         {/* Backdrop: translucent frosted blur */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-slate-950/20 backdrop-blur-xl"
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-xl"
           onClick={onClose}
         />
 
@@ -96,7 +99,8 @@ export const HarmDetailModal: React.FC<HarmDetailModalProps> = ({ item, onClose 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-2xl glass-card rounded-3xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[92vh] overflow-y-auto"
+          style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+          className="relative w-full max-w-2xl glass-card rounded-3xl p-5 sm:p-8 text-white shadow-2xl z-10 border border-white/10 my-auto max-h-[92vh] overflow-y-auto overflow-x-hidden"
         >
           {/* Header */}
           <div className="flex items-start justify-between pb-4 mb-5 border-b border-white/10">
@@ -236,3 +240,5 @@ export const HarmDetailModal: React.FC<HarmDetailModalProps> = ({ item, onClose 
     document.body
   );
 };
+
+export default HarmDetailModal;

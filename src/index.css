@@ -21,7 +21,10 @@
     --card-border: rgba(255, 255, 255, 0.08);
   }
 
+  html,
   body {
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
     background-color: var(--bg-base);
     color: #f1f5f9;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
@@ -37,11 +40,26 @@
 
 @layer utilities {
   .glass-card {
-    background: rgba(17, 24, 39, 0.75);
+    background: rgba(17, 24, 39, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+    isolation: isolate;
+  }
+
+  @media (max-width: 768px) {
+    .glass-card {
+      /* Eliminate WebKit compositor tile dropping & checkerboarding during mobile scroll */
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: rgba(15, 23, 42, 0.94);
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
+      mask-image: radial-gradient(white, black);
+      isolation: isolate;
+    }
   }
 
   .glass-card-hover {
@@ -70,23 +88,41 @@
   }
 }
 
-/* Custom subtle scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* Scrollbar: hidden on mobile devices for native app feel, styled on desktop */
+@media (min-width: 769px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0b0f17;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: #0b0f17;
-}
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+    height: 0px;
+    background: transparent;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  html,
+  body,
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 /* Reduced motion preference */

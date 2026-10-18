@@ -380,13 +380,10 @@ export const CaffeineHarmGrid: React.FC = () => {
               }}
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className={`group p-5 rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950/90 transition-colors duration-200 cursor-pointer relative z-0 hover:z-20 overflow-hidden flex flex-col justify-between ${getCardBorderAndGlow(
+              className={`group p-5 rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950/90 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.03),transparent_60%)] transition-colors duration-200 cursor-pointer relative z-0 hover:z-20 overflow-hidden flex flex-col justify-between ${getCardBorderAndGlow(
                 item.badgeColor
               )}`}
             >
-              {/* Background radial accent glow */}
-              <div className="absolute -top-12 -right-12 w-28 h-28 bg-white/5 rounded-full blur-2xl pointer-events-none group-hover:bg-white/10 transition-colors" />
-
               <div>
                 {/* Top Row: SVG illustration + Discipline badge */}
                 <div className="flex items-center justify-between mb-4">

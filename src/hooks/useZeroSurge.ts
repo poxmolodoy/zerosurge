@@ -86,13 +86,21 @@ export function useZeroSurge() {
 
   const [currentTime, setCurrentTime] = useState<number>(() => Date.now());
 
-  // 1-second live ticker
+  // Background sync on focus and gentle 30s interval (prevents 1Hz full-app re-renders)
   useEffect(() => {
+    const handleFocus = () => setCurrentTime(Date.now());
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleFocus);
+
     const timer = setInterval(() => {
       setCurrentTime(Date.now());
-    }, 1000);
+    }, 30000);
 
-    return () => clearInterval(timer);
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleFocus);
+      clearInterval(timer);
+    };
   }, []);
 
   const saveProfile = useCallback((newProfile: UserProfile) => {
